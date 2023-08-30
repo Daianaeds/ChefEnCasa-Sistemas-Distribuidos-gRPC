@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+//package com.example.demo;
+
+service HelloService {
+    rpc hello(HelloRequest) returns (HelloResponse);
+    rpc getAll (Empty) returns (CustomerList) {}
+    
+}
+
+message Empty {}
+
+message Customer {
+    string id = 1;
+    string name = 2;
+    int32 age = 3;
+    string address = 4;
+}
+
+message CustomerList {
+    repeated Customer customers = 1;
+}
+
+message CustomerRequestId {
+    string id = 1;
+}
+
+message HelloRequest {
+    string firstName = 1;
+    string lastName = 2;
+}
+
+message HelloResponse {
+    string greeting = 1;
+}
