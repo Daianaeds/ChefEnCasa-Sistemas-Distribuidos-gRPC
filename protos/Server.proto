@@ -1,0 +1,102 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package com.grpc.grpcServer;
+
+message Empty{}
+
+message UserAuth{
+  string username = 1;
+  string password = 2;
+}
+
+message UserBasic {
+  string name = 1;
+  string username = 2;
+  string email = 3;
+  string error = 4;
+}
+
+message RecipeResponseBasic {
+  int32 id = 1;
+  string title = 2;
+  string description = 3;
+  string steps = 4;
+  int32 time_minutes = 5;
+  string name_category = 6;
+  repeated Ingredient ingredients = 7;
+  repeated Picture pictures = 8;
+}
+
+
+message UserRequest {
+  string name = 1;
+  string username = 2;
+  string password = 3;
+  string email = 4;
+}
+
+message UserResponse {
+  string username = 1;
+  int32 id = 2;
+  string error = 3;
+}
+
+message UserListRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message UserListResponse {
+  repeated UserBasic users = 1;
+  string error = 4;
+}
+
+message Ingredient {
+  string nombre = 1;
+  int32 cantidad = 2;
+}
+
+message Picture {
+  string url = 1;
+}
+
+message RecipeRequest {
+//  UserAuth auth = 1;
+  string title = 2;
+  string description = 3;
+  string steps = 4;
+  int32 time_minutes = 5;
+  string name_category = 6;
+ // repeated Ingredient ingredients = 7;
+ // repeated Picture pictures = 8;
+}
+
+message RecipeResponse {
+  int32 id = 1;
+  string title = 2;
+  string description = 3;
+  string steps = 4;
+  int32 time_minutes = 5;
+  string name_category = 6;
+  repeated Ingredient ingredients = 7;
+  repeated Picture pictures = 8;
+  UserAuth auth = 9;
+  string error = 10;
+}
+
+message Response {
+  string username = 1;
+  string email = 2;
+}
+
+message ResponseList {
+  repeated Response response = 1;
+  string error = 2;
+}
+
+service Service {
+  rpc newUser(UserRequest) returns (UserResponse) {}
+  rpc authentication(UserAuth) returns (UserBasic);
+  rpc listUser(Empty) returns (ResponseList);
+  rpc newRecipe(RecipeRequest) returns (RecipeResponse);
+}
