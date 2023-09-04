@@ -1,0 +1,180 @@
+//METODO Login localhost:5555/login
+
+/*
+REQUEST
+{
+  "username" : "caro",
+  "password" : "caro"
+}
+RESPONSE
+//Si esta regitrado devuelve {"name":"","username":"","email":"","error":""}
+//Si no esta regitrado devuelve {"name":"","username":"","email":"","error":"Los datos ingresados no son correctos. Intente nuevamente"}
+*/
+
+//METODO crear usuario  localhost:5555/save-user
+
+/*
+REQUEST
+{
+  "name" : "caro",
+  "username" : "carolina",
+  "email": "prueba",
+  "password" : "1234"
+}
+RESPONSE 
+{"username":"nico","id":6,"error":""}
+{"username":"","id":0,"error":"Los datos ingresados ya estan registrados. Intente nuevamente"}
+
+*/
+
+//METODO TRAER TODOS LOS USUARIOS -> localhost:5555/users
+
+/*
+RESPONSE
+{
+  "response": [
+      {
+          "username": "caro",
+          "email": "caro"
+      },
+      {
+          "username": "su",
+          "email": "su"
+      },
+      {
+          "username": "carolina",
+          "email": "prueba"
+      },
+      {
+          "username": "carol",
+          "email": "test@test"
+      },
+      {
+          "username": "fran",
+          "email": "fran@test"
+      },
+      {
+          "username": "nico",
+          "email": "nico@test"
+      }
+  ],
+  "error": ""
+}
+*/
+
+//METODO CREAR RECETA
+
+/*
+REQUEST
+{
+    "auth": {
+        "username": "caro",
+        "password": "1234"
+    },
+    "title": "pruebaTitle",
+    "description": "pruebaDescription",
+    "steps": "pruebaSteps",
+    "time_minutes": "pruebaMinutes",
+    "name_category": "prueba category",
+    "ingredients": [
+    ],
+    "pictures": [
+        {
+            "url": "prueba"
+        }
+    ]
+
+    RESPONSE
+
+    {"ingredients":[{"nombre":"azucar","cantidad":0}],"pictures":[{"url":"prueba"}],"id":8,"title":"chocotarta","description":"pruebaDescription","steps":"pruebaSteps","time_minutes":0,"name_category":"prueba
+category","auth":{"username":"caro","password":""},"error":""}
+    {"ingredients":[],"pictures":[],"id":0,"title":"","description":"","steps":"","time_minutes":0,"name_category":"","auth":null,"error":"Debe ingresar al menos un ingrediente."}
+
+}*/
+
+//listar los usuarios favoritos del usuario
+/* request
+{
+    "username" : "carolina"
+}
+
+response
+{
+    "response": [
+        {
+            "username": "su",
+            "email": "su"
+        },
+        {
+            "username": "carolina",
+            "email": "prueba"
+        }
+    ],
+    "error": ""
+}
+*/
+
+//METODO TRAER  recetas favortias del usuario
+/*
+REQUEST
+ {
+    "username" : "caro"
+}
+RESPONSE
+{
+    "recipe": [
+        {
+            "ingredients": [
+                {
+                    "nombre": "prueba ingredientes",
+                    "cantidad": 0
+                }
+            ],
+            "pictures": [
+                {
+                    "url": "prueba"
+                }
+            ],
+            "id": 5,
+            "title": "pruebaTitle",
+            "description": "pruebaDescription",
+            "steps": "pruebaSteps",
+            "time_minutes": 0,
+            "name_category": "prueba category"
+        },
+        {
+            "ingredients": [],
+            "pictures": [],
+            "id": 6,
+            "title": "pruebaTitle",
+            "description": "pruebaDescription",
+            "steps": "pruebaSteps",
+            "time_minutes": 0,
+            "name_category": "prueba category"
+        }
+    ]
+}
+*/
+
+//METODO seguir receta
+
+/* REQUEST
+body enviado
+{
+    "username" : "caro",
+    "idRecipe" : "5"
+}
+RESPONSE
+"requestOrResponse": "Se agregó la receta  pruebaTitle"
+*/
+
+//METODO dejar de seguir receta
+/*
+body enviado
+{
+    "username" : "caro",
+    "idRecipe" : "5"
+}
+RESPONSE
+"requestOrResponse": "Se eliminó la receta  pruebaTitle"
+*/

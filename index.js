@@ -15,9 +15,6 @@ app.get('/', auth, function (req, res) {
   })
 })
 
-// Login
-//Si esta regitrado devuelve {"name":"","username":"","email":"","error":""}
-//Si no esta regitrado devuelve {"name":"","username":"","email":"","error":"Los datos ingresados no son correctos. Intente nuevamente"}
 app.post('/login', (req, res) => {
   // Get user input
   let userAuth = {
@@ -32,20 +29,19 @@ app.post('/login', (req, res) => {
 
   client.authentication(userAuth, (err, data) => {
     if (!err) {
-      res.send(JSON.stringify(data)).status(200)
+      const response = { username: userAuth.username, token: '' }
+      // Create token
+      const TOKEN_KEY = 'RANDOMSTRING'
+      const token = jwt.sign({ username: userAuth.username }, TOKEN_KEY, {
+        expiresIn: '5h',
+      })
+      response.token = token
+      res.status(201).json(response)
+      // res.send(JSON.stringify(data)).status(200)
     } else {
       res.status(400).send(data)
     }
   })
-
-  const response = { username: userAuth.username, token: '' }
-  // Create token
-  const TOKEN_KEY = 'RANDOMSTRING'
-  const token = jwt.sign({ username: userAuth.username }, TOKEN_KEY, {
-    expiresIn: '5h',
-  })
-  response.token = token
-  res.status(201).json(response)
 })
 
 //Crear y modificar usuario.
@@ -78,17 +74,18 @@ app.get('/users', auth, (req, res) => {
   })
 })
 
-//Crea receta
+//Crear receta
+
 app.post('/save-recipe', auth, (req, res) => {
   let recipe = {
-    //  userAuth: req.body.userAuth,
+    auth: req.body.auth,
     title: req.body.title,
     description: req.body.description,
     steps: req.body.steps,
     time_minutes: req.body.time_minutes,
     name_category: req.body.name_category,
-    // ingredients: req.body.ingredients,
-    // pictures: req.body.pictures,
+    ingredients: req.body.ingredients,
+    pictures: req.body.pictures,
   }
 
   client.newRecipe(recipe, (err, data) => {
@@ -100,9 +97,84 @@ app.post('/save-recipe', auth, (req, res) => {
   })
 })
 
-app.get('/follow-user', (req, res) => {
-  let username = req.body.username
-  client.followUser(username, (err, data) => {
+//seguir user
+app.post('/follow-user', (req, res) => {
+  let UserAndFavourite = {
+    username: req.body.username,
+    favouriteUsername: req.body.favouriteUsername,
+  }
+  client.followUser(UserAndFavourite, (err, data) => {
+    if (!err) {
+      res.json(data)
+    } else {
+      res.status(400).send('Falló al realizar la busqueda')
+    }
+  })
+})
+
+//dejar de seguir user
+app.post('/unfollow-user', (req, res) => {
+  let UserAndFavourite = {
+    username: req.body.username,
+    favouriteUsername: req.body.favouriteUsername,
+  }
+  client.unfollowUser(UserAndFavourite, (err, data) => {
+    if (!err) {
+      res.json(data)
+    } else {
+      res.status(400).send('Falló al realizar la busqueda')
+    }
+  })
+})
+
+//Usuarios favotiros
+app.get('/favouriteUsers', (req, res) => {
+  let request = {
+    requestOrResponse: req.body.username,
+  }
+  client.favouriteUsers(request, (err, data) => {
+    if (!err) {
+      res.json(data)
+    } else {
+      res.status(400).send('Falló al realizar la busqueda')
+    }
+  })
+})
+
+//seguir receta
+app.post('/follow-recipe', (req, res) => {
+  let UserAndFavouriteRecipe = {
+    username: req.body.username,
+    idRecipe: req.body.idRecipe,
+  }
+  client.followRecipe(UserAndFavouriteRecipe, (err, data) => {
+    if (!err) {
+      res.json(data)
+    } else {
+      res.status(400).send('Falló al realizar la busqueda')
+    }
+  })
+})
+//dejar de seguir receta
+app.post('/unfollow-recipe', (req, res) => {
+  let UserAndFavouriteRecipe = {
+    username: req.body.username,
+    idRecipe: req.body.idRecipe,
+  }
+  client.unfollowRecipe(UserAndFavouriteRecipe, (err, data) => {
+    if (!err) {
+      res.json(data)
+    } else {
+      res.status(400).send('Falló al realizar la busqueda')
+    }
+  })
+})
+
+app.get('/favouriteRecipe', (req, res) => {
+  let request = {
+    requestOrResponse: req.body.username,
+  }
+  client.favouriteRecipes(request, (err, data) => {
     if (!err) {
       res.json(data)
     } else {
