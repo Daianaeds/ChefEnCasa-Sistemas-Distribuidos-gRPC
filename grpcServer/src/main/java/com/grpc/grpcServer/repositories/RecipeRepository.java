@@ -1,10 +1,13 @@
 package com.grpc.grpcServer.repositories;
 
 import com.grpc.grpcServer.entities.Recipe;
+import com.grpc.grpcServer.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, Serializable> {

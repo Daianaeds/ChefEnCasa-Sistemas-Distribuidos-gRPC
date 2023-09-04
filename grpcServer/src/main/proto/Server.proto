@@ -1,6 +1,6 @@
 syntax = "proto3";
 option java_multiple_files = true;
-package com.grpc.grpServer;
+package com.grpc.grpcServer;
 
 message Empty{}
 
@@ -27,6 +27,9 @@ message RecipeResponseBasic {
   repeated Picture pictures = 8;
 }
 
+message RecipeResponseBasicList{
+  repeated RecipeResponseBasic recipe = 1;
+}
 
 message UserRequest {
   string name = 1;
@@ -84,12 +87,39 @@ message RecipeResponse {
   string error = 10;
 }
 
+message ResponseUsernameAndEmail {
+  string username = 1;
+  string email = 2;
+}
 
+message ResponseUsernameAndEmailList {
+  repeated ResponseUsernameAndEmail response = 1;
+  string error = 2;
+}
+
+message ResponseOrRequestString {
+  string requestOrResponse = 1;
+}
+
+message UserAndFavouriteUser {
+  string username = 1;
+  string favouriteUsername = 2;
+}
+
+message UserAndFavouriteRecipe {
+  string username = 1;
+  int32 idRecipe = 2;
+}
 
 service Service {
-  rpc newUser(UserRequest) returns (UserResponse);
-  rpc authentication(UserAuth) returns (UserBasic);
-  rpc listUser(UserListRequest) returns (UserListResponse);
-
-  rpc newRecipe(RecipeRequest) returns (RecipeResponse);
+  rpc newUser(UserRequest) returns (UserResponse) {}
+  rpc authentication(UserAuth) returns (UserBasic) {}
+  rpc listUser(Empty) returns (ResponseUsernameAndEmailList) {}
+  rpc followUser(UserAndFavouriteUser) returns (ResponseOrRequestString) {}
+  rpc unfollowUser(UserAndFavouriteUser) returns (ResponseOrRequestString) {}
+  rpc favouriteUsers(ResponseOrRequestString) returns (ResponseUsernameAndEmailList) {}
+  rpc newRecipe(RecipeRequest) returns (RecipeResponse) {}
+  rpc followRecipe(UserAndFavouriteRecipe) returns (ResponseOrRequestString) {}
+  rpc unfollowRecipe(UserAndFavouriteRecipe) returns (ResponseOrRequestString) {}
+  rpc favouriteRecipes(ResponseOrRequestString) returns (RecipeResponseBasicList) {}
 }

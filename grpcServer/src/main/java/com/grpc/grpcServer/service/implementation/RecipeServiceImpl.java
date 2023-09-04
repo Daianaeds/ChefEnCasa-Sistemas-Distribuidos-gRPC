@@ -1,15 +1,21 @@
 package com.grpc.grpcServer.service.implementation;
 
-import com.grpc.grpServer.RecipeRequest;
-import com.grpc.grpServer.RecipeResponse;
+import com.grpc.grpcServer.RecipeRequest;
+import com.grpc.grpcServer.RecipeResponse;
+import com.grpc.grpcServer.RecipeResponseBasicList;
 import com.grpc.grpcServer.entities.Recipe;
+import com.grpc.grpcServer.entities.User;
 import com.grpc.grpcServer.mapper.RecipeMapper;
 import com.grpc.grpcServer.repositories.RecipeRepository;
 import com.grpc.grpcServer.service.RecipesService;
+import com.grpc.grpcServer.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.grpc.grpcServer.service.UserService;
+
+import javax.transaction.Transactional;
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class RecipeServiceImpl implements RecipesService {
@@ -35,8 +41,32 @@ public class RecipeServiceImpl implements RecipesService {
         return recipeMapper.convertRecipeToRecipeResponse(recipeSave);
     }
 
+    @Transactional
+    @Override
+    public String followRecipe(int idRecipe, String username) throws Exception {
+        Recipe recipe = recipesRepository.findById(idRecipe).get();
+        User user = userService.findByUsername(username);
 
+        user.getFavoriteRecipes().add(recipe);
+        userService.saveUser(user);
+        return ("Se agregó la receta  " + recipe.getTitle());
+    }
 
+    @Transactional
+    @Override
+    public String unfollowRecipe(int idRecipe, String username) throws Exception {
+        Recipe recipe = recipesRepository.findById(idRecipe).get();
+        User user = userService.findByUsername(username);
 
+        user.getFavoriteRecipes().remove(recipe);
+        userService.saveUser(user);
+        return ("Se eliminó la receta  " + recipe.getTitle());
+    }
 
+    @Transactional
+    @Override
+    public RecipeResponseBasicList getFavouriteRecipes(String username) {
+        List<Recipe> favouriteRecipes = userService.getFavouriteRecipes(username);
+        return recipeMapper.convertRecipetoRecipeResponseBasicList(favouriteRecipes);
+    }
 }

@@ -1,6 +1,7 @@
 package com.grpc.grpcServer.service;
 
-import com.grpc.grpServer.RecipeRequest;
+
+import com.grpc.grpcServer.RecipeRequest;
 import com.grpc.grpcServer.entities.Ingredient;
 
 import java.util.List;

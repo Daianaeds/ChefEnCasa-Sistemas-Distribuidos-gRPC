@@ -1,22 +1,19 @@
 package com.grpc.grpcServer.mapper;
 
 
-
-import com.grpc.grpServer.UserAuth;
-import com.grpc.grpServer.UserBasic;
-import com.grpc.grpServer.UserRequest;
-import com.grpc.grpServer.UserResponse;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.grpc.grpcServer.*;
 import com.grpc.grpcServer.entities.Recipe;
 import com.grpc.grpcServer.entities.User;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserMapper {
 
-    public User convertUserNewRequestToUser(UserRequest request){
+    public User convertUserNewRequestToUser(UserRequest request) {
 
         return User.builder()
                 .name(request.getName())
@@ -27,17 +24,29 @@ public class UserMapper {
 
     }
 
-    public UserBasic convertUsertoUserBasic(User user){
+    public UserBasic convertUsertoUserBasic(User user) {
 
         UserBasic userBasic = UserBasic.newBuilder()
                 .setName(user.getName())
                 .setUsername(user.getUsername())
                 .setEmail(user.getEmail())
                 .build();
-       return userBasic;
+        return userBasic;
     }
 
-    public UserResponse convertUsertoUserResponse(User user){
+    public ResponseUsernameAndEmailList convertUsertoResponseList(List<User> users) {
+        ResponseUsernameAndEmailList.Builder responseBuilder = ResponseUsernameAndEmailList.newBuilder();
+        for (User userEntity : users) {
+            ResponseUsernameAndEmail response = ResponseUsernameAndEmail.newBuilder()
+                    .setUsername(userEntity.getUsername())
+                    .setEmail(userEntity.getEmail())
+                    .build();
+            responseBuilder.addResponse(response);
+        }
+        return responseBuilder.build();
+    }
+
+    public UserResponse convertUsertoUserResponse(User user) {
 
         UserResponse userResponse = UserResponse.newBuilder()
                 .setId(user.getId())
@@ -46,12 +55,11 @@ public class UserMapper {
         return userResponse;
     }
 
-    public UserAuth convertUsertoUserAuth(User user){
+    public UserAuth convertUsertoUserAuth(User user) {
 
         UserAuth userResponse = UserAuth.newBuilder()
                 .setUsername(user.getUsername())
                 .build();
         return userResponse;
     }
-
 }

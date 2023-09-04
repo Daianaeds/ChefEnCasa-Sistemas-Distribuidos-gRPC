@@ -1,12 +1,10 @@
 package com.grpc.grpcServer.mapper;
 
-import com.grpc.grpServer.RecipeRequest;
-import com.grpc.grpServer.RecipeResponse;
-import com.grpc.grpcServer.entities.Category;
-import com.grpc.grpcServer.entities.Ingredient;
-import com.grpc.grpcServer.entities.Picture;
-import com.grpc.grpcServer.entities.Recipe;
-import com.grpc.grpcServer.entities.User;
+import com.grpc.grpcServer.RecipeRequest;
+import com.grpc.grpcServer.RecipeResponse;
+import com.grpc.grpcServer.RecipeResponseBasic;
+import com.grpc.grpcServer.RecipeResponseBasicList;
+import com.grpc.grpcServer.entities.*;
 import com.grpc.grpcServer.service.CategoryService;
 import com.grpc.grpcServer.service.IngredientService;
 import com.grpc.grpcServer.service.PictureService;
@@ -35,15 +33,15 @@ public class RecipeMapper {
     PictureService pictureService;
 
     @Autowired
-     IngredientMapper ingredientMapper;
+    IngredientMapper ingredientMapper;
     @Autowired
-     PictureMapper pictureMapper;
+    PictureMapper pictureMapper;
     @Autowired
     UserMapper userMapper;
 
     public Recipe convertRecipeRequestToRecipes(RecipeRequest request) throws Exception {
 
-        List<Ingredient> ingredientList =  ingredientService.findListIngredient(request);
+        List<Ingredient> ingredientList = ingredientService.findListIngredient(request);
 
         Category category = categoryService.find(request.getNameCategory());
 
@@ -70,15 +68,15 @@ public class RecipeMapper {
         validatorString(request.getTitle(), "Title");
         validatorString(request.getSteps(), "Steps");
         int timeMin = 0;
-        if(request.getTimeMinutes() <= timeMin)throw new Exception(" El tiempo aproximado no puede ser menor de 5 minutos.");
+        if (request.getTimeMinutes() <= timeMin)
+            throw new Exception(" El tiempo aproximado no puede ser menor de 5 minutos.");
     }
+
     private void validatorString(String value, String key) throws Exception {
-        if(value.isEmpty())throw new Exception(" {} no puede estar vacio" + key);
+        if (value.isEmpty()) throw new Exception(" {} no puede estar vacio" + key);
     }
 
     public RecipeResponse convertRecipeToRecipeResponse(Recipe request) throws Exception {
-
-
         RecipeResponse response = RecipeResponse.newBuilder()
                 .addAllIngredients(request.getIngredients().stream().map(ingredientE -> ingredientMapper.convertIngredientToIngredientG(ingredientE)).collect(Collectors.toList()))
                 .setNameCategory(request.getCategory().getNameCategory())
@@ -94,4 +92,22 @@ public class RecipeMapper {
         return response;
     }
 
+    public RecipeResponseBasicList convertRecipetoRecipeResponseBasicList(List<Recipe> recipes) {
+        RecipeResponseBasicList.Builder responseBuilder = RecipeResponseBasicList.newBuilder();
+
+        for (Recipe userRecipe : recipes) {
+            RecipeResponseBasic response = RecipeResponseBasic.newBuilder()
+                    .addAllIngredients(userRecipe.getIngredients().stream().map(ingredientE -> ingredientMapper.convertIngredientToIngredientG(ingredientE)).collect(Collectors.toList()))
+                    .setNameCategory(userRecipe.getCategory().getNameCategory())
+                    .setDescription(userRecipe.getDescription())
+                    .setTitle(userRecipe.getTitle())
+                    .setSteps(userRecipe.getSteps())
+                    .addAllPictures(userRecipe.getPictures().stream().map(pictureE -> pictureMapper.convertIngredientToIngredientG(pictureE)).collect(Collectors.toList()))
+                    .setTimeMinutes(userRecipe.getTimeMinutes())
+                    .setId(userRecipe.getId())
+                    .build();
+            responseBuilder.addRecipe(response);
+        }
+        return responseBuilder.build();
+    }
 }

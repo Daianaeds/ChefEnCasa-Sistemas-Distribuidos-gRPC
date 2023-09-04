@@ -1,6 +1,6 @@
 package com.grpc.grpcServer.service.implementation;
 
-import com.grpc.grpServer.RecipeRequest;
+import com.grpc.grpcServer.RecipeRequest;
 import com.grpc.grpcServer.entities.Ingredient;
 import com.grpc.grpcServer.repositories.IngredientRepository;
 import com.grpc.grpcServer.service.IngredientService;
@@ -21,7 +21,7 @@ public class IngredientServiceImpl implements IngredientService {
 
         Ingredient ingredient = ingredientRepository.findByNameIngredient(name.toLowerCase());
         //si no existe crearlo
-        if(ingredient == null){
+        if (ingredient == null) {
             ingredient = save(name.toLowerCase());
         }
 
@@ -31,15 +31,15 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public List<Ingredient> findListIngredient(RecipeRequest request) throws Exception {
         //si no envia ingredientes levanta excepcion
-        if(request.getIngredientsList() == null) throw new Exception("Debe ingresar al menos un ingrediente.");
-        List<Ingredient> ingredientList = request.getIngredientsList().stream().map(Ingredient ->  find(Ingredient.getNombre())).collect(Collectors.toList());
+        if (request.getIngredientsList().isEmpty()) throw new Exception("Debe ingresar al menos un ingrediente.");
+        List<Ingredient> ingredientList = request.getIngredientsList().stream().map(Ingredient -> find(Ingredient.getNombre())).collect(Collectors.toList());
         return ingredientList;
     }
 
-    private Ingredient save(String name){
+    private Ingredient save(String name) {
         Ingredient ingredient = Ingredient.builder()
-                                    .nameIngredient(name)
-                                    .build();
+                .nameIngredient(name)
+                .build();
 
         return ingredientRepository.save(ingredient);
     }
