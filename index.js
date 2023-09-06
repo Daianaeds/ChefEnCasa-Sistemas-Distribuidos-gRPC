@@ -5,15 +5,20 @@ const { log } = require('@grpc/grpc-js/build/src/logging')
 const auth = require('./middleware/auth')
 const jwt = require('jsonwebtoken')
 
+const cors = require('cors')
+
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
 const app = express()
 app.use(bodyParser.json())
+// to enable cors
+app.use(cors(corsOptions))
 
-app.get('/', auth, function (req, res) {
-  client.hello({}, (error, news) => {
-    console.log('entro')
-    if (!error) console.log(news)
-  })
-})
+//const app = express()
+//app.use(bodyParser.json())
 
 app.post('/login', (req, res) => {
   // Get user input
@@ -28,7 +33,7 @@ app.post('/login', (req, res) => {
   }
 
   client.authentication(userAuth, (err, data) => {
-    if (!err) {
+    if (data.error == '') {
       const response = { username: userAuth.username, token: '' }
       // Create token
       const TOKEN_KEY = 'RANDOMSTRING'
@@ -37,7 +42,6 @@ app.post('/login', (req, res) => {
       })
       response.token = token
       res.status(201).json(response)
-      // res.send(JSON.stringify(data)).status(200)
     } else {
       res.status(400).send(data)
     }
@@ -75,7 +79,6 @@ app.get('/users', auth, (req, res) => {
 })
 
 //Crear receta
-
 app.post('/save-recipe', auth, (req, res) => {
   let recipe = {
     auth: req.body.auth,
@@ -181,6 +184,91 @@ app.get('/favouriteRecipe', (req, res) => {
       res.status(400).send('Falló al realizar la busqueda')
     }
   })
+})
+
+//BORRAR
+
+app.get('/recetas', auth, function (req, res) {
+  let users = [
+    {
+      id: 1,
+      title: 'pruebaTitle',
+      description: 'pruebaDescription',
+      steps: 'pruebaSteps',
+      time_minutes: 'pruebaMinutes',
+      name_category: 'prueba category',
+      ingredients: [
+        {
+          nombre: 'prueba Ingredientes',
+          cantidad: '10',
+        },
+      ],
+      pictures: [
+        {
+          url: 'prueba',
+        },
+      ],
+    },
+    {
+      id: 2,
+      title: '222',
+      description: 'pruebaDescription',
+      steps: 'pruebaSteps',
+      time_minutes: 'pruebaMinutes',
+      name_category: 'prueba category',
+      ingredients: [
+        {
+          nombre: 'prueba Ingredientes',
+          cantidad: '10',
+        },
+      ],
+      pictures: [
+        {
+          url: 'prueba',
+        },
+      ],
+    },
+  ]
+  res.send(JSON.stringify(users)).status(200)
+})
+
+app.get('/receta/:id', auth, function (req, res) {
+  let users = {
+    id: 1,
+    title: 'pruebaTitle',
+    description: 'pruebaDescription',
+    steps: 'pruebaSteps',
+    time_minutes: 'pruebaMinutes',
+    name_category: 'prueba category',
+    ingredients: [
+      {
+        nombre: 'prueba Ingredientes',
+        cantidad: '10',
+      },
+    ],
+    pictures: [
+      {
+        url: 'prueba',
+      },
+    ],
+  }
+  res.send(JSON.stringify(users)).status(200)
+})
+
+app.post('/signup', (req, res) => {
+  // Get user input
+  let userAuth = {
+    username: req.body.username,
+    password: req.body.password,
+  }
+
+  // Validate user input
+  if (!(userAuth.username && userAuth.password)) {
+    res.status(400).send('All input is required')
+  }
+
+  const response = { sattus: 'ok' }
+  res.status(201).json(response)
 })
 
 app.listen(5555, () => {
