@@ -1,6 +1,20 @@
 package com.grpc.grpcServer.service;
 
 import com.grpc.grpcServer.*;
+import com.grpc.grpcServer.Empty;
+import com.grpc.grpcServer.FindRecipeRequest;
+import com.grpc.grpcServer.RecipeRequest;
+import com.grpc.grpcServer.RecipeResponse;
+import com.grpc.grpcServer.RecipeResponseBasicList;
+import com.grpc.grpcServer.ResponseOrRequestString;
+import com.grpc.grpcServer.ResponseUsernameAndEmailList;
+import com.grpc.grpcServer.ServiceGrpc;
+import com.grpc.grpcServer.UserAndFavouriteRecipe;
+import com.grpc.grpcServer.UserAndFavouriteUser;
+import com.grpc.grpcServer.UserAuth;
+import com.grpc.grpcServer.UserBasic;
+import com.grpc.grpcServer.UserRequest;
+import com.grpc.grpcServer.UserResponse;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,5 +175,27 @@ public class ServiceImpl extends ServiceGrpc.ServiceImplBase {
 
         responseObserver.onNext(responseUser);
         responseObserver.onCompleted();
+    }
+
+
+    @Override
+    public void findRecipeByFilter(FindRecipeRequest request, StreamObserver<RecipeResponseBasicList> responseObserver){
+
+        try {
+            UserBasic userBasic = userService.auth(request.getAuth());
+
+            RecipeResponseBasicList response = recipesService.findRecipeByFilter(request);
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+
+            RecipeResponseBasicList response = RecipeResponseBasicList.newBuilder()
+                    .setError(e.getMessage())
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
     }
 }
