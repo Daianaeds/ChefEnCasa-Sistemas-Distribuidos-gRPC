@@ -8,7 +8,8 @@ app.use(bodyParser.json())
 
 app.get('/', function (req, res) {
   client.hello({}, (error, news) => {
-    console.log('entro')
+    console.log('entro a bienvenida')
+    res.sendFile(__dirname + "/login.html");
     if (!error) console.log(news)
   })
 })
