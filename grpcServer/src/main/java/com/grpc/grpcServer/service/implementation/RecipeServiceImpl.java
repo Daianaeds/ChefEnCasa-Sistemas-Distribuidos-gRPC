@@ -76,6 +76,14 @@ public class RecipeServiceImpl implements RecipesService {
 
     @Transactional
     @Override
+    public RecipeResponseBasicList getAllRecipes() {
+        List<Recipe> recipes = recipesRepository.findAll();
+
+        return recipeMapper.convertRecipetoRecipeResponseBasicList(recipes);
+    }
+
+    @Transactional
+    @Override
     public RecipeResponseBasicList findRecipeByFilter(FindRecipeRequest findRecipeRequest) {
           List<Recipe> recipes = recipesRepository.findByFilter(
                     findRecipeRequest.getTitle(),
@@ -86,7 +94,4 @@ public class RecipeServiceImpl implements RecipesService {
            return recipeMapper.convertRecipetoRecipeResponseBasicList(recipes);
 
     }
-
-
-
 }

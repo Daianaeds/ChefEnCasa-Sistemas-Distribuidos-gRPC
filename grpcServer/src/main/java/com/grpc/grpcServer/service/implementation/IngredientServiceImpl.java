@@ -17,12 +17,12 @@ public class IngredientServiceImpl implements IngredientService {
     IngredientRepository ingredientRepository;
 
     @Override
-    public Ingredient find(String name) {
+    public Ingredient find(String name, String amount) {
 
         Ingredient ingredient = ingredientRepository.findByNameIngredient(name.toLowerCase());
         //si no existe crearlo
         if (ingredient == null) {
-            ingredient = save(name.toLowerCase());
+            ingredient = save(name.toLowerCase(), amount);
         }
 
         return ingredient;
@@ -32,13 +32,14 @@ public class IngredientServiceImpl implements IngredientService {
     public List<Ingredient> findListIngredient(RecipeRequest request) throws Exception {
         //si no envia ingredientes levanta excepcion
         if (request.getIngredientsList().isEmpty()) throw new Exception("Debe ingresar al menos un ingrediente.");
-        List<Ingredient> ingredientList = request.getIngredientsList().stream().map(Ingredient -> find(Ingredient.getNombre())).collect(Collectors.toList());
+        List<Ingredient> ingredientList = request.getIngredientsList().stream().map(Ingredient -> find(Ingredient.getNombre(),Ingredient.getCantidad())).collect(Collectors.toList());
         return ingredientList;
     }
 
-    private Ingredient save(String name) {
+    private Ingredient save(String name, String amount) {
         Ingredient ingredient = Ingredient.builder()
                 .nameIngredient(name)
+                .amount(amount)
                 .build();
 
         return ingredientRepository.save(ingredient);

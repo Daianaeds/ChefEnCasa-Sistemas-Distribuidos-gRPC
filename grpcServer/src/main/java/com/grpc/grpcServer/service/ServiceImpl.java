@@ -177,13 +177,28 @@ public class ServiceImpl extends ServiceGrpc.ServiceImplBase {
         responseObserver.onCompleted();
     }
 
+    @Override
+    public void listRecipes(Empty request, StreamObserver<RecipeResponseBasicList> responseObserver) {
+
+        try {
+            RecipeResponseBasicList allRecipes = recipesService.getAllRecipes();
+
+            responseObserver.onNext(allRecipes);
+            responseObserver.onCompleted();
+
+        } catch (Exception e) {
+            RecipeResponseBasicList response = RecipeResponseBasicList.newBuilder()
+                    .setError(e.getMessage())
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+    }
 
     @Override
     public void findRecipeByFilter(FindRecipeRequest request, StreamObserver<RecipeResponseBasicList> responseObserver){
 
         try {
-            UserBasic userBasic = userService.auth(request.getAuth());
-
             RecipeResponseBasicList response = recipesService.findRecipeByFilter(request);
 
             responseObserver.onNext(response);

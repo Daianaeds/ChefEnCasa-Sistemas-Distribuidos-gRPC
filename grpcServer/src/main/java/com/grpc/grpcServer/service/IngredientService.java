@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IngredientService {
 
-    Ingredient find(String name);
+    Ingredient find(String name, String amount);
 
     List<Ingredient> findListIngredient(RecipeRequest request) throws Exception;
 }

@@ -28,4 +28,6 @@ public class Ingredient {
     @Column(name="name_ingredient")
     private String nameIngredient;
 
+    private String amount; 
+
 }

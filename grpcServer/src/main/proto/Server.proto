@@ -57,7 +57,7 @@ message UserListResponse {
 
 message Ingredient {
   string nombre = 1;
-  int32 cantidad = 2;
+  string cantidad = 2;
 }
 
 message Picture {
@@ -131,5 +131,6 @@ service Service {
   rpc followRecipe(UserAndFavouriteRecipe) returns (ResponseOrRequestString) {}
   rpc unfollowRecipe(UserAndFavouriteRecipe) returns (ResponseOrRequestString) {}
   rpc favouriteRecipes(ResponseOrRequestString) returns (RecipeResponseBasicList) {}
+  rpc listRecipes(Empty) returns (RecipeResponseBasicList) {}
   rpc findRecipeByFilter(FindRecipeRequest) returns (RecipeResponseBasicList) {}
 }

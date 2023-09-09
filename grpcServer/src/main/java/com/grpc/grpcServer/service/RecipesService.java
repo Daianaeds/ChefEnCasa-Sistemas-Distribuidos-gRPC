@@ -15,5 +15,7 @@ public interface RecipesService {
 
     RecipeResponseBasicList getFavouriteRecipes(String username) ;
 
+    RecipeResponseBasicList getAllRecipes() ;
+
     RecipeResponseBasicList findRecipeByFilter(FindRecipeRequest findRecipeRequest);
 }
