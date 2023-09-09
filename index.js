@@ -9,16 +9,13 @@ const cors = require('cors')
 
 var corsOptions = {
   origin: '*',
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  optionsSuccessStatus: 200,
 }
 
 const app = express()
 app.use(bodyParser.json())
 // to enable cors
 app.use(cors(corsOptions))
-
-//const app = express()
-//app.use(bodyParser.json())
 
 app.post('/login', (req, res) => {
   // Get user input
@@ -27,7 +24,7 @@ app.post('/login', (req, res) => {
     password: req.body.password,
   }
 
-  // Validate user input
+  // Validar contenido de usuario y pass
   if (!(userAuth.username && userAuth.password)) {
     res.status(400).send('All input is required')
   }
@@ -35,7 +32,7 @@ app.post('/login', (req, res) => {
   client.authentication(userAuth, (err, data) => {
     if (data.error == '') {
       const response = { username: userAuth.username, token: '' }
-      // Create token
+      // Crear token/ Sign toma algunos datos y un secreto o clave privada y crea un JWT firmado que contiene esos datos.
       const TOKEN_KEY = 'RANDOMSTRING'
       const token = jwt.sign({ username: userAuth.username }, TOKEN_KEY, {
         expiresIn: '5h',
@@ -67,9 +64,52 @@ app.post('/save-user', (req, res) => {
 })
 
 //Listar todos los usuarios.
-//devuelve un username y un email
 app.get('/users', auth, (req, res) => {
   client.listUser({}, (err, data) => {
+    if (!err) {
+      res.json(data)
+    } else {
+      res.status(400).send('Falló al realizar la busqueda')
+    }
+  })
+})
+
+//seguir user
+app.post('/follow-user', (req, res) => {
+  let UserAndFavourite = {
+    username: req.body.username,
+    favouriteUsername: req.body.favouriteUsername,
+  }
+  client.followUser(UserAndFavourite, (err, data) => {
+    if (!err) {
+      res.json(data)
+    } else {
+      res.status(400).send('Falló al realizar la busqueda')
+    }
+  })
+})
+
+//Dejar de seguir user
+app.post('/unfollow-user', (req, res) => {
+  let UserAndFavourite = {
+    username: req.body.username,
+    favouriteUsername: req.body.favouriteUsername,
+  }
+  client.unfollowUser(UserAndFavourite, (err, data) => {
+    if (!err) {
+      res.json(data)
+    } else {
+      res.status(400).send('Falló al realizar la busqueda')
+    }
+  })
+})
+
+//Usuarios favoritos
+app.get('/favouriteUsers/:username', (req, res) => {
+  let request = {
+    requestOrResponse: req.params.username,
+  }
+  client.favouriteUsers(request, (err, data) => {
     if (!err) {
       res.json(data)
     } else {
@@ -100,51 +140,7 @@ app.post('/save-recipe', auth, (req, res) => {
   })
 })
 
-//seguir user
-app.post('/follow-user', (req, res) => {
-  let UserAndFavourite = {
-    username: req.body.username,
-    favouriteUsername: req.body.favouriteUsername,
-  }
-  client.followUser(UserAndFavourite, (err, data) => {
-    if (!err) {
-      res.json(data)
-    } else {
-      res.status(400).send('Falló al realizar la busqueda')
-    }
-  })
-})
-
-//dejar de seguir user
-app.post('/unfollow-user', (req, res) => {
-  let UserAndFavourite = {
-    username: req.body.username,
-    favouriteUsername: req.body.favouriteUsername,
-  }
-  client.unfollowUser(UserAndFavourite, (err, data) => {
-    if (!err) {
-      res.json(data)
-    } else {
-      res.status(400).send('Falló al realizar la busqueda')
-    }
-  })
-})
-
-//Usuarios favotiros
-app.get('/favouriteUsers', (req, res) => {
-  let request = {
-    requestOrResponse: req.body.username,
-  }
-  client.favouriteUsers(request, (err, data) => {
-    if (!err) {
-      res.json(data)
-    } else {
-      res.status(400).send('Falló al realizar la busqueda')
-    }
-  })
-})
-
-//seguir receta
+//Seguir receta
 app.post('/follow-recipe', (req, res) => {
   let UserAndFavouriteRecipe = {
     username: req.body.username,
@@ -158,7 +154,7 @@ app.post('/follow-recipe', (req, res) => {
     }
   })
 })
-//dejar de seguir receta
+//Dejar de seguir receta
 app.post('/unfollow-recipe', (req, res) => {
   let UserAndFavouriteRecipe = {
     username: req.body.username,
@@ -173,9 +169,10 @@ app.post('/unfollow-recipe', (req, res) => {
   })
 })
 
-app.get('/favouriteRecipe', (req, res) => {
+//Listar las recetas favoritas
+app.get('/favouriteRecipe/:username', (req, res) => {
   let request = {
-    requestOrResponse: req.body.username,
+    requestOrResponse: req.params.username,
   }
   client.favouriteRecipes(request, (err, data) => {
     if (!err) {
@@ -186,91 +183,38 @@ app.get('/favouriteRecipe', (req, res) => {
   })
 })
 
-//BORRAR
-
-app.get('/recetas', auth, function (req, res) {
-  let users = [
-    {
-      id: 1,
-      title: 'pruebaTitle',
-      description: 'pruebaDescription',
-      steps: 'pruebaSteps',
-      time_minutes: 'pruebaMinutes',
-      name_category: 'prueba category',
-      ingredients: [
-        {
-          nombre: 'prueba Ingredientes',
-          cantidad: '10',
-        },
-      ],
-      pictures: [
-        {
-          url: 'prueba',
-        },
-      ],
-    },
-    {
-      id: 2,
-      title: '222',
-      description: 'pruebaDescription',
-      steps: 'pruebaSteps',
-      time_minutes: 'pruebaMinutes',
-      name_category: 'prueba category',
-      ingredients: [
-        {
-          nombre: 'prueba Ingredientes',
-          cantidad: '10',
-        },
-      ],
-      pictures: [
-        {
-          url: 'prueba',
-        },
-      ],
-    },
-  ]
-  res.send(JSON.stringify(users)).status(200)
+//Listar recetas
+app.get('/recipes', (req, res) => {
+  client.listRecipes({}, (err, data) => {
+    if (!err) {
+      res.json(data)
+    } else {
+      res.status(400).send('Falló al realizar la busqueda')
+    }
+  })
 })
 
-app.get('/receta/:id', auth, function (req, res) {
-  let users = {
-    id: 1,
-    title: 'pruebaTitle',
-    description: 'pruebaDescription',
-    steps: 'pruebaSteps',
-    time_minutes: 'pruebaMinutes',
-    name_category: 'prueba category',
-    ingredients: [
-      {
-        nombre: 'prueba Ingredientes',
-        cantidad: '10',
-      },
-    ],
-    pictures: [
-      {
-        url: 'prueba',
-      },
-    ],
+//Listar las recetas por filtro.
+app.get(
+  '/filter-recipes/name_ingredient/:name_ingredient?/title/:title?/name_category/:name_category?/time/:time_minutes?',
+  (req, res) => {
+    let findRecipeRequest = {
+      auth: req.params.auth,
+      name_ingredient: req.params.name_ingredient,
+      title: req.params.title,
+      name_category: req.params.name_category,
+      time_minutes: req.params.time_minutes,
+    }
+    client.findRecipeByFilter(findRecipeRequest, (err, data) => {
+      if (!err) {
+        res.json(data)
+      } else {
+        res.status(400).send('Falló al realizar la busqueda')
+      }
+    })
   }
-  res.send(JSON.stringify(users)).status(200)
-})
-
-app.post('/signup', (req, res) => {
-  // Get user input
-  let userAuth = {
-    username: req.body.username,
-    password: req.body.password,
-  }
-
-  // Validate user input
-  if (!(userAuth.username && userAuth.password)) {
-    res.status(400).send('All input is required')
-  }
-
-  const response = { sattus: 'ok' }
-  res.status(201).json(response)
-})
+)
 
 app.listen(5555, () => {
-  console.log('Server running at port %d', 5555)
+  console.log('Client running at port %d', 5555)
 })

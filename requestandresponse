@@ -68,22 +68,46 @@ RESPONSE
 REQUEST
 {
     "auth": {
-        "username": "caro",
+        "username": "carolina",
         "password": "1234"
     },
-    "title": "pruebaTitle",
-    "description": "pruebaDescription",
-    "steps": "pruebaSteps",
-    "time_minutes": "pruebaMinutes",
-    "name_category": "prueba category",
+    "title": "Hamburguesas de lenteja",
+    "description": "La mas ricas",
+    "steps": "1- Hervir un paquete de lentejas. 2- Rayar zanahorias y cebollita de verdeo. 3- Una vez hervidas las lentjas, echarle las zanahorias, las cebollitas de verdeo, condimento a gusto. 4- Agregar 3 huevos y pan rallado. 5- Meter a la heladera que se enfrie 15 minutos. 6- Sacarlo de la heladera y empezar a hacer la forma. 7- Listas para cocinar",
+    "time_minutes": "60",
+    "name_category": "Vegetariano",
     "ingredients": [
+        {
+            "nombre":"sal",
+            "cantidad": "3 gr"
+        },
+         {
+            "nombre":"sal",
+            "cantidad": "500 gr"
+        },
+         {
+            "nombre":"zanahorias",
+            "cantidad": "2"
+        },
+         {
+            "nombre":"huevos",
+            "cantidad": "3"
+        },
+         {
+            "nombre":"cebollita de verdeo",
+            "cantidad": "3 hojitas"
+        },
+         {
+            "nombre":"pan rallado",
+            "cantidad": "500 gramos"
+        }
     ],
     "pictures": [
         {
-            "url": "prueba"
+            "url": "pruebafoto"
         }
     ]
-
+}
     RESPONSE
 
     {"ingredients":[{"nombre":"azucar","cantidad":0}],"pictures":[{"url":"prueba"}],"id":8,"title":"chocotarta","description":"pruebaDescription","steps":"pruebaSteps","time_minutes":0,"name_category":"prueba
@@ -178,3 +202,17 @@ body enviado
 RESPONSE
 "requestOrResponse": "Se eliminó la receta  pruebaTitle"
 */
+
+
+//filte reciper
+
+{
+    "auth": {
+        "username": "caro",
+        "password": "caro"
+    },
+    "name_ingredient": "sal",
+    "title": "",
+    "name_category": "",
+    "time_minutes": ""
+}
