@@ -206,7 +206,7 @@ RESPONSE
 
 //filte reciper
 
-{
+/*{
     "auth": {
         "username": "caro",
         "password": "caro"
@@ -215,4 +215,4 @@ RESPONSE
     "title": "",
     "name_category": "",
     "time_minutes": ""
-}
+}*/
