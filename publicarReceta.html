@@ -1,0 +1,115 @@
+<!--Vista de publicar/editar receta-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+<title> Publicar receta </title>  
+
+<style>
+    body {
+        background-image: url('https://www.cursosadistancia.com.ar/img/article/estudiar-cursos-en-gastronomia-en-argentina');
+        background-size: cover; /* Esto ajustará la imagen al tamaño de la ventana */
+        background-repeat: no-repeat; /* Esto evitará que la imagen se repita */
+        width: 100%;
+        height: 100vh;
+    }
+
+    .tabla2 {
+        background-color: #b4bfc3;
+        opacity: 1;
+        width: 450px;
+        height: 350px;
+        border-radius: 15px;
+        margin-top: 50px;
+    }
+
+    form {
+        text-align: left; /* Alinea el contenido del formulario a la izquierda */
+        margin: 20px; /* Añade margen para separar el formulario del borde de la tabla */
+    }
+
+    label {
+        display: block; /* Hace que los labels ocupen una línea completa */
+        margin-bottom: 5px; /* Añade espacio entre los labels */
+    }
+
+    input[type="file"],
+    textarea,
+    {
+        width: 100%; /* Asegura que los campos de entrada se expandan al 100% del ancho del contenedor */
+        padding: 5px; /* Añade un poco de espacio interior a los campos de entrada */
+        margin-bottom: 10px; /* Añade espacio entre los campos de entrada */
+    }
+
+    /* Estilo para los campos de entrada de texto */
+    textarea {
+        width: 100%; /* Ancho al 100% del contenedor */
+        padding: 10px; /* Espaciado interno */
+    }
+
+    /* Estilo específico para el campo "tiempo" */
+    input[name="tiempo"] {
+        width: 50px; /* Ancho deseado en píxeles */
+    }
+
+    #titulo{
+        width: 315px; 
+        height: 20px;
+    }
+
+    .textos{
+        width: 300px; 
+        height: 50px;
+    }
+
+</style>
+</head>
+
+<body>
+    <table class="tabla1" background="chef en casa.png" width="100%" height="150" border="0" cellspacing="0" cellpadding="0">
+    </table>
+    <table class="tabla2" align= "center" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td>
+                <section>
+                    <font face="Verdana, Geneva, sans-serif" color="black" size="4"><h1 align= "center">Publicar una receta</h1></font>
+            
+                    <article>
+                        <form>
+                            <label for="titulo">Título:</label>
+                            <input id="titulo" type="text" name="titulo" id="titulo"/><br><br>
+                            
+                            <label for="descripcion">Descripción:</label>
+                            <textarea class="textos" placeholder="Escriba aquí la descripción de su receta.." name="descripcion" ></textarea><br><br>
+                            
+                            <label for="fotos">Imágenes:</label>
+                            <input type="file" name="fotos"/><br><br>
+                            
+                            <label for="ingredientes">Ingredientes:</label>
+                            <textarea class="textos" placeholder="Escriba aquí los ingredientes de su receta.." name="ingredientes"></textarea><br><br>
+                            
+                            <label>Categoría:</label>
+                            <input type="radio" name="categoria" value="postre"> Postre <br> <!--value es lo que recibe el back-->
+                            <input type="radio" name="categoria" value="reposteria"> Repostería <br>
+                            <input type="radio" name="categoria" value="bebidas"> Bebidas<br>               
+                            <input type="radio" name="categoria" value="regionales"> Regionales<br>               
+                            <input type="radio" name="categoria" value="veganas"> Veganas<br><br>
+                            
+                            <label for="pasos">Pasos:</label>
+                            <textarea class="textos" placeholder="Escriba aquí los pasos de su receta.." name="pasos"></textarea><br><br>
+                            
+                            <label for="tiempo">Tiempo:</label>
+                            <input id= "tiempo" type="text" name="tiempo"/> minutos
+                        </form>
+            
+                    </article>
+            
+                </section>
+            </td>
+        </tr>
+
+    </table>
+
+
+</body>
+</html>

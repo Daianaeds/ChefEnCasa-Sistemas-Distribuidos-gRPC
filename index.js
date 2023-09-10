@@ -14,8 +14,34 @@ var corsOptions = {
 
 const app = express()
 app.use(bodyParser.json())
-// to enable cors
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsOptions))
+
+app.get('/', function (req, res) {
+  client.hello({}, (error, news) => {
+    console.log('entro a bienvenida')
+    res.sendFile(__dirname + "/login.html");
+    if (!error) console.log(news)
+  })
+})
+
+app.post('/redireccionar',(req, res) =>{
+  const botonPresionado = req.body.botones;
+
+  if (botonPresionado === 'Loguearse') {
+    // Redirigir a Vista A
+    //res.redirect('/publicarReceta.html');
+    res.sendFile(__dirname + "/publicarReceta.html");
+  } else if (botonPresionado === 'Registrarse') {
+    // Redirigir a Vista B
+    //res.redirect('/register.html');
+    res.sendFile(__dirname + "/register.html");
+  } else {
+    // Manejar otros casos o errores
+    res.send('Acción no reconocida');
+  }
+
+});
 
 app.post('/login', (req, res) => {
   // Get user input
@@ -47,6 +73,7 @@ app.post('/login', (req, res) => {
 
 //Crear y modificar usuario.
 app.post('/save-user', (req, res) => {
+
   let user = {
     name: req.body.name,
     email: req.body.email,
