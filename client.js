@@ -1,4 +1,4 @@
-const PROTO_PATH = './protos/UserService.proto'
+const PROTO_PATH = './protos/Client.proto'
 const grpc = require('@grpc/grpc-js')
 const protoLoader = require('@grpc/proto-loader')
 
@@ -12,7 +12,7 @@ const options = {
 
 var packageDefinition = protoLoader.loadSync(PROTO_PATH, options)
 
-const UserService = grpc.loadPackageDefinition(packageDefinition).com.sistemasdistribuidos
-const client = new UserService.UserService('localhost:8900', grpc.credentials.createInsecure())
+const UserService = grpc.loadPackageDefinition(packageDefinition).com.grpc.grpcServer
+const client = new UserService.Service('localhost:9090', grpc.credentials.createInsecure())
 
 module.exports = client
