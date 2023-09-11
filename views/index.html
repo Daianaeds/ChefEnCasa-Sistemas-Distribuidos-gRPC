@@ -42,7 +42,7 @@
 </head>
 
 <body>
-    <img src="chefencasa.jpg" width="100%" height="150">
+    <img src="/public/chefencasa.jpg" width="100%" height="150">
     <table class="tabla2" width="100%" height="800" border="0" cellspacing="0" cellpadding="0">
         <tr>
             <td style="background-image: url('https://www.cursosadistancia.com.ar/img/article/estudiar-cursos-en-gastronomia-en-argentina');">
@@ -56,7 +56,7 @@
                     </tr>
                     <tr>
                         <td align="center">
-                            <form method="post">
+                            <form method="post" action="/home">
                                 <table align="center" border="0" cellspacing="2" cellpadding="2">
                                     <tr>
                                         <td><label for="text">Usuario:</label></td>
@@ -68,8 +68,8 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2" align="center"><br>
-                                            <input type="submit" name="botones" formaction="/publicarReceta" value="Loguearse" />
                                             <input type="submit" name="botones" formaction="/register" value="Registrarse" formnovalidate />
+                                            <input type="submit" name="botones" formaction="/home" value="Loguearse" />
                                         </td>
                                     </tr>   
                                 </table><br><br>

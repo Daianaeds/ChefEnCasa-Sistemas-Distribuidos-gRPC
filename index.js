@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const { log } = require('@grpc/grpc-js/build/src/logging')
 const auth = require('./middleware/auth')
 const jwt = require('jsonwebtoken')
+const path = require('path')
 
 const cors = require('cors')
 
@@ -16,28 +17,11 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsOptions))
+app.use("/public", express.static(path.join(__dirname, 'public')))
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + "/views/index.html");
 })
-
-/*app.post('/redireccionar',(req, res) =>{
-  const botonPresionado = req.body.botones;
-
-  if (botonPresionado === 'Loguearse') {
-    // Redirigir a Vista A
-    //res.redirect('/publicarReceta.html');
-    res.sendFile(__dirname + "/views/publicarReceta.html");
-  } else if (botonPresionado === 'Registrarse') {
-    // Redirigir a Vista B
-    //res.redirect('/register.html');
-    res.sendFile(__dirname + "/views/register.html");
-  } else {
-    // Manejar otros casos o errores
-    res.send('Acción no reconocida');
-  }
-
-});*/
 
 app.post('/publicarReceta', function (req, res) {
   res.sendFile(__dirname + "/views/publicarReceta.html");
@@ -47,7 +31,11 @@ app.post('/register', function (req, res) {
   res.sendFile(__dirname + "/views/register.html");
 })
 
-app.post('/login', (req, res) => {
+app.post('/home', function (req, res) {
+  res.sendFile(__dirname + "/views/home.html");
+})
+
+app.post('/api/login', (req, res) => {
   // Get user input
   let userAuth = {
     username: req.body.username,
@@ -60,7 +48,7 @@ app.post('/login', (req, res) => {
   }
 
   client.authentication(userAuth, (err, data) => {
-    if (data.error == '') {
+    if (data?.error == '') {
       const response = { username: userAuth.username, token: '' }
       // Crear token/ Sign toma algunos datos y un secreto o clave privada y crea un JWT firmado que contiene esos datos.
       const TOKEN_KEY = 'RANDOMSTRING'
@@ -154,8 +142,7 @@ app.get('/favouriteUsers/:username', (req, res) => {
 })
 
 //Crear receta
-app.post('/save-recipe', auth, (req, res) => {
-  console.log("pepe", req);
+app.post('/save-recipe', (req, res) => {
   let recipe = {
     auth: req.body.auth,
     title: req.body.title,
@@ -168,6 +155,7 @@ app.post('/save-recipe', auth, (req, res) => {
   }
 
   client.newRecipe(recipe, (err, data) => {
+    console.log(err)
     if (!err) {
       res.send(JSON.stringify(data)).status(200)
     } else {
@@ -190,6 +178,7 @@ app.post('/follow-recipe', (req, res) => {
     }
   })
 })
+
 //Dejar de seguir receta
 app.post('/unfollow-recipe', (req, res) => {
   let UserAndFavouriteRecipe = {
