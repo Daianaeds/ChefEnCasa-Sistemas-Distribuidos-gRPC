@@ -21,7 +21,7 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + "/views/index.html");
 })
 
-app.post('/redireccionar',(req, res) =>{
+/*app.post('/redireccionar',(req, res) =>{
   const botonPresionado = req.body.botones;
 
   if (botonPresionado === 'Loguearse') {
@@ -37,7 +37,15 @@ app.post('/redireccionar',(req, res) =>{
     res.send('Acción no reconocida');
   }
 
-});
+});*/
+
+app.post('/publicarReceta', function (req, res) {
+  res.sendFile(__dirname + "/views/publicarReceta.html");
+})
+
+app.post('/register', function (req, res) {
+  res.sendFile(__dirname + "/views/register.html");
+})
 
 app.post('/login', (req, res) => {
   // Get user input
