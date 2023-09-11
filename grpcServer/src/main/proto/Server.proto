@@ -1,0 +1,136 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package com.grpc.grpcServer;
+
+message Empty{}
+
+message UserAuth{
+  string username = 1;
+  string password = 2;
+}
+
+message UserBasic {
+  string name = 1;
+  string username = 2;
+  string email = 3;
+  string error = 4;
+}
+
+message RecipeResponseBasic {
+  int32 id = 1;
+  string title = 2;
+  string description = 3;
+  string steps = 4;
+  int32 time_minutes = 5;
+  string name_category = 6;
+  repeated Ingredient ingredients = 7;
+  repeated Picture pictures = 8;
+}
+
+message RecipeResponseBasicList{
+  repeated RecipeResponseBasic recipe = 1;
+  string error = 2;
+}
+
+message UserRequest {
+  string name = 1;
+  string username = 2;
+  string password = 3;
+  string email = 4;
+}
+
+message UserResponse {
+  string username = 1;
+  int32 id = 2;
+  string error = 3;
+}
+
+message UserListRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message UserListResponse {
+  repeated UserBasic users = 1;
+  string error = 2;
+}
+
+message Ingredient {
+  string nombre = 1;
+  string cantidad = 2;
+}
+
+message Picture {
+  string url = 1;
+}
+
+message RecipeRequest {
+  UserAuth auth = 1;
+  string title = 2;
+  string description = 3;
+  string steps = 4;
+  int32 time_minutes = 5;
+  string name_category = 6;
+  repeated Ingredient ingredients = 7;
+  repeated Picture pictures = 8;
+}
+
+message RecipeResponse {
+  int32 id = 1;
+  string title = 2;
+  string description = 3;
+  string steps = 4;
+  int32 time_minutes = 5;
+  string name_category = 6;
+  repeated Ingredient ingredients = 7;
+  repeated Picture pictures = 8;
+  UserAuth auth = 9;
+  string error = 10;
+}
+
+message ResponseUsernameAndEmail {
+  string username = 1;
+  string email = 2;
+}
+
+message ResponseUsernameAndEmailList {
+  repeated ResponseUsernameAndEmail response = 1;
+  string error = 2;
+}
+
+message ResponseOrRequestString {
+  string requestOrResponse = 1;
+}
+
+message UserAndFavouriteUser {
+  string username = 1;
+  string favouriteUsername = 2;
+}
+
+message UserAndFavouriteRecipe {
+  string username = 1;
+  int32 idRecipe = 2;
+}
+
+message FindRecipeRequest {
+  string name_ingredient = 1;
+  string title = 2;
+  string name_category = 3;
+  int32 time_minutes = 4;
+  UserAuth auth = 5;
+}
+
+service Service {
+  rpc newUser(UserRequest) returns (UserResponse) {}
+  rpc authentication(UserAuth) returns (UserBasic) {}
+  rpc listUser(Empty) returns (ResponseUsernameAndEmailList) {}
+  rpc followUser(UserAndFavouriteUser) returns (ResponseOrRequestString) {}
+  rpc unfollowUser(UserAndFavouriteUser) returns (ResponseOrRequestString) {}
+  rpc favouriteUsers(ResponseOrRequestString) returns (ResponseUsernameAndEmailList) {}
+  rpc newRecipe(RecipeRequest) returns (RecipeResponse) {}
+  rpc followRecipe(UserAndFavouriteRecipe) returns (ResponseOrRequestString) {}
+  rpc unfollowRecipe(UserAndFavouriteRecipe) returns (ResponseOrRequestString) {}
+  rpc favouriteRecipes(ResponseOrRequestString) returns (RecipeResponseBasicList) {}
+  rpc listRecipes(Empty) returns (RecipeResponseBasicList) {}
+  rpc findRecipeByFilter(FindRecipeRequest) returns (RecipeResponseBasicList) {}
+}
