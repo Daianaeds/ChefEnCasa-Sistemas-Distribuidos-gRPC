@@ -18,30 +18,34 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsOptions))
 
 app.get('/', function (req, res) {
-  client.hello({}, (error, news) => {
-    console.log('entro a bienvenida')
-    res.sendFile(__dirname + "/login.html");
-    if (!error) console.log(news)
-  })
+  res.sendFile(__dirname + "/views/index.html");
 })
 
-app.post('/redireccionar',(req, res) =>{
+/*app.post('/redireccionar',(req, res) =>{
   const botonPresionado = req.body.botones;
 
   if (botonPresionado === 'Loguearse') {
     // Redirigir a Vista A
     //res.redirect('/publicarReceta.html');
-    res.sendFile(__dirname + "/publicarReceta.html");
+    res.sendFile(__dirname + "/views/publicarReceta.html");
   } else if (botonPresionado === 'Registrarse') {
     // Redirigir a Vista B
     //res.redirect('/register.html');
-    res.sendFile(__dirname + "/register.html");
+    res.sendFile(__dirname + "/views/register.html");
   } else {
     // Manejar otros casos o errores
     res.send('Acción no reconocida');
   }
 
-});
+});*/
+
+app.post('/publicarReceta', function (req, res) {
+  res.sendFile(__dirname + "/views/publicarReceta.html");
+})
+
+app.post('/register', function (req, res) {
+  res.sendFile(__dirname + "/views/register.html");
+})
 
 app.post('/login', (req, res) => {
   // Get user input
@@ -82,10 +86,14 @@ app.post('/save-user', (req, res) => {
   }
 
   client.newUser(user, (err, data) => {
-    if (!err) {
+    console.log(data)
+    console.log(err)
+    if (!data.error) {
+      console.log("1")
       res.send(JSON.stringify(data)).status(200)
     } else {
-      res.status(400).send(data)
+      console.log("2")
+      res.status(400).send("<h1>Fallo logueo<h1/>")
     }
   })
 })
@@ -147,6 +155,7 @@ app.get('/favouriteUsers/:username', (req, res) => {
 
 //Crear receta
 app.post('/save-recipe', auth, (req, res) => {
+  console.log("pepe", req);
   let recipe = {
     auth: req.body.auth,
     title: req.body.title,
