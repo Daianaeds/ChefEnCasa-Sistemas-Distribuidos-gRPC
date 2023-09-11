@@ -75,31 +75,33 @@
                     <font face="Verdana, Geneva, sans-serif" color="black" size="4"><h1 align= "center">Publicar una receta</h1></font>
             
                     <article>
-                        <form>
+                        <form method="post" action="/save-recipe">
                             <label for="titulo">Título:</label>
-                            <input id="titulo" type="text" name="titulo" id="titulo"/><br><br>
+                            <input id="titulo" type="text" name="title" id="titulo"/><br><br>
                             
                             <label for="descripcion">Descripción:</label>
-                            <textarea class="textos" placeholder="Escriba aquí la descripción de su receta.." name="descripcion" ></textarea><br><br>
+                            <textarea class="textos" placeholder="Escriba aquí la descripción de su receta.." name="description" ></textarea><br><br>
                             
                             <label for="fotos">Imágenes:</label>
                             <input type="file" name="fotos"/><br><br>
                             
                             <label for="ingredientes">Ingredientes:</label>
-                            <textarea class="textos" placeholder="Escriba aquí los ingredientes de su receta.." name="ingredientes"></textarea><br><br>
+                            <textarea class="textos" placeholder="Escriba aquí los ingredientes de su receta.." name="ingredients"></textarea><br><br>
                             
                             <label>Categoría:</label>
-                            <input type="radio" name="categoria" value="postre"> Postre <br> <!--value es lo que recibe el back-->
-                            <input type="radio" name="categoria" value="reposteria"> Repostería <br>
-                            <input type="radio" name="categoria" value="bebidas"> Bebidas<br>               
-                            <input type="radio" name="categoria" value="regionales"> Regionales<br>               
-                            <input type="radio" name="categoria" value="veganas"> Veganas<br><br>
+                            <input type="radio" name="name_category" value="postre"> Postre <br> <!--value es lo que recibe el back-->
+                            <input type="radio" name="name_category" value="reposteria"> Repostería <br>
+                            <input type="radio" name="name_category" value="bebidas"> Bebidas<br>               
+                            <input type="radio" name="name_category" value="regionales"> Regionales<br>               
+                            <input type="radio" name="name_category" value="veganas"> Veganas<br><br>
                             
                             <label for="pasos">Pasos:</label>
-                            <textarea class="textos" placeholder="Escriba aquí los pasos de su receta.." name="pasos"></textarea><br><br>
+                            <textarea class="textos" placeholder="Escriba aquí los pasos de su receta.." name="steps"></textarea><br><br>
                             
                             <label for="tiempo">Tiempo:</label>
-                            <input id= "tiempo" type="text" name="tiempo"/> minutos
+                            <input id= "tiempo" type="text" name="time_minutes"/> minutos
+
+                            <input type="submit" value="Publicar"/>
                         </form>
             
                     </article>

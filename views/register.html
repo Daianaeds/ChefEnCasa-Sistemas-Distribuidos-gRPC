@@ -57,15 +57,15 @@
                     </tr>
                     <tr>
                         <td align="center">
-                            <form name="register" method="post" action="register.php">
+                            <form name="register" method="post" action="/save-user">
                                 <table align="center" border="0" cellspacing="2" cellpadding="2">
                                     <tr>
                                         <td><label for="name">Nombre:</label></td>
                                         <td><input type="name" name="name" id="name" required /></td>
                                     </tr>
                                     <tr>
-                                        <td><label for="lastname">Apellido:</label></td>
-                                        <td><input type="lastname" name="lastname" id="lastname" required /></td>
+                                        <td><label for="lastname">Nombre Usuario:</label></td>
+                                        <td><input type="lastname" name="username" id="lastname" required /></td>
                                     </tr>
                                     <tr>
                                         <td><label for="email">E-mail:</label></td>
@@ -77,7 +77,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2" align="center"><br>
-                                            <input type="button" name="registerButton" value="Registrarse" />
+                                            <input type="submit" name="registerButton" value="Registrarse" />
                                         </td>
                                     </tr>
                                 </table>
