@@ -56,7 +56,7 @@
                     </tr>
                     <tr>
                         <td align="center">
-                            <form action="/redireccionar" method="post">
+                            <form method="post">
                                 <table align="center" border="0" cellspacing="2" cellpadding="2">
                                     <tr>
                                         <td><label for="text">Usuario:</label></td>
@@ -68,8 +68,8 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2" align="center"><br>
-                                            <input type="submit" name="botones" value="Loguearse" />
-                                            <input type="submit" name="botones" value="Registrarse" />
+                                            <input type="submit" name="botones" formaction="/publicarReceta" value="Loguearse" />
+                                            <input type="submit" name="botones" formaction="/register" value="Registrarse" formnovalidate />
                                         </td>
                                     </tr>   
                                 </table><br><br>
