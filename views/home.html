@@ -1,17 +1,252 @@
 <!DOCTYPE html>
-<html>
 <head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-<title>Inicio</title>
+    <title>Página de inicio</title>
 
-<script>
-    fetch()
+    <style>
+        header{
+            height: 110px;
+            background-image: url("../public/chefencasa.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;    
+        }
 
-</script>
+        body{
+            background-image: url('https://www.cursosadistancia.com.ar/img/article/estudiar-cursos-en-gastronomia-en-argentina');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            backdrop-filter: blur(5px);
+        }
+
+        footer{
+            text-align: left;
+            color:white;
+            background-color:black; 
+            height: 40px;       
+        }
+        
+        .titulo{
+            text-align: center;
+            color: rgb(202, 69, 69);
+            font-style: oblique;
+            border: 1px solid #cf3333;
+            background-color: rgba(248, 248, 248, 0.8);
+        }
+
+        .menuUsuario{
+            margin: auto;
+            width: 500px;/*ancho del sombreado*/
+            font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+        }
+
+        .nav li a{
+            border: 1px solid #e05555; /*anchura, estilo y color borde*/
+            background-color: #cccccc; /*color botón*/
+            color: #000000; /*color texto*/
+            text-decoration: none; /*decoración texto*/
+            padding: 10px 15px; /*espacio alrededor texto*/
+            display: block;
+            font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+        }
+
+        .nav > li{
+            float: left;
+        }
+
+        .nav li a:hover{
+            background-color: #434343;
+        }
+
+        .nav li ul{
+            display: none;
+            position: absolute;
+            min-width: 140px;
+        }
+
+        .nav li:hover > ul{
+            display: block;
+        }
+
+        ul{
+            list-style: none;
+        }
+
+        .filtros{
+            text-align: left;
+            color:rgb(0, 0, 0);
+            background-color:rgb(218, 217, 217);
+            display: inline-block;
+        }
+
+        .recetarioPostre{
+            text-align: center;
+            color:black;
+            background-color: rgba(206, 159, 148, 0.80);
+         } 
+
+         .botonRecetaPostre{
+            border: 1px solid #ff9900; /*anchura, estilo y color borde*/
+            padding: 10px; /*espacio alrededor texto*/
+            background-color: #cfb88b; /*color botón*/
+            color: #000000; /*color texto*/
+            text-decoration: none; /*decoración texto*/
+            text-transform: uppercase; /*capitalización texto*/
+            font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+            border-radius: 50px; /*bordes redondos*/ 
+        }
+
+         .recetarioReposteria{
+            text-align: center;
+            color:black;
+            background-color: rgba(202, 174, 235, 0.8);
+         } 
+
+         .botonRecetaReposteria{
+            border: 1px solid #ae00ff; /*anchura, estilo y color borde*/
+            padding: 10px; /*espacio alrededor texto*/
+            background-color: #e6a7ff; /*color botón*/
+            color: #000000; /*color texto*/
+            text-decoration: none; /*decoración texto*/
+            text-transform: uppercase; /*capitalización texto*/
+            font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+            border-radius: 50px; /*bordes redondos*/ 
+        }
+
+         .recetarioBebida{
+            text-align: center;
+            color:black;
+            background-color: rgba(125, 168, 248, 0.8);
+         } 
+
+         .botonRecetaBebida{
+            border: 1px solid #262af5; /*anchura, estilo y color borde*/
+            padding: 10px; /*espacio alrededor texto*/
+            background-color: #5cbeff; /*color botón*/
+            color: #000000; /*color texto*/
+            text-decoration: none; /*decoración texto*/
+            text-transform: uppercase; /*capitalización texto*/
+            font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+            border-radius: 50px; /*bordes redondos*/ 
+        }
+
+        .recetarioRegionales{
+            text-align: center;
+            color:black;
+            background-color: rgba(158, 150, 135, 0.8);
+         } 
+
+         .botonRecetaRegional{
+            border: 1px solid #414244; /*anchura, estilo y color borde*/
+            padding: 10px; /*espacio alrededor texto*/
+            background-color: #a7b1b8; /*color botón*/
+            color: #000000; /*color texto*/
+            text-decoration: none; /*decoración texto*/
+            text-transform: uppercase; /*capitalización texto*/
+            font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+            border-radius: 50px; /*bordes redondos*/ 
+        }
+
+        .recetarioVeganas{
+            text-align: center;
+            color:black;
+            background-color: rgba(192, 248, 204, 0.8);
+         } 
+
+         .botonRecetaVegana{
+            border: 1px solid #21e62b; /*anchura, estilo y color borde*/
+            padding: 10px; /*espacio alrededor texto*/
+            background-color: #74a37a; /*color botón*/
+            color: #000000; /*color texto*/
+            text-decoration: none; /*decoración texto*/
+            text-transform: uppercase; /*capitalización texto*/
+            font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+            border-radius: 50px; /*bordes redondos*/ 
+        }
+      
+    </style>
 
 </head>
-<body>
-    <p>Web de inicio</p>
 
+<body>
+
+    <header>
+
+    </header>
+
+    <section>
+
+        <article class="filtros"> <!--Se pueden tildar o destildar varias opciones, o solo una. Cada campo deberia tener una seleccion que le corresponda. ej: Pasos-> Cantidad de pasos-->
+            <label>Filtrar por:</label><br>
+            <input type="checkbox" name="filter" value="category" onclick="this.form.subm.disabled = !this.checked"> Categoría <br> <!--value es lo que recibe el back-->
+            <input type="checkbox" name="filter" value="title" onclick="this.form.subm.disabled = !this.checked"> Título <br>
+            <input type="checkbox" name="filter" value="steps" onclick="this.form.subm.disabled = !this.checked"> Pasos <br>               
+            <input type="checkbox" name="filter" value="time" onclick="this.form.subm.disabled = !this.checked"> Tiempo de preparación<br>               
+            <input type="submit" name="subm" value="Filtrar" disabled>
+    
+        </article>
+
+        <article class="menuUsuario">
+            <ul class="nav">
+                <li> <a href="">Inicio</a> </li>
+                <li> <a href="">Publicar</a> </li>
+                <li> <a href="">Mi Cuenta</a> 
+                    <ul>
+                        <li> <a href=""> Mis recetas</a> </li>
+                        <li> <a href=""> Favoritos</a> </li>
+                        <li> <a href=""> Usuarios seguidos</a> </li>
+                        <li> <a href=""> Cerrar sesión</a> </li>
+                    </ul>
+                </li>
+
+            </ul>
+
+        </article>
+
+           <br><br> <p><h2 class="titulo">Últimas recetas:</h2></p>
+
+        <article class="recetarioPostre">
+            <h2>Chocotorta</h2>
+            <p>¡Prepará este clásico postre en pocos minutos!</p>
+            <img src="../public/chocotorta.jpg" align="center" width="300"/>
+            <a class="botonRecetaPostre" href="">Ver receta</a> <!--lleva a la vista de la receta completa (vista de publicarReceta mostrando los datos completos)-->
+        </article>
+
+        <article class="recetarioReposteria">
+            <h2>Selva negra</h2>
+            <p>Una opción irresistible..</p>
+            <img src="../public/selvanegra.jpg" align="center" width="300"/>
+            <a class="botonRecetaReposteria" href="">Ver receta</a> <!--lleva a la vista de la receta completa (vista de publicarReceta mostrando los datos completos)-->
+        </article>
+
+        <article class="recetarioBebida">
+            <h2>Martini</h2>
+            <p>El Martini perfecto hecho en casa</p>
+            <img src="../public/martini.jpg" align="center" width="300"/>
+            <a class="botonRecetaBebida" href="">Ver receta</a> <!--lleva a la vista de la receta completa (vista de publicarReceta mostrando los datos completos)-->
+        </article>
+
+        <article class="recetarioRegionales">
+            <h2>Sopa Paraguaya</h2>
+            <p>¡Para no dejar ni las migas!</p>
+            <img src="../public/sopaparaguaya.jpg" align="center" width="300"/>
+            <a class="botonRecetaRegional" href="">Ver receta</a> <!--lleva a la vista de la receta completa (vista de publicarReceta mostrando los datos completos)-->
+        </article>
+
+        <article class="recetarioVeganas">
+            <h2>Hamburguesa vegana</h2>
+            <p>Una opción saludable</p>
+            <img src="../public/hamburvegana.jpg" align="center" width="300"/>
+            <a class="botonRecetaVegana" href="">Ver receta</a> <!--lleva a la vista de la receta completa (vista de publicarReceta mostrando los datos completos)-->
+        </article>
+
+    </section>
+
+    <footer>      
+
+        <p>ChefEnCasaⓇ - Todos los derechos reservados ~ 2023 Distribuidos ~</p>
+
+    </footer>
+    
 </body>
+
 </html>
