@@ -78,13 +78,13 @@
             display: inline-block;
         }
 
-        .recetarioPostre{
+        .recetarioPostres{
             text-align: center;
             color:black;
             background-color: rgba(206, 159, 148, 0.80);
          } 
 
-         .botonRecetaPostre{
+         .botonRecetaPostres{
             border: 1px solid #ff9900; /*anchura, estilo y color borde*/
             padding: 10px; /*espacio alrededor texto*/
             background-color: #cfb88b; /*color botón*/
@@ -146,7 +146,7 @@
             border-radius: 50px; /*bordes redondos*/ 
         }
 
-        .recetarioVeganas{
+        .recetarioVegetariano{
             text-align: center;
             color:black;
             background-color: rgba(192, 248, 204, 0.8);
@@ -165,6 +165,49 @@
       
     </style>
 
+<script>
+
+    (function (){
+        const username = window.localStorage.getItem("username");
+        const password = window.localStorage.getItem("password");
+        if(!username||!password){
+            window.location.replace("/");
+        }
+        fetch("/api/recipes", {
+            headers: { "Content-Type": "application/json" },
+
+        }).then(function(res){
+            return res.json();
+        }).then(function(obj){
+            console.log(obj);
+            const content = document.getElementById("content");
+            obj.recipe.forEach(function(recipe){
+                const article = document.createElement("article");
+                article.setAttribute("class",`recetario${
+                    recipe.name_category.charAt(0).toUpperCase() + recipe.name_category.slice(1)
+                }`);
+                const h2 = document.createElement("h2");
+                h2.innerHTML = recipe.title;
+                const p = document.createElement("p");
+                p.innerHTML = recipe.description;
+                const img = document.createElement("img");
+                img.setAttribute("src", recipe.pictures?.[0]?.url);
+                img.setAttribute("align","center");
+                img.setAttribute("width","300");
+                const a = document.createElement("a");
+                article.appendChild(h2);                
+                article.appendChild(p);
+                article.appendChild(img);
+                article.appendChild(a);
+                content.appendChild(article);
+            })
+        }).catch(function(e){
+            console.error(e);
+        })
+    })();
+
+</script>
+
 </head>
 
 <body>
@@ -173,7 +216,7 @@
 
     </header>
 
-    <section>
+    <section id="content">
 
         <article class="filtros"> <!--Se pueden tildar o destildar varias opciones, o solo una. Cada campo deberia tener una seleccion que le corresponda. ej: Pasos-> Cantidad de pasos-->
             <label>Filtrar por:</label><br>
@@ -203,42 +246,9 @@
         </article>
 
            <br><br> <p><h2 class="titulo">Últimas recetas:</h2></p>
-
-        <article class="recetarioPostre">
-            <h2>Chocotorta</h2>
-            <p>¡Prepará este clásico postre en pocos minutos!</p>
-            <img src="../public/chocotorta.jpg" align="center" width="300"/>
-            <a class="botonRecetaPostre" href="">Ver receta</a> <!--lleva a la vista de la receta completa (vista de publicarReceta mostrando los datos completos)-->
-        </article>
-
-        <article class="recetarioReposteria">
-            <h2>Selva negra</h2>
-            <p>Una opción irresistible..</p>
-            <img src="../public/selvanegra.jpg" align="center" width="300"/>
-            <a class="botonRecetaReposteria" href="">Ver receta</a> <!--lleva a la vista de la receta completa (vista de publicarReceta mostrando los datos completos)-->
-        </article>
-
-        <article class="recetarioBebida">
-            <h2>Martini</h2>
-            <p>El Martini perfecto hecho en casa</p>
-            <img src="../public/martini.jpg" align="center" width="300"/>
-            <a class="botonRecetaBebida" href="">Ver receta</a> <!--lleva a la vista de la receta completa (vista de publicarReceta mostrando los datos completos)-->
-        </article>
-
-        <article class="recetarioRegionales">
-            <h2>Sopa Paraguaya</h2>
-            <p>¡Para no dejar ni las migas!</p>
-            <img src="../public/sopaparaguaya.jpg" align="center" width="300"/>
-            <a class="botonRecetaRegional" href="">Ver receta</a> <!--lleva a la vista de la receta completa (vista de publicarReceta mostrando los datos completos)-->
-        </article>
-
-        <article class="recetarioVeganas">
-            <h2>Hamburguesa vegana</h2>
-            <p>Una opción saludable</p>
-            <img src="../public/hamburvegana.jpg" align="center" width="300"/>
-            <a class="botonRecetaVegana" href="">Ver receta</a> <!--lleva a la vista de la receta completa (vista de publicarReceta mostrando los datos completos)-->
-        </article>
-
+    
+        
+          
     </section>
 
     <footer>      
