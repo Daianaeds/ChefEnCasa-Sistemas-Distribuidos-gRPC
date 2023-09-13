@@ -64,7 +64,7 @@ app.post("/api/login", (req, res) => {
 });
 
 //Crear y modificar usuario.
-app.post("/save-user", (req, res) => {
+app.post("/api/save-user", (req, res) => {
   let user = {
     name: req.body.name,
     email: req.body.email,
@@ -141,7 +141,7 @@ app.get("/favouriteUsers/:username", (req, res) => {
 });
 
 //Crear receta
-app.post("/save-recipe", (req, res) => {
+app.post("/api/save-recipe", (req, res) => {
   let recipe = {
     auth: req.body.auth,
     title: req.body.title,

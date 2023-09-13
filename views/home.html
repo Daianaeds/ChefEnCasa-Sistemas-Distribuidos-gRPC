@@ -4,7 +4,8 @@
 
     <style>
         header{
-            height: 110px;
+            width: ;
+            height: 160px;
             background-image: url("../public/chefencasa.jpg");
             background-repeat: no-repeat;
             background-size: cover;    
@@ -25,6 +26,12 @@
             height: 40px;       
         }
         
+        #bienvenida{
+            text-align: left;
+            color:white;
+            height: 40px; 
+        }
+
         .titulo{
             text-align: center;
             color: rgb(202, 69, 69);
@@ -165,14 +172,67 @@
       
     </style>
 
-<script>
+</head>
 
+<body>
+
+    <header>
+
+    </header>
+
+    <section id="content">
+
+        <h2 id="bienvenida">Bienvenido, <span id="usernamePlaceholder"></span></h2>
+
+        <article class="filtros"> <!--Se pueden tildar o destildar varias opciones, o solo una. Cada campo deberia tener una seleccion que le corresponda. ej: Pasos-> Cantidad de pasos-->
+            <label>Filtrar por:</label><br>
+            <input type="checkbox" name="filter" value="category" onclick="this.form.subm.disabled = !this.checked"> Categoría <br> <!--value es lo que recibe el back-->
+            <input type="checkbox" name="filter" value="title" onclick="this.form.subm.disabled = !this.checked"> Título <br>
+            <input type="checkbox" name="filter" value="steps" onclick="this.form.subm.disabled = !this.checked"> Pasos <br>               
+            <input type="checkbox" name="filter" value="time" onclick="this.form.subm.disabled = !this.checked"> Tiempo de preparación<br>               
+            <input type="submit" name="subm" value="Filtrar" disabled>
+    
+        </article>
+
+        <article class="menuUsuario">
+            <ul class="nav">
+                <li> <a href="">Inicio</a> </li>
+                <li> <a href="/publicarReceta">Publicar</a> </li>
+                <li> <a href="">Mi Cuenta</a> 
+                    <ul>
+                        <li> <a href=""> Mis recetas</a> </li>
+                        <li> <a href=""> Favoritos</a> </li>
+                        <li> <a href=""> Usuarios seguidos</a> </li>
+                        <li> <a href=""> Cerrar sesión</a> </li>
+                    </ul>
+                </li>
+
+            </ul>
+
+        </article>
+
+           <br><br> <p><h2 class="titulo">Últimas recetas:</h2></p>
+    
+        
+          
+    </section>
+
+    <footer>      
+
+        <p>ChefEnCasaⓇ - Todos los derechos reservados ~ 2023 Distribuidos ~</p>
+
+    </footer>
+
+
+<script>
     (function (){
         const username = window.localStorage.getItem("username");
         const password = window.localStorage.getItem("password");
         if(!username||!password){
             window.location.replace("/");
         }
+        const usernamePlaceholder = document.getElementById("usernamePlaceholder");
+        usernamePlaceholder.textContent = username;
         fetch("/api/recipes", {
             headers: { "Content-Type": "application/json" },
 
@@ -205,58 +265,7 @@
             console.error(e);
         })
     })();
-
 </script>
-
-</head>
-
-<body>
-
-    <header>
-
-    </header>
-
-    <section id="content">
-
-        <article class="filtros"> <!--Se pueden tildar o destildar varias opciones, o solo una. Cada campo deberia tener una seleccion que le corresponda. ej: Pasos-> Cantidad de pasos-->
-            <label>Filtrar por:</label><br>
-            <input type="checkbox" name="filter" value="category" onclick="this.form.subm.disabled = !this.checked"> Categoría <br> <!--value es lo que recibe el back-->
-            <input type="checkbox" name="filter" value="title" onclick="this.form.subm.disabled = !this.checked"> Título <br>
-            <input type="checkbox" name="filter" value="steps" onclick="this.form.subm.disabled = !this.checked"> Pasos <br>               
-            <input type="checkbox" name="filter" value="time" onclick="this.form.subm.disabled = !this.checked"> Tiempo de preparación<br>               
-            <input type="submit" name="subm" value="Filtrar" disabled>
-    
-        </article>
-
-        <article class="menuUsuario">
-            <ul class="nav">
-                <li> <a href="">Inicio</a> </li>
-                <li> <a href="">Publicar</a> </li>
-                <li> <a href="">Mi Cuenta</a> 
-                    <ul>
-                        <li> <a href=""> Mis recetas</a> </li>
-                        <li> <a href=""> Favoritos</a> </li>
-                        <li> <a href=""> Usuarios seguidos</a> </li>
-                        <li> <a href=""> Cerrar sesión</a> </li>
-                    </ul>
-                </li>
-
-            </ul>
-
-        </article>
-
-           <br><br> <p><h2 class="titulo">Últimas recetas:</h2></p>
-    
-        
-          
-    </section>
-
-    <footer>      
-
-        <p>ChefEnCasaⓇ - Todos los derechos reservados ~ 2023 Distribuidos ~</p>
-
-    </footer>
-    
 </body>
 
 </html>
