@@ -25,6 +25,12 @@
             height: 40px;       
         }
         
+        #bienvenida{
+            text-align: left;
+            color:white;
+            height: 40px; 
+        }
+
         .titulo{
             text-align: center;
             color: rgb(202, 69, 69);
@@ -165,49 +171,6 @@
       
     </style>
 
-<script>
-
-    (function (){
-        const username = window.localStorage.getItem("username");
-        const password = window.localStorage.getItem("password");
-        if(!username||!password){
-            window.location.replace("/");
-        }
-        fetch("/api/recipes", {
-            headers: { "Content-Type": "application/json" },
-
-        }).then(function(res){
-            return res.json();
-        }).then(function(obj){
-            console.log(obj);
-            const content = document.getElementById("content");
-            obj.recipe.forEach(function(recipe){
-                const article = document.createElement("article");
-                article.setAttribute("class",`recetario${
-                    recipe.name_category.charAt(0).toUpperCase() + recipe.name_category.slice(1)
-                }`);
-                const h2 = document.createElement("h2");
-                h2.innerHTML = recipe.title;
-                const p = document.createElement("p");
-                p.innerHTML = recipe.description;
-                const img = document.createElement("img");
-                img.setAttribute("src", recipe.pictures?.[0]?.url);
-                img.setAttribute("align","center");
-                img.setAttribute("width","300");
-                const a = document.createElement("a");
-                article.appendChild(h2);                
-                article.appendChild(p);
-                article.appendChild(img);
-                article.appendChild(a);
-                content.appendChild(article);
-            })
-        }).catch(function(e){
-            console.error(e);
-        })
-    })();
-
-</script>
-
 </head>
 
 <body>
@@ -217,6 +180,8 @@
     </header>
 
     <section id="content">
+
+        <h2 id="bienvenida">Bienvenido, <span id="usernamePlaceholder"></span></h2>
 
         <article class="filtros"> <!--Se pueden tildar o destildar varias opciones, o solo una. Cada campo deberia tener una seleccion que le corresponda. ej: Pasos-> Cantidad de pasos-->
             <label>Filtrar por:</label><br>
@@ -256,7 +221,50 @@
         <p>ChefEnCasaⓇ - Todos los derechos reservados ~ 2023 Distribuidos ~</p>
 
     </footer>
-    
+
+
+<script>
+    (function (){
+        const username = window.localStorage.getItem("username");
+        const password = window.localStorage.getItem("password");
+        if(!username||!password){
+            window.location.replace("/");
+        }
+        const usernamePlaceholder = document.getElementById("usernamePlaceholder");
+        usernamePlaceholder.textContent = username;
+        fetch("/api/recipes", {
+            headers: { "Content-Type": "application/json" },
+
+        }).then(function(res){
+            return res.json();
+        }).then(function(obj){
+            console.log(obj);
+            const content = document.getElementById("content");
+            obj.recipe.forEach(function(recipe){
+                const article = document.createElement("article");
+                article.setAttribute("class",`recetario${
+                    recipe.name_category.charAt(0).toUpperCase() + recipe.name_category.slice(1)
+                }`);
+                const h2 = document.createElement("h2");
+                h2.innerHTML = recipe.title;
+                const p = document.createElement("p");
+                p.innerHTML = recipe.description;
+                const img = document.createElement("img");
+                img.setAttribute("src", recipe.pictures?.[0]?.url);
+                img.setAttribute("align","center");
+                img.setAttribute("width","300");
+                const a = document.createElement("a");
+                article.appendChild(h2);                
+                article.appendChild(p);
+                article.appendChild(img);
+                article.appendChild(a);
+                content.appendChild(article);
+            })
+        }).catch(function(e){
+            console.error(e);
+        })
+    })();
+</script>
 </body>
 
 </html>
