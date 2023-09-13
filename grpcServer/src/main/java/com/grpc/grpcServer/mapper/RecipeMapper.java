@@ -1,10 +1,9 @@
 package com.grpc.grpcServer.mapper;
 
-import com.grpc.grpcServer.RecipeRequest;
-import com.grpc.grpcServer.RecipeResponse;
-import com.grpc.grpcServer.RecipeResponseBasic;
-import com.grpc.grpcServer.RecipeResponseBasicList;
+import com.grpc.grpcServer.*;
 import com.grpc.grpcServer.entities.*;
+import com.grpc.grpcServer.entities.Ingredient;
+import com.grpc.grpcServer.entities.Picture;
 import com.grpc.grpcServer.service.CategoryService;
 import com.grpc.grpcServer.service.IngredientService;
 import com.grpc.grpcServer.service.PictureService;
@@ -105,9 +104,19 @@ public class RecipeMapper {
                     .addAllPictures(userRecipe.getPictures().stream().map(pictureE -> pictureMapper.convertIngredientToIngredientG(pictureE)).collect(Collectors.toList()))
                     .setTimeMinutes(userRecipe.getTimeMinutes())
                     .setId(userRecipe.getId())
+                    .setUserResponse(convertUsertoUserResponse(userRecipe.getAuthor()))
                     .build();
             responseBuilder.addRecipe(response);
         }
         return responseBuilder.build();
+    }
+
+    public UserResponse convertUsertoUserResponse(User user) {
+
+        UserResponse userResponse = UserResponse.newBuilder()
+                .setId(user.getId())
+                .setUsername(user.getUsername())
+                .build();
+        return userResponse;
     }
 }
