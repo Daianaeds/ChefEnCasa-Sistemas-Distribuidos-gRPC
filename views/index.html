@@ -1,84 +1,166 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-<title>Chef en casa</title>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>Chef en casa</title>
 
-<style>
-
-    .tabla2 {
+    <style>
+      .tabla2 {
         opacity: 0.5;
-    }
+      }
 
-    .tabla3 {
+      .tabla3 {
         background-color: white;
         opacity: 1;
         width: 250px;
         height: 250px;
         border-radius: 25px;
         margin-top: 50px;
-    }
+      }
 
-    #miFormulario {
+      #miFormulario {
         text-align: center;
-    }
+      }
 
-    #email, #password {
+      #email,
+      #password {
         font-size: 20px;
-    }
+      }
 
-    input[type="submit"], input[type="button"] {
+      #error {
+        color: red;
+      }
+
+      input[type="submit"],
+      input[type="button"] {
         font-size: 20px;
         padding: 10px 20px;
         border-radius: 25px;
-        border:2px solid red;
-    }
+        border: 2px solid red;
+      }
 
-    .tabla3 font {
+      .tabla3 font {
         margin-top: 10; /* Ajusta el valor según tus preferencias */
-    }
+      }
+    </style>
 
-</style>
-</head>
+    <script>
+      function validation(ev, from) {
+        if (from == "register") {
+          window.location.replace("/register");
+        } else {
+          fetch("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              username: ev.form.username.value,
+              password: ev.form.password.value,
+            }),
+          })
+            .then(function (e) {
+              if (e.ok) {
+                window.localStorage.setItem("username", ev.form.username.value);
+                window.localStorage.setItem("password", ev.form.password.value);
+                window.location.replace("/home");
+              } else {
+                document.getElementById("error").innerHTML =
+                  "El usuario y/o contraseña son incorrectos";
+              }
+            })
+            .catch(function (e) {
+              console.error(e);
+              document.getElementById("error").textContent = "Rompio";
+            });
+        }
+      }
+    </script>
+  </head>
 
-<body>
-    <img src="chefencasa.jpg" width="100%" height="150">
-    <table class="tabla2" width="100%" height="800" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-            <td style="background-image: url('https://www.cursosadistancia.com.ar/img/article/estudiar-cursos-en-gastronomia-en-argentina');">
-                <table class="tabla3" align="center" border="0">
+  <body>
+    <img src="/public/chefencasa.jpg" width="100%" height="150" />
+    <table
+      class="tabla2"
+      width="100%"
+      height="800"
+      border="0"
+      cellspacing="0"
+      cellpadding="0"
+    >
+      <tr>
+        <td
+          style="
+            background-image: url('https://www.cursosadistancia.com.ar/img/article/estudiar-cursos-en-gastronomia-en-argentina');
+          "
+        >
+          <table class="tabla3" align="center" border="0">
+            <tr>
+              <td align="center">
+                <br />
+                <font face="Verdana, Geneva, sans-serif" color="black" size="4"
+                  ><strong>¡Bienvenido!</strong><br />
+                  Por favor, inicie sesión
+                </font>
+              </td>
+            </tr>
+            <tr>
+              <td align="center">
+                <form>
+                  <table
+                    align="center"
+                    border="0"
+                    cellspacing="2"
+                    cellpadding="2"
+                  >
                     <tr>
-                        <td align="center"><br>
-                            <font face="Verdana, Geneva, sans-serif" color="black" size="4"><strong>¡Bienvenido!</strong><br/>
-                                Por favor, inicie sesión
-                            </font>
-                        </td>
+                      <td><label for="text">Usuario:</label></td>
+                      <td>
+                        <input
+                          type="text"
+                          name="username"
+                          id="email"
+                          required
+                        />
+                      </td>
                     </tr>
                     <tr>
-                        <td align="center">
-                            <form method="post">
-                                <table align="center" border="0" cellspacing="2" cellpadding="2">
-                                    <tr>
-                                        <td><label for="text">Usuario:</label></td>
-                                        <td><input type="text" name="username" id="email" required /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label for="password">Contraseña:</label></td>
-                                        <td><input type="password" name="password" id="password" required /></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2" align="center"><br>
-                                            <input type="submit" name="botones" formaction="/publicarReceta" value="Loguearse" />
-                                            <input type="submit" name="botones" formaction="/register" value="Registrarse" formnovalidate />
-                                        </td>
-                                    </tr>   
-                                </table><br><br>
-                            </form>
-                        </td>
+                      <td><label for="password">Contraseña:</label></td>
+                      <td>
+                        <input
+                          type="password"
+                          name="password"
+                          id="password"
+                          required
+                        />
+                      </td>
                     </tr>
-                </table>
-            </td>
-        </tr>
+                    <tr>
+                      <td id="error" colspan="3"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" align="center">
+                        <br />
+                        <input
+                          type="button"
+                          name="botones"
+                          value="Registrarse"
+                          onclick="validation(this, 'register'); return false;"
+                        />
+                        <input
+                          type="button"
+                          name="botones"
+                          value="Loguearse"
+                          onclick="validation(this, 'logging'); return false;"
+                        />
+                      </td>
+                    </tr>
+                  </table>
+                  <br /><br />
+                </form>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
     </table>
-</body>
+  </body>
 </html>

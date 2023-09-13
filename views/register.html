@@ -1,92 +1,143 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-<title>Chef en casa</title>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>Chef en casa</title>
 
-<style>
-
-    .tabla2 {
+    <style>
+      .tabla2 {
         opacity: 0.5;
-    }
+      }
 
-    .tabla3 {
+      .tabla3 {
         background-color: white;
         opacity: 1;
         width: 250px;
         height: 300px;
         border-radius: 25px;
         margin-top: 50px;
-    }
+      }
 
-    #miFormulario {
+      #miFormulario {
         text-align: center;
-    }
+      }
 
-    #email, #password , #name , #lastname{
+      #email,
+      #password,
+      #name,
+      #lastname {
         font-size: 20px;
-    }
+      }
 
-    input[type="submit"], input[type="button"] {
+      input[type="submit"],
+      input[type="button"] {
         font-size: 20px;
         padding: 10px 20px;
         border-radius: 25px;
-        border:2px solid red;
-    }
+        border: 2px solid red;
+      }
 
-    .tabla3 font {
+      .tabla3 font {
         margin-top: 10; /* Ajusta el valor según tus preferencias */
-    }
+      }
+    </style>
 
-</style>
-</head>
+    <script></script>
+  </head>
 
-<body>
-    <table class="tabla1" background="chef en casa.png" width="100%" height="150" border="0" cellspacing="0" cellpadding="0">
-    </table>
-    <table class="tabla2" width="100%" height="800" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-            <td style="background-image: url('https://www.cursosadistancia.com.ar/img/article/estudiar-cursos-en-gastronomia-en-argentina');">
-                <table class="tabla3" align="center" border="0">
+  <body>
+    <table
+      class="tabla1"
+      background="chef en casa.png"
+      width="100%"
+      height="150"
+      border="0"
+      cellspacing="0"
+      cellpadding="0"
+    ></table>
+    <table
+      class="tabla2"
+      width="100%"
+      height="800"
+      border="0"
+      cellspacing="0"
+      cellpadding="0"
+    >
+      <tr>
+        <td
+          style="
+            background-image: url('https://www.cursosadistancia.com.ar/img/article/estudiar-cursos-en-gastronomia-en-argentina');
+          "
+        >
+          <table class="tabla3" align="center" border="0">
+            <tr>
+              <td align="center">
+                <font face="Verdana, Geneva, sans-serif" color="black" size="4"
+                  ><br /><strong>Formulario de registro</strong>
+                </font>
+              </td>
+            </tr>
+            <tr>
+              <td align="center">
+                <form name="register" method="post" action="/save-user">
+                  <table
+                    align="center"
+                    border="0"
+                    cellspacing="2"
+                    cellpadding="2"
+                  >
                     <tr>
-                        <td align="center">
-                            <font face="Verdana, Geneva, sans-serif" color="black" size="4"><br><strong>Formulario de registro</strong>
-                                
-                            </font>
-                        </td>
+                      <td><label for="name">Nombre:</label></td>
+                      <td>
+                        <input type="name" name="name" id="name" required />
+                      </td>
                     </tr>
                     <tr>
-                        <td align="center">
-                            <form name="register" method="post" action="/save-user">
-                                <table align="center" border="0" cellspacing="2" cellpadding="2">
-                                    <tr>
-                                        <td><label for="name">Nombre:</label></td>
-                                        <td><input type="name" name="name" id="name" required /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label for="lastname">Nombre Usuario:</label></td>
-                                        <td><input type="lastname" name="username" id="lastname" required /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label for="email">E-mail:</label></td>
-                                        <td><input type="email" name="email" id="email" required /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label for="password">Contraseña:</label></td>
-                                        <td><input type="password" name="password" id="password" required /></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2" align="center"><br>
-                                            <input type="submit" name="registerButton" value="Registrarse" />
-                                        </td>
-                                    </tr>
-                                </table>
-                            </form>
-                        </td>
+                      <td><label for="lastname">Nombre Usuario:</label></td>
+                      <td>
+                        <input
+                          type="lastname"
+                          name="username"
+                          id="lastname"
+                          required
+                        />
+                      </td>
                     </tr>
-                </table>
-            </td>
-        </tr>
+                    <tr>
+                      <td><label for="email">E-mail:</label></td>
+                      <td>
+                        <input type="email" name="email" id="email" required />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label for="password">Contraseña:</label></td>
+                      <td>
+                        <input
+                          type="password"
+                          name="password"
+                          id="password"
+                          required
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" align="center">
+                        <br />
+                        <input
+                          type="button"
+                          name="registerButton"
+                          value="Registrarse"
+                          onclick="register(this, 'register'); return false;"
+                        />
+                      </td>
+                    </tr>
+                  </table>
+                </form>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
     </table>
-</body>
+  </body>
 </html>
