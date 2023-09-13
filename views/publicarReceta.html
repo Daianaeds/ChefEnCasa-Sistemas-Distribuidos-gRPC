@@ -1,116 +1,201 @@
 <!--Vista de publicar/editar receta-->
 <!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-<title> Publicar receta </title>  
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>Publicar receta</title>
 
-<style>
-    body {
-        background-image: url('https://www.cursosadistancia.com.ar/img/article/estudiar-cursos-en-gastronomia-en-argentina');
+    <style>
+      body {
+        background-image: url("https://www.cursosadistancia.com.ar/img/article/estudiar-cursos-en-gastronomia-en-argentina");
         background-size: cover; /* Esto ajustará la imagen al tamaño de la ventana */
         background-repeat: no-repeat; /* Esto evitará que la imagen se repita */
         width: 100%;
         height: 100vh;
-    }
+      }
 
-    .tabla2 {
+      .tabla2 {
         background-color: #b4bfc3;
         opacity: 1;
         width: 450px;
         height: 350px;
         border-radius: 15px;
         margin-top: 50px;
-    }
+      }
 
-    form {
+      form {
         text-align: left; /* Alinea el contenido del formulario a la izquierda */
         margin: 20px; /* Añade margen para separar el formulario del borde de la tabla */
-    }
+      }
 
-    label {
+      label {
         display: block; /* Hace que los labels ocupen una línea completa */
         margin-bottom: 5px; /* Añade espacio entre los labels */
-    }
+      }
 
-    input[type="file"],
-    textarea {
+      input[type="file"],
+      textarea {
         width: 100%; /* Asegura que los campos de entrada se expandan al 100% del ancho del contenedor */
         padding: 5px; /* Añade un poco de espacio interior a los campos de entrada */
         margin-bottom: 10px; /* Añade espacio entre los campos de entrada */
-    }
+      }
 
-    /* Estilo para los campos de entrada de texto */
-    textarea {
+      /* Estilo para los campos de entrada de texto */
+      textarea {
         width: 100%; /* Ancho al 100% del contenedor */
         padding: 10px; /* Espaciado interno */
-    }
+      }
 
-    /* Estilo específico para el campo "tiempo" */
-    input[name="tiempo"] {
+      /* Estilo específico para el campo "tiempo" */
+      input[name="tiempo"] {
         width: 50px; /* Ancho deseado en píxeles */
-    }
+      }
 
-    #titulo{
-        width: 315px; 
+      #titulo,
+      #imagenes {
+        width: 315px;
         height: 20px;
-    }
+      }
 
-    .textos{
-        width: 300px; 
+      .textos {
+        width: 300px;
         height: 50px;
-    }
+      }
+    </style>
 
-</style>
-</head>
+    <script>
+      function postRecipe(ev, from) {
+        fetch("/api/save-recipe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: ev.form.title.value,
+            description: ev.form.description.value,
+            steps: ev.form.steps.value,
+            time_minutes: ev.form.time_minutes.value,
+            name_category: ev.form.name_category.value,
+            ingredients: ev.form.ingredients.value,
+            pictures: ev.form.pictures.value,
+          }),
+        })
+          .then(function (e) {
+            if (e.ok) {
+              window.localStorage.setItem("name", ev.form.title.value);
+              window.localStorage.setItem("email", ev.form.description.value);
+              window.localStorage.setItem("username", ev.form.steps.value);
+              window.localStorage.setItem(
+                "password",
+                ev.form.time_minutes.value
+              );
+              window.localStorage.setItem("email", ev.form.name_category.value);
+              window.localStorage.setItem(
+                "username",
+                ev.form.ingredients.value
+              );
+              window.localStorage.setItem("password", ev.form.pictures.value);
+              window.alert("Receta publicada");
+              window.location.replace("/home");
+            } else {
+              window.alert("No completaste todos los datos");
+            }
+          })
+          .catch(function (e) {
+            console.error(e);
+            document.getElementById("error").textContent = "Rompio";
+          });
+      }
+    </script>
+  </head>
 
-<body>
-    <table class="tabla1" background="/public/chefencasa.jpg" width="100%" height="150" border="0" cellspacing="0" cellpadding="0">
+  <body>
+    <table
+      class="tabla1"
+      background="/public/chefencasa.jpg"
+      width="100%"
+      height="150"
+      border="0"
+      cellspacing="0"
+      cellpadding="0"
+    ></table>
+    <table
+      class="tabla2"
+      align="center"
+      border="0"
+      cellspacing="0"
+      cellpadding="0"
+    >
+      <tr>
+        <td>
+          <section>
+            <font face="Verdana, Geneva, sans-serif" color="black" size="4"
+              ><h1 align="center">Publicar una receta</h1></font
+            >
+
+            <article>
+              <form>
+                <label for="titulo">Título:</label>
+                <input
+                  id="titulo"
+                  type="text"
+                  name="title"
+                  id="titulo"
+                /><br /><br />
+
+                <label for="descripcion">Descripción:</label>
+                <textarea
+                  class="textos"
+                  placeholder="Escriba aquí la descripción de su receta.."
+                  name="description"
+                ></textarea
+                ><br /><br />
+
+                <label for="fotos">URL Imágenes:</label>
+                <input id="imagenes" type="text" name="pictures" /><br /><br />
+
+                <label for="ingredientes">Ingredientes:</label>
+                <textarea
+                  class="textos"
+                  placeholder="Escriba aquí los ingredientes de su receta.."
+                  name="ingredients"
+                ></textarea
+                ><br /><br />
+
+                <label>Categoría:</label>
+                <input type="radio" name="name_category" value="postre" />
+                Postre <br />
+                <!--value es lo que recibe el back-->
+                <input type="radio" name="name_category" value="reposteria" />
+                Repostería <br />
+                <input type="radio" name="name_category" value="bebidas" />
+                Bebidas<br />
+                <input type="radio" name="name_category" value="regionales" />
+                Regionales<br />
+                <input type="radio" name="name_category" value="veganas" />
+                Veganas<br /><br />
+
+                <label for="pasos">Pasos:</label>
+                <textarea
+                  class="textos"
+                  placeholder="Escriba aquí los pasos de su receta.."
+                  name="steps"
+                ></textarea
+                ><br /><br />
+
+                <label for="tiempo">Tiempo:</label>
+                <input id="tiempo" type="text" name="time_minutes" /> minutos
+
+                <!-- <input type="submit" value="Publicar" /> -->
+                <input
+                  type="button"
+                  name="botones"
+                  value="PublicarReceta"
+                  onclick="postRecipe(this, 'postRecipe'); return false;"
+                />
+              </form>
+            </article>
+          </section>
+        </td>
+      </tr>
     </table>
-    <table class="tabla2" align= "center" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-            <td>
-                <section>
-                    <font face="Verdana, Geneva, sans-serif" color="black" size="4"><h1 align= "center">Publicar una receta</h1></font>
-            
-                    <article>
-                        <form method="post" action="/save-recipe">
-                            <label for="titulo">Título:</label>
-                            <input id="titulo" type="text" name="title" id="titulo"/><br><br>
-                            
-                            <label for="descripcion">Descripción:</label>
-                            <textarea class="textos" placeholder="Escriba aquí la descripción de su receta.." name="description" ></textarea><br><br>
-                            
-                            <label for="fotos">Imágenes:</label>
-                            <input type="file" name="fotos"/><br><br>
-                            
-                            <label for="ingredientes">Ingredientes:</label>
-                            <textarea class="textos" placeholder="Escriba aquí los ingredientes de su receta.." name="ingredients"></textarea><br><br>
-                            
-                            <label>Categoría:</label>
-                            <input type="radio" name="name_category" value="postre"> Postre <br> <!--value es lo que recibe el back-->
-                            <input type="radio" name="name_category" value="reposteria"> Repostería <br>
-                            <input type="radio" name="name_category" value="bebidas"> Bebidas<br>               
-                            <input type="radio" name="name_category" value="regionales"> Regionales<br>               
-                            <input type="radio" name="name_category" value="veganas"> Veganas<br><br>
-                            
-                            <label for="pasos">Pasos:</label>
-                            <textarea class="textos" placeholder="Escriba aquí los pasos de su receta.." name="steps"></textarea><br><br>
-                            
-                            <label for="tiempo">Tiempo:</label>
-                            <input id= "tiempo" type="text" name="time_minutes"/> minutos
-
-                            <input type="submit" value="Publicar"/>
-                        </form>
-            
-                    </article>
-            
-                </section>
-            </td>
-        </tr>
-
-    </table>
-
-
-</body>
+  </body>
 </html>

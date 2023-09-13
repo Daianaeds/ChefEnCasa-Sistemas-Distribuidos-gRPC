@@ -141,7 +141,7 @@ app.get("/favouriteUsers/:username", (req, res) => {
 });
 
 //Crear receta
-app.post("/save-recipe", (req, res) => {
+app.post("/api/save-recipe", (req, res) => {
   let recipe = {
     auth: req.body.auth,
     title: req.body.title,
