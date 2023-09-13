@@ -104,7 +104,7 @@ public class RecipeMapper {
                     .addAllPictures(userRecipe.getPictures().stream().map(pictureE -> pictureMapper.convertIngredientToIngredientG(pictureE)).collect(Collectors.toList()))
                     .setTimeMinutes(userRecipe.getTimeMinutes())
                     .setId(userRecipe.getId())
-                    .setUserResponse(convertUsertoUserResponse(userRecipe.getAuthor()))
+            //        .setUserResponse(convertUsertoUserResponse(userRecipe.getAuthor()))
                     .build();
             responseBuilder.addRecipe(response);
         }

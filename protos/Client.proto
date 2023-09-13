@@ -25,7 +25,7 @@ message RecipeResponseBasic {
   string name_category = 6;
   repeated Ingredient ingredients = 7;
   repeated Picture pictures = 8;
-  UserResponse userResponse = 9;
+  
 }
 
 message RecipeResponseBasicList{

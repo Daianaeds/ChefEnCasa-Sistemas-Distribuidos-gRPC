@@ -25,7 +25,7 @@
       #email,
       #password,
       #name,
-      #lastname {
+      #username {
         font-size: 20px;
       }
 
@@ -42,13 +42,43 @@
       }
     </style>
 
-    <script></script>
+    <script>
+      function registrarse(ev, from) {
+        fetch("/api/save-user", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: ev.form.name.value,
+            email: ev.form.email.value,
+            username: ev.form.username.value,
+            password: ev.form.password.value,
+          }),
+        })
+          .then(function (e) {
+            if (e.ok) {
+              window.localStorage.setItem("name", ev.form.name.value);
+              window.localStorage.setItem("email", ev.form.email.value);
+              window.localStorage.setItem("username", ev.form.username.value);
+              window.localStorage.setItem("password", ev.form.password.value);
+              window.alert("Registro exitoso!");
+              window.location.replace("/");
+            } else {
+              document.getElementById("error").innerHTML =
+                "El usuario y/o contraseña son incorrectos";
+            }
+          })
+          .catch(function (e) {
+            console.error(e);
+            document.getElementById("error").textContent = "Rompio";
+          });
+      }
+    </script>
   </head>
 
   <body>
     <table
       class="tabla1"
-      background="chef en casa.png"
+      background="/public/chefencasa.jpg"
       width="100%"
       height="150"
       border="0"
@@ -93,20 +123,20 @@
                       </td>
                     </tr>
                     <tr>
-                      <td><label for="lastname">Nombre Usuario:</label></td>
-                      <td>
-                        <input
-                          type="lastname"
-                          name="username"
-                          id="lastname"
-                          required
-                        />
-                      </td>
-                    </tr>
-                    <tr>
                       <td><label for="email">E-mail:</label></td>
                       <td>
                         <input type="email" name="email" id="email" required />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label for="username">Nombre Usuario:</label></td>
+                      <td>
+                        <input
+                          type="username"
+                          name="username"
+                          id="username"
+                          required
+                        />
                       </td>
                     </tr>
                     <tr>
@@ -127,7 +157,7 @@
                           type="button"
                           name="registerButton"
                           value="Registrarse"
-                          onclick="register(this, 'register'); return false;"
+                          onclick="registrarse(this, 'register'); return false;"
                         />
                       </td>
                     </tr>
