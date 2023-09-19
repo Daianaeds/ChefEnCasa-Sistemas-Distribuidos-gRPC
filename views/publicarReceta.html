@@ -3,6 +3,12 @@
 <html>
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
     <title>Publicar receta</title>
 
     <style>
@@ -51,19 +57,19 @@
         width: 50px; /* Ancho deseado en píxeles */
       }
 
-      #titulo,
-      #imagenes {
-        width: 315px;
-        height: 20px;
+      .btn-registrar {
+        background-color: #7b8081;
+        border-color: #7b8081;
       }
-
-      .textos {
-        width: 300px;
-        height: 50px;
+      .btn-registrar:hover {
+        background-color: #ccd7db;
+        border-color: #ccd7db;
       }
     </style>
 
     <script>
+      var listadoIngredientes = [];
+
       function postRecipe(ev, from) {
         fetch("/api/save-recipe", {
           method: "POST",
@@ -104,7 +110,20 @@
             document.getElementById("error").textContent = "Rompio";
           });
       }
+      function agregarIngrediente() {
+        var ingrediente = document.getElementById("ingrediente").value;
+        var cantidad = document.getElementById("cantidad").value;
+
+        listadoIngredientes.push({ nombre: ingrediente, cantidad: cantidad });
+
+        console.log(listadoIngredientes);
+      }
     </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
   </head>
 
   <body>
@@ -133,59 +152,131 @@
 
             <article>
               <form>
-                <label for="titulo">Título:</label>
-                <input
-                  id="titulo"
-                  type="text"
-                  name="title"
-                  id="titulo"
-                /><br /><br />
+                <div class="form-group">
+                  <label for="titulo">Título:</label>
+                  <input
+                    type="text"
+                    name="title"
+                    class="form-control form-control-sm"
+                  />
+                </div>
 
-                <label for="descripcion">Descripción:</label>
-                <textarea
-                  class="textos"
-                  placeholder="Escriba aquí la descripción de su receta.."
-                  name="description"
-                ></textarea
-                ><br /><br />
+                <div class="form-group">
+                  <label for="descripcion">Descripción:</label>
+                  <textarea
+                    class="form-control form-control-sm"
+                    placeholder="Escriba aquí la descripción de su receta.."
+                    name="description"
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="fotos">URL Imágenes:</label>
+                  <input
+                    type="text"
+                    name="pictures"
+                    class="form-control form-control-sm"
+                  />
+                </div>
+                <div class="form-group mt-1">
+                  <div class="row">
+                    <div class="col-sm-5">
+                      <label for="ingredientes">Ingrediente:</label>
+                      <input
+                        class="form-control form-control-sm"
+                        placeholder="Ej: Sal"
+                        name="ingredients"
+                        id="ingrediente"
+                      />
+                    </div>
+                    <div class="col-sm-5">
+                      <label for="ingredientes">Cantidad:</label>
+                      <input
+                        class="form-control form-control-sm"
+                        placeholder="Ej: 200 grms"
+                        name="cantidad"
+                        id="cantidad"
+                      />
+                    </div>
+                    <div
+                      class="col-sm-2 d-flex justify-content-center align-items-center"
+                    >
+                      <button
+                        class="btn btn-light btn-sm mt-4"
+                        onclick="agregarIngrediente()"
+                        type="button"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div id="listadoIngredientes"></div>
+                </div>
+                <div class="form-group">
+                  <label>Categoría:</label>
+                  <input
+                    type="radio"
+                    name="name_category"
+                    value="postre"
+                    class="form-check-input"
+                  />
+                  Postre <br />
+                  <!--value es lo que recibe el back-->
+                  <input
+                    type="radio"
+                    name="name_category"
+                    value="reposteria"
+                    class="form-check-input"
+                  />
+                  Repostería <br />
+                  <input
+                    type="radio"
+                    name="name_category"
+                    value="bebidas"
+                    class="form-check-input"
+                  />
+                  Bebidas<br />
+                  <input
+                    type="radio"
+                    name="name_category"
+                    value="regionales"
+                    class="form-check-input"
+                  />
+                  Regionales<br />
+                  <input
+                    type="radio"
+                    name="name_category"
+                    value="veganas"
+                    class="form-check-input"
+                  />
+                  Veganas<br /><br />
+                </div>
 
-                <label for="fotos">URL Imágenes:</label>
-                <input id="imagenes" type="text" name="pictures" /><br /><br />
+                <div class="form-group">
+                  <label for="pasos">Pasos:</label>
+                  <textarea
+                    class="form-control form-control-sm"
+                    placeholder="Escriba aquí los pasos de su receta.."
+                    name="steps"
+                  ></textarea>
+                </div>
 
-                <label for="ingredientes">Ingredientes:</label>
-                <textarea
-                  class="textos"
-                  placeholder="Escriba aquí los ingredientes de su receta.."
-                  name="ingredients"
-                ></textarea
-                ><br /><br />
-
-                <label>Categoría:</label>
-                <input type="radio" name="name_category" value="postre" />
-                Postre <br />
-                <!--value es lo que recibe el back-->
-                <input type="radio" name="name_category" value="reposteria" />
-                Repostería <br />
-                <input type="radio" name="name_category" value="bebidas" />
-                Bebidas<br />
-                <input type="radio" name="name_category" value="regionales" />
-                Regionales<br />
-                <input type="radio" name="name_category" value="veganas" />
-                Veganas<br /><br />
-
-                <label for="pasos">Pasos:</label>
-                <textarea
-                  class="textos"
-                  placeholder="Escriba aquí los pasos de su receta.."
-                  name="steps"
-                ></textarea
-                ><br /><br />
-
-                <label for="tiempo">Tiempo:</label>
-                <input id="tiempo" type="text" name="time_minutes" /> minutos
+                <div class="form-group">
+                  <label for="tiempo">Tiempo:</label>
+                  <input
+                    id="tiempo"
+                    type="text"
+                    name="time_minutes"
+                    placeholder="Solo números (minutos)"
+                    class="form-control form-control-sm"
+                  />
+                  minutos
+                </div>
 
                 <!-- <input type="submit" value="Publicar" /> -->
                 <input
+                  class="btn btn-primary btn-registrar"
                   type="button"
                   name="botones"
                   value="PublicarReceta"
