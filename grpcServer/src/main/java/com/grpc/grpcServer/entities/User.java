@@ -52,12 +52,12 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "recipes_author", joinColumns=@JoinColumn(name="id_user"),
             inverseJoinColumns=@JoinColumn(name="id_recipes"))
-    private List<Recipe> recipes  = new ArrayList<>();;
+    private List<Recipe> recipes  = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "favorite_recipes_user", joinColumns=@JoinColumn(name="id_user"),
             inverseJoinColumns=@JoinColumn(name="id_favorite_recipes"))
-    private List<Recipe> favoriteRecipes = new ArrayList<>();;
+    private List<Recipe> favoriteRecipes = new ArrayList<>();
 
     public User() {
     }
