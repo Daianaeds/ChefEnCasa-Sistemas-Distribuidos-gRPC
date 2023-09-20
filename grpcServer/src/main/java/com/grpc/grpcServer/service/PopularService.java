@@ -9,5 +9,4 @@ public interface PopularService {
 
     void updateRecipe(List<PopularDto> popularDtoList);
 
-    int scoreUserById(int id) throws Exception;
 }

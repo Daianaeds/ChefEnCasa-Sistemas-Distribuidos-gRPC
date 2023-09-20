@@ -73,12 +73,5 @@ public class PopularServiceImpl implements PopularService {
         popularDtoList.forEach(popular -> log.info("Receta:  " + popular.toString()));
     }
 
-    @Override
-    public int scoreUserById(int id) throws Exception {
-        PopularUser popularUser =  popularUserRepository.findByIdUser(id);
-        if(popularUser == null) throw new Exception("El usuario aun no tiene popularidad");
-        return popularUser.getScore();
-    }
-
 
 }
