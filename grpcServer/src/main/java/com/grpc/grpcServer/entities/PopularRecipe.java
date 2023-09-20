@@ -28,4 +28,6 @@ public class PopularRecipe {
 
     private int score;
 
+    private int amount;
+
 }

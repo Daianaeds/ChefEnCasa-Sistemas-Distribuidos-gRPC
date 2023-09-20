@@ -28,4 +28,7 @@ public class PopularUser {
     private User user;
 
     private int score;
+
+    private int amount;
+
 }

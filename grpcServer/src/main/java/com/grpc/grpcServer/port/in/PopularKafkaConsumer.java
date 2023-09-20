@@ -1,7 +1,7 @@
 package com.grpc.grpcServer.port.in;
 
-import com.grpc.grpcServer.port.in.dtos.CommentDto;
-import com.grpc.grpcServer.service.CommentService;
+import com.grpc.grpcServer.port.in.dtos.PopularDto;
+import com.grpc.grpcServer.service.PopularService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -25,22 +25,29 @@ import java.util.Properties;
 @EnableKafka
 @Configuration
 @Slf4j
-public class PopularidadRecetaKafkaConsumer {
+public class PopularKafkaConsumer {
     @Autowired
-    CommentService commentService;
+    PopularService popularService;
 
     @Value("${spring.kafka.bootstrapServers}")
     private static String bootstrapServers;
 
     @Scheduled(cron = "*/20 * * * * *")
-    public void consumeAndSaveMessages() {
+    public void consumeAndSaveMessagesUser() {
 
-        List<CommentDto> comments = consumeMessages("popularidadReceta", new CommentDeserializer());
+        List<PopularDto> popularDtoList = consumeMessages("popularidadUsuario", new PopularDtoDeserializer());
 
-        commentService.saveList(comments);
+        popularService.updateUser(popularDtoList);
     }
 
-    public List<CommentDto> consumeMessages(String topic, Deserializer<CommentDto> valueDeserializer) {
+    @Scheduled(cron = "*/20 * * * * *")
+    public void consumeAndSaveMessagesRecipe() {
+
+        List<PopularDto> popularDtoList = consumeMessages("popularidadReceta", new PopularDtoDeserializer());
+
+        popularService.updateRecipe(popularDtoList);
+    }
+    public List<PopularDto> consumeMessages(String topic, Deserializer<PopularDto> valueDeserializer) {
 
         Properties properties = new Properties();
         properties.setProperty("bootstrap.servers", "localhost:9092");
@@ -48,18 +55,20 @@ public class PopularidadRecetaKafkaConsumer {
         properties.setProperty("key.deserializer", StringDeserializer.class.getName());
         properties.setProperty("value.deserializer", valueDeserializer.getClass().getName());
 
-        KafkaConsumer<String, CommentDto> consumer = new KafkaConsumer<>(properties);
+
+        KafkaConsumer<String, PopularDto> consumer = new KafkaConsumer<>(properties);
 
         consumer.subscribe(Collections.singletonList(topic));
 
-        List<CommentDto> commentDtoList = new ArrayList<>();
+
+        List<PopularDto> popularDtoList = new ArrayList<>();
 
         try {
 
-            ConsumerRecords<String, CommentDto> records = consumer.poll(Duration.ofMillis(100));
+            ConsumerRecords<String, PopularDto> records = consumer.poll(Duration.ofMillis(100));
 
-            for (ConsumerRecord<String, CommentDto> record : records) {
-                commentDtoList.add(record.value());
+            for (ConsumerRecord<String, PopularDto> record : records) {
+                popularDtoList.add(record.value());
             }
 
         } finally {
@@ -67,7 +76,7 @@ public class PopularidadRecetaKafkaConsumer {
             consumer.close();
         }
 
-        return commentDtoList;
+        return popularDtoList;
     }
 
 
