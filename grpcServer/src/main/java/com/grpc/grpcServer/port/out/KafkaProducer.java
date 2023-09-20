@@ -1,6 +1,7 @@
 package com.grpc.grpcServer.port.out;
 
 import com.grpc.grpcServer.entities.Comment;
+import com.grpc.grpcServer.port.in.dtos.CommentDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import com.grpc.grpcServer.port.configuration.KafkaProducerConfig;
@@ -16,7 +17,7 @@ public class KafkaProducer{
     private String topicComentario;
 
     //ejemplo de productor
-    public void sendComment(Comment comment){
+    public void sendComment(CommentDto comment){
 
         try{
             kafkaProducerConfig.kafkaTemplate().send(topicComentario, comment);

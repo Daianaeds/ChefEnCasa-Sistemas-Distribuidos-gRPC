@@ -94,4 +94,9 @@ public class RecipeServiceImpl implements RecipesService {
            return recipeMapper.convertRecipetoRecipeResponseBasicList(recipes);
 
     }
+
+    @Override
+    public Recipe findById(int id) {
+        return recipesRepository.findById(id).get();
+    }
 }
