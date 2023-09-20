@@ -8,4 +8,6 @@ public interface PopularService {
     void updateUser(List<PopularDto> popularDtoList);
 
     void updateRecipe(List<PopularDto> popularDtoList);
+
+    int scoreUserById(int id) throws Exception;
 }

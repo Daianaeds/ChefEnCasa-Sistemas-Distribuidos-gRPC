@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
-
+@EnableAsync
 @EnableScheduling
 @EnableKafka
 @Configuration
@@ -31,15 +33,19 @@ public class PopularKafkaConsumer {
 
     @Value("${spring.kafka.bootstrapServers}")
     private static String bootstrapServers;
-
+    @Async
     @Scheduled(cron = "*/20 * * * * *")
     public void consumeAndSaveMessagesUser() {
 
         List<PopularDto> popularDtoList = consumeMessages("popularidadUsuario", new PopularDtoDeserializer());
+        try{
+            popularService.updateUser(popularDtoList);
+        }catch(Exception e){
+            log.error(e.getMessage());
+        }
 
-        popularService.updateUser(popularDtoList);
     }
-
+    @Async
     @Scheduled(cron = "*/20 * * * * *")
     public void consumeAndSaveMessagesRecipe() {
 
