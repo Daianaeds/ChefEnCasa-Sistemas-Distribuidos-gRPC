@@ -33,9 +33,10 @@ public class PopularKafkaConsumer {
 
     @Value("${spring.kafka.bootstrapServers}")
     private static String bootstrapServers;
+
     @Async
     @Scheduled(cron = "*/20 * * * * *")
-    public void consumeAndSaveMessagesUser() {
+    public void consumeAndSavePopularUser() {
 
         List<PopularDto> popularDtoList = consumeMessages("popularidadUsuario", new PopularDtoDeserializer());
         try{
@@ -47,7 +48,7 @@ public class PopularKafkaConsumer {
     }
     @Async
     @Scheduled(cron = "*/20 * * * * *")
-    public void consumeAndSaveMessagesRecipe() {
+    public void consumeAndSavePopularRecipe() {
 
         List<PopularDto> popularDtoList = consumeMessages("popularidadReceta", new PopularDtoDeserializer());
 

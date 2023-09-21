@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 @Slf4j
@@ -76,9 +78,23 @@ public class UserMapper {
             responseBuilder.addResponse(response);
             score =0;
         }
-        return responseBuilder.build();
+        return OrderByScore(responseBuilder);
     }
 
+    private  ResponseUsernameAndEmailList OrderByScore(ResponseUsernameAndEmailList.Builder responseBuilder){
+        // Ordenar la lista de ResponseUsernameAndEmail de mayor a menor score
+        List<ResponseUsernameAndEmail> sortedList = responseBuilder.getResponseList()
+                .stream()
+                .sorted(Comparator.comparingInt(ResponseUsernameAndEmail::getScore).reversed())
+                .collect(Collectors.toList());
+
+        // Construir un nuevo objeto ResponseUsernameAndEmailList con la lista ordenada
+        ResponseUsernameAndEmailList sortedUserList = ResponseUsernameAndEmailList.newBuilder()
+                .addAllResponse(sortedList)
+                .build();
+
+        return sortedUserList;
+    }
     public UserResponse convertUsertoUserResponse(User user) {
 
         UserResponse userResponse = UserResponse.newBuilder()
