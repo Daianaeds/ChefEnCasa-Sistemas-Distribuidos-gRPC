@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+
 @EnableAsync
 @EnableScheduling
 @EnableKafka
@@ -39,21 +40,26 @@ public class PopularKafkaConsumer {
     public void consumeAndSavePopularUser() {
 
         List<PopularDto> popularDtoList = consumeMessages("popularidadUsuario", new PopularDtoDeserializer());
-        try{
+        try {
             popularService.updateUser(popularDtoList);
-        }catch(Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
 
     }
+
     @Async
-    @Scheduled(cron = "*/20 * * * * *")
+    @Scheduled(cron = "*/15 * * * * *")
     public void consumeAndSavePopularRecipe() {
 
         List<PopularDto> popularDtoList = consumeMessages("popularidadReceta", new PopularDtoDeserializer());
-
-        popularService.updateRecipe(popularDtoList);
+        try {
+            popularService.updateRecipe(popularDtoList);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
+
     public List<PopularDto> consumeMessages(String topic, Deserializer<PopularDto> valueDeserializer) {
 
         Properties properties = new Properties();
