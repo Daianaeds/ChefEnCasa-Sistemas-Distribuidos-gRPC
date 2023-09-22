@@ -1,11 +1,14 @@
 package com.grpc.grpcServer.service.implementation;
 
+import com.grpc.grpcServer.entities.PopularRecipe;
 import com.grpc.grpcServer.entities.PopularUser;
+import com.grpc.grpcServer.entities.Recipe;
 import com.grpc.grpcServer.entities.User;
 import com.grpc.grpcServer.port.in.dtos.PopularDto;
 import com.grpc.grpcServer.repositories.PopularRecipeRepository;
 import com.grpc.grpcServer.repositories.PopularUserRepository;
 import com.grpc.grpcServer.service.PopularService;
+import com.grpc.grpcServer.service.RecipesService;
 import com.grpc.grpcServer.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +27,11 @@ public class PopularServiceImpl implements PopularService {
     PopularUserRepository popularUserRepository;
 
     @Autowired
+    RecipesService recipeService;
+
+    @Autowired
     UserService userService;
+
     @Transactional
     @Override
     public void updateUser(List<PopularDto> popularDtoList){
@@ -66,11 +73,42 @@ public class PopularServiceImpl implements PopularService {
             }
         }
     }
-
+    @Transactional
     @Override
     public void updateRecipe(List<PopularDto> popularDtoList) {
-        //logica para calcular promedio popularidad
-        popularDtoList.forEach(popular -> log.info("Receta:  " + popular.toString()));
+
+        for (PopularDto popularDto : popularDtoList) {
+
+            Recipe recipe = recipeService.findById(Integer.parseInt(popularDto.getIdentifier()));
+
+            if(recipe != null) {
+
+                PopularRecipe popularRecipe = popularRecipeRepository.findByRecipe(recipe);
+
+
+                if (popularRecipe != null) {
+
+                    int score = popularRecipe.getScore() + popularDto.getScore();
+                    popularRecipe.setScore(score);
+                    int amount = popularRecipe.getAmount() + 1;
+                    popularRecipe.setAmount(amount);
+
+                    popularRecipeRepository.save(popularRecipe);
+                    log.info("Recipe : " + popularRecipe.toString());
+
+                } else {
+                    PopularRecipe popularRecipeNew = PopularRecipe.builder()
+                            .amount(1)
+                            .recipe(recipe)
+                            .score(popularDto.getScore())
+                            .build();
+                    popularRecipeRepository.save(popularRecipeNew);
+                    log.info("Receta nueva: " + popularRecipeNew.toString());
+                }
+            }else {
+                log.error("Receta: error de guardado, receta no registrada");
+            }
+        }
     }
 
 
