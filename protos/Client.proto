@@ -25,7 +25,8 @@ message RecipeResponseBasic {
   string name_category = 6;
   repeated Ingredient ingredients = 7;
   repeated Picture pictures = 8;
-  
+  int32 score = 9;
+  repeated string comment = 10;
 }
 
 message RecipeResponseBasicList{
@@ -91,6 +92,7 @@ message RecipeResponse {
 message ResponseUsernameAndEmail {
   string username = 1;
   string email = 2;
+  int32 score = 3;
 }
 
 message ResponseUsernameAndEmailList {
@@ -123,7 +125,7 @@ message FindRecipeRequest {
 service Service {
   rpc newUser(UserRequest) returns (UserResponse) {}
   rpc authentication(UserAuth) returns (UserBasic) {}
-  rpc listUser(Empty) returns (ResponseUsernameAndEmailList) {}
+  rpc listUser(Empty) returns (ResponseUsernameAndEmailList) {} //Cuando selecciona ver recetas populares
   rpc followUser(UserAndFavouriteUser) returns (ResponseOrRequestString) {}
   rpc unfollowUser(UserAndFavouriteUser) returns (ResponseOrRequestString) {}
   rpc favouriteUsers(ResponseOrRequestString) returns (ResponseUsernameAndEmailList) {}
@@ -131,6 +133,6 @@ service Service {
   rpc followRecipe(UserAndFavouriteRecipe) returns (ResponseOrRequestString) {}
   rpc unfollowRecipe(UserAndFavouriteRecipe) returns (ResponseOrRequestString) {}
   rpc favouriteRecipes(ResponseOrRequestString) returns (RecipeResponseBasicList) {}
-  rpc listRecipes(Empty) returns (RecipeResponseBasicList) {}
+  rpc listRecipes(Empty) returns (RecipeResponseBasicList) {} //Cuando selecciona ver recetas populares
   rpc findRecipeByFilter(FindRecipeRequest) returns (RecipeResponseBasicList) {}
 }
