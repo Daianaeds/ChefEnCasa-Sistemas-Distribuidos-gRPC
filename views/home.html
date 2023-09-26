@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <head>
     <title>Página de inicio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
         header{
-            width: ;
+            width: 100%;
             height: 160px;
             background-image: url("../public/chefencasa.jpg");
             background-repeat: no-repeat;
@@ -32,8 +34,8 @@
             height: 40px; 
         }
 
-        .titulo{
-            text-align: center;
+        .box-titulo{
+            
             color: rgb(202, 69, 69);
             font-style: oblique;
             border: 1px solid #cf3333;
@@ -169,9 +171,14 @@
             font-family: 'Helvetica', sans-serif; /*tipografía texto*/
             border-radius: 50px; /*bordes redondos*/ 
         }
+
+        .imagen-receta{
+            width: 300px;
+            height: 300px; 
+        }
       
     </style>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -210,10 +217,16 @@
             </ul>
 
         </article>
-
-           <br><br> <p><h2 class="titulo">Últimas recetas:</h2></p>
-    
-        
+        <div class="container-fluid mt-lg-4">
+            <div class="row">
+                <div class="col-md-12 text-center box-titulo">
+                    <h2>Últimas recetas</h2>
+                </div>
+                <div class="col-md-12 row">
+                    <div id="content-receta"></div>
+                </div>
+            </div>
+        </div>        
           
     </section>
 
@@ -239,32 +252,69 @@
         }).then(function(res){
             return res.json();
         }).then(function(obj){
-            console.log(obj);
-            const content = document.getElementById("content");
-            obj.recipe.forEach(function(recipe){
-                const article = document.createElement("article");
-                article.setAttribute("class",`recetario${
-                    recipe.name_category.charAt(0).toUpperCase() + recipe.name_category.slice(1)
-                }`);
-                const h2 = document.createElement("h2");
-                h2.innerHTML = recipe.title;
-                const p = document.createElement("p");
-                p.innerHTML = recipe.description;
-                const img = document.createElement("img");
-                img.setAttribute("src", recipe.pictures?.[0]?.url);
-                img.setAttribute("align","center");
-                img.setAttribute("width","300");
-                const a = document.createElement("a");
-                article.appendChild(h2);                
-                article.appendChild(p);
-                article.appendChild(img);
-                article.appendChild(a);
-                content.appendChild(article);
-            })
+            const content = document.querySelector('#content-receta'); 
+            let html = "<div class='container row'>";
+            let favoritos = [];
+
+            function toggleFavorito(idRecipe) {
+                const index = favoritos.indexOf(idRecipe);
+                if (index === -1) {
+                    // Si la receta no está en favoritos, agrégala
+                    favoritos.push(idRecipe);
+                } else {
+                    // Si la receta está en favoritos, quítala
+                    favoritos.splice(index, 1);
+                }
+        
+                // Actualiza la apariencia del botón
+                const button = document.querySelector(`[data-idrecipe='${idRecipe}']`);
+                button.classList.toggle('favorito-activo');
+        
+                // Envía la información al servidor
+                guardarFavoritosEnServidor(favoritos);
+        
+                // Actualiza el estado de los botones de favoritos
+                actualizarBotonesFavoritos();
+            }
+
+            function guardarFavoritosEnServidor(favoritos) {
+                // Realiza una solicitud HTTP POST al servidor para guardar los favoritos
+                fetch('/follow-recipe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username, // Reemplaza con el nombre de usuario real
+                        idRecipe: idRecipe,
+                    }),
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        // Maneja la respuesta del servidor si es necesario
+                        console.log(data);
+                    })
+                    .catch((error) => {
+                        console.error('Error al guardar los favoritos:', error);
+                    });
+            }
+            
+                obj.recipe.forEach((element) => {
+                    html += "<div class='col-md-4'><div class='card card-body position-relative'>"
+                    html += "<button class='btn btn-link favorite-btn fas fa-star position-absolute' data-idrecipe='${element.id}' style='top: 10px; right: 10px;'></button>"
+                    html += "<img src='"+element.pictures[0].url+"' alt='img-i' class='text-center imagen-receta'/>"
+                    html += "<h4 class='text-center'>"+element.title+"</h4>"
+                    html += "<p>"+element.description+"</p>"
+                    html += "</div></div>" 
+                })
+                html += '</div>'
+            content.innerHTML = html;
         }).catch(function(e){
             console.error(e);
         })
     })();
+
+    
 </script>
 </body>
 

@@ -158,7 +158,7 @@ app.post("/api/save-recipe", (req, res) => {
     if (!err) {
       res.send(JSON.stringify(data)).status(200);
     } else {
-      res.status(400).send(data);
+      res.status(400).json(data);
     }
   });
 });
