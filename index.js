@@ -201,7 +201,11 @@ app.post('/api/save-recipe', (req, res) => {
 
       res.send(JSON.stringify(data)).status(200)
     } else {
+<<<<<<< HEAD
       res.status(400).send(data)
+=======
+      res.status(400).json(data);
+>>>>>>> master
     }
   })
 })
