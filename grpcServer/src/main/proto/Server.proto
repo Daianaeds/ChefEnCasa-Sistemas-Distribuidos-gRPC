@@ -25,7 +25,9 @@ message RecipeResponseBasic {
   string name_category = 6;
   repeated Ingredient ingredients = 7;
   repeated Picture pictures = 8;
-  //UserResponse userResponse = 9;
+  repeated Comment comments = 9;
+  string username = 10;
+  int32 score = 11;
 }
 
 message RecipeResponseBasicList{
@@ -92,6 +94,7 @@ message RecipeResponse {
 message ResponseUsernameAndEmail {
   string username = 1;
   string email = 2;
+  int32 score = 3;
 }
 
 message ResponseUsernameAndEmailList {
@@ -120,6 +123,12 @@ message FindRecipeRequest {
   int32 time_minutes = 4;
   UserAuth auth = 5;
 }
+
+message Comment{
+  string username = 1;
+  string comment = 2;
+}
+
 
 service Service {
   rpc newUser(UserRequest) returns (UserResponse) {}

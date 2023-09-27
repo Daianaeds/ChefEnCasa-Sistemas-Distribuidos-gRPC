@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.checkerframework.common.aliasing.qual.Unique;
 
 import javax.persistence.Entity;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Builder
+@ToString
 @AllArgsConstructor
 @Setter
 @Getter
@@ -52,12 +54,12 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "recipes_author", joinColumns=@JoinColumn(name="id_user"),
             inverseJoinColumns=@JoinColumn(name="id_recipes"))
-    private List<Recipe> recipes  = new ArrayList<>();;
+    private List<Recipe> recipes  = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "favorite_recipes_user", joinColumns=@JoinColumn(name="id_user"),
             inverseJoinColumns=@JoinColumn(name="id_favorite_recipes"))
-    private List<Recipe> favoriteRecipes = new ArrayList<>();;
+    private List<Recipe> favoriteRecipes = new ArrayList<>();
 
     public User() {
     }
