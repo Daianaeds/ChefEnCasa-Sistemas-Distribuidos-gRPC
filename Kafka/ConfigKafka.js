@@ -4,7 +4,7 @@ class KafkaConfiguration {
   constructor() {
     this.kafka = new Kafka({
       clientId: 'my-app',
-      brokers: ['localhost:19092'],
+      brokers: ['localhost:9092'],
     })
     this.producer = this.kafka.producer()
     this.messagesNovedades = []
