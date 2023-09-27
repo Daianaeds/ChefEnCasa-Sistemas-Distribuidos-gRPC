@@ -201,11 +201,7 @@ app.post('/api/save-recipe', (req, res) => {
 
       res.send(JSON.stringify(data)).status(200)
     } else {
-<<<<<<< HEAD
-      res.status(400).send(data)
-=======
-      res.status(400).json(data);
->>>>>>> master
+      res.status(400).json(data)
     }
   })
 })
@@ -359,7 +355,7 @@ app.post('/addStart', (req, res) => {
 })
 
 function addPopularidadReceta(idRecipe, score) {
-  kafkaConfig.consumePopularidadReceta('popularidadReceta')
+  //kafkaConfig.consumePopularidadReceta('popularidadReceta')
   const messagePopularidadReceta = {
     idRecipe: idRecipe,
     score: score,
@@ -372,7 +368,7 @@ function addPopularidadReceta(idRecipe, score) {
 }
 
 function addPopularidadUsuario(favouriteUsername, score) {
-  kafkaConfig.consumePopularidadUsuario('popularidadUsuario')
+  // kafkaConfig.consumePopularidadUsuario('popularidadUsuario')
   const messagePopularidadUsuario = {
     username: favouriteUsername,
     score: score,
