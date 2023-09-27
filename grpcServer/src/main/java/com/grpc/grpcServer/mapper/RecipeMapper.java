@@ -1,6 +1,7 @@
 package com.grpc.grpcServer.mapper;
 
 import com.grpc.grpcServer.*;
+import com.grpc.grpcServer.Comment;
 import com.grpc.grpcServer.RecipeResponseBasic;
 import com.grpc.grpcServer.RecipeResponseBasicList;
 import com.grpc.grpcServer.entities.*;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,6 +45,9 @@ public class RecipeMapper {
     PictureMapper pictureMapper;
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    CommentMapper commentMapper;
 
     @Autowired
     PopularRecipeRepository popularRecipeRepository;
@@ -103,11 +108,12 @@ public class RecipeMapper {
     private int scoreRecipeById(int id) throws Exception {
         PopularRecipe popularRecipe =  popularRecipeRepository.findByIdRecipe(id);
         if(popularRecipe == null) throw new Exception("La receta aun no tiene popularidad");
-        //saca prmedio entre el score y la cantidad de peticiones 
+        //saca prmedio entre el score y la cantidad de peticiones
         int score = popularRecipe.getScore() / popularRecipe.getAmount();
         return  score;
     }
 
+    @Transactional
     public RecipeResponseBasicList convertRecipetoRecipeResponseBasicList(List<Recipe> recipes) {
         RecipeResponseBasicList.Builder responseBuilder = RecipeResponseBasicList.newBuilder();
         int score = 0;
@@ -129,6 +135,7 @@ public class RecipeMapper {
                     .addAllPictures(userRecipe.getPictures().stream().map(pictureE -> pictureMapper.convertIngredientToIngredientG(pictureE)).collect(Collectors.toList()))
                     .setTimeMinutes(userRecipe.getTimeMinutes())
                     .setScore(score)
+                    .addAllComments(userRecipe.getComments().stream().map(commentE -> commentMapper.convertCommentToCommentG(commentE)).collect(Collectors.toList()))
                     .setId(userRecipe.getId())
             //        .setUserResponse(convertUsertoUserResponse(userRecipe.getAuthor()))
                     .build();

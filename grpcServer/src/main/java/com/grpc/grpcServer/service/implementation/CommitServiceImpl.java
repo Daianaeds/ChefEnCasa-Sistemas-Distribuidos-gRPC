@@ -33,4 +33,9 @@ public class CommitServiceImpl implements CommentService {
         commentList.forEach(comment -> log.info(comment.toString()));
 
     }
+
+    @Override
+    public List<Comment> findByIdRecipe(int id) {
+        return commentRepository.findByIdRecipe(id);
+    }
 }

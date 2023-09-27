@@ -19,8 +19,14 @@ public class CommentMapper {
         return Comment.builder()
                 .comment(request.getComment())
                 .usuario(UserService.findByUsername(request.getUsername()))//falta verificar que exista
-                .receta(recipesService.findById(request.getIdRecipe()))//falta verificar que exista
                 .build();
+
+    }
+
+    com.grpc.grpcServer.Comment convertCommentToCommentG(com.grpc.grpcServer.entities.Comment request) {
+        return com.grpc.grpcServer.Comment.newBuilder()
+                .setComment(request.getComment())
+                .setUsername(request.getUsuario().getUsername()).build();
 
     }
 
