@@ -111,17 +111,6 @@ app.post('/follow-user', (req, res) => {
   client.followUser(UserAndFavourite, (err, data) => {
     if (!err) {
       addPopularidadUsuario(req.body.favouriteUsername, 1)
-      /*  kafkaConfig.consume('popularidadUsuario')
-      const messagePopularidadUsuario = {
-        username: req.body.favouriteUsername,
-        score: 1,
-      }
-      const kafkaMsjPopularidad = {
-        key: 'key1',
-        value: new Buffer.from(JSON.stringify(messagePopularidadUsuario)),
-      }
-      kafkaConfig.produce('popularidadUsuario', kafkaMsjPopularidad)*/
-
       res.json(data)
     } else {
       res.status(400).send('Falló al realizar la busqueda')
@@ -139,17 +128,6 @@ app.post('/unfollow-user', (req, res) => {
   client.unfollowUser(UserAndFavourite, (err, data) => {
     if (!err) {
       addPopularidadUsuario(req.body.favouriteUsername, -1)
-      /*  kafkaConfig.consume('popularidadUsuario')
-      const messagePopularidadUsuario = {
-        username: req.body.auth.favouriteUsername,
-        score: -1,
-      }
-
-      const kafkaMsjPopularidad = {
-        key: 'key1',
-        value: new Buffer.from(JSON.stringify(messagePopularidadUsuario)),
-      }
-      kafkaConfig.produce('popularidadUsuario', kafkaMsjPopularidad)*/
 
       res.json(data)
     } else {
@@ -217,16 +195,6 @@ app.post('/follow-recipe', (req, res) => {
     if (!err) {
       addPopularidadReceta(req.body.idRecipe, 1)
       addPopularidadUsuario(req.body.author, 1) //tiene que capturar el author de la receta
-      /*  const messagePopularidadReceta = {
-        idRecipe: req.body.idRecipe,
-        score: 1,
-      }
-      const kafkaMsjPopularidadReceta = {
-        key: 'key1',
-        value: new Buffer.from(JSON.stringify(messagePopularidadReceta)),
-      }
-      kafkaConfig.produce('popularidadReceta', kafkaMsjPopularidadReceta)*/
-
       res.json(data)
     } else {
       res.status(400).send('Falló al realizar la busqueda')
@@ -244,16 +212,6 @@ app.post('/unfollow-recipe', (req, res) => {
     if (!err) {
       addPopularidadReceta(req.body.idRecipe, -1)
       addPopularidadUsuario(req.body.author, -1) //tiene que capturar el author de la receta
-      /* const messagePopularidadReceta = {
-        idRecipe: req.body.idRecipe,
-        score: -1,
-      }
-      const kafkaMsjPopularidadReceta = {
-        key: 'key1',
-        value: new Buffer.from(JSON.stringify(messagePopularidadReceta)),
-      }
-      kafkaConfig.produce('popularidadReceta', kafkaMsjPopularidadReceta)*/
-
       res.json(data)
     } else {
       res.status(400).send('Falló al realizar la busqueda')
@@ -316,38 +274,24 @@ app.get('/lastFiveMessageNovedades', (req, res) => {
 
 //AgregarComentario
 app.post('/addComment', (req, res) => {
-  kafkaConfig.consumeComentarios('comentarios')
-  if (!err) {
-    const messageComentarios = {
-      username: req.body.auth.username,
-      idRecipe: req.body.idRecipe,
-      comment: req.body.comment,
-    }
-    const kafkaMsjComentarios = {
-      key: 'key1',
-      value: new Buffer.from(JSON.stringify(messageComentarios)),
-    }
-    kafkaConfig.produce('comentarios', kafkaMsjComentarios)
-    res.json('OK')
-  } else {
-    res.status(400).send('Falló al guardar el comentario')
+  const messageComentarios = {
+    username: req.body.username,
+    idRecipe: req.body.idRecipe,
+    comment: req.body.comment,
   }
+  const kafkaMsjComentarios = {
+    key: 'key1',
+    value: new Buffer.from(JSON.stringify(messageComentarios)),
+  }
+  kafkaConfig.produce('comentarios', kafkaMsjComentarios)
+  addPopularidadUsuario(req.body.author, 1) //Dai me puede pasar el usuario creador
+  res.json('OK')
 })
 
 //Agregar Puntaje Estrellas
 app.post('/addStart', (req, res) => {
-  kafkaConfig.consumePopularidadReceta('popularidadReceta')
   if (!err) {
     addPopularidadReceta(req.idRecipe, req.score)
-    /* const messagePopularidadReceta = {
-      idRecipe: req.body.idRecipe,
-      score: req.body.score,
-    }
-    const kafkaMsjPopularidadReceta = {
-      key: 'key1',
-      value: new Buffer.from(JSON.stringify(messagePopularidadReceta)),
-    }
-    kafkaConfig.produce('popularidadReceta', kafkaMsjPopularidadReceta)*/
     res.json('OK')
   } else {
     res.status(400).send('Falló al guardar las estrellas')
@@ -355,9 +299,8 @@ app.post('/addStart', (req, res) => {
 })
 
 function addPopularidadReceta(idRecipe, score) {
-  //kafkaConfig.consumePopularidadReceta('popularidadReceta')
   const messagePopularidadReceta = {
-    idRecipe: idRecipe,
+    identifier: idRecipe,
     score: score,
   }
   const kafkaMsjPopularidadReceta = {
@@ -368,9 +311,8 @@ function addPopularidadReceta(idRecipe, score) {
 }
 
 function addPopularidadUsuario(favouriteUsername, score) {
-  // kafkaConfig.consumePopularidadUsuario('popularidadUsuario')
   const messagePopularidadUsuario = {
-    username: favouriteUsername,
+    identifier: favouriteUsername,
     score: score,
   }
   const kafkaMsjPopularidad = {
