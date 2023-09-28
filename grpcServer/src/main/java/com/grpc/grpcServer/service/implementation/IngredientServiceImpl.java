@@ -18,14 +18,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public Ingredient find(String name, String amount) {
-
-        Ingredient ingredient = ingredientRepository.findByNameIngredient(name.toLowerCase());
-        //si no existe crearlo
-        if (ingredient == null) {
-            ingredient = save(name.toLowerCase(), amount);
-        }
-
-        return ingredient;
+        return save(name.toLowerCase(), amount);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.grpc.grpcServer.mapper;
 
 import com.grpc.grpcServer.*;
-import com.grpc.grpcServer.Comment;
 import com.grpc.grpcServer.RecipeResponseBasic;
 import com.grpc.grpcServer.RecipeResponseBasicList;
 import com.grpc.grpcServer.entities.*;
@@ -9,6 +8,7 @@ import com.grpc.grpcServer.entities.Ingredient;
 import com.grpc.grpcServer.entities.Picture;
 import com.grpc.grpcServer.repositories.PopularRecipeRepository;
 import com.grpc.grpcServer.service.CategoryService;
+import com.grpc.grpcServer.service.CommentService;
 import com.grpc.grpcServer.service.IngredientService;
 import com.grpc.grpcServer.service.PictureService;
 import com.grpc.grpcServer.service.UserService;
@@ -50,6 +50,9 @@ public class RecipeMapper {
     CommentMapper commentMapper;
 
     @Autowired
+    CommentService commentService;
+
+    @Autowired
     PopularRecipeRepository popularRecipeRepository;
 
     public Recipe convertRecipeRequestToRecipes(RecipeRequest request) throws Exception {
@@ -57,8 +60,6 @@ public class RecipeMapper {
         List<Ingredient> ingredientList = ingredientService.findListIngredient(request);
 
         Category category = categoryService.find(request.getNameCategory());
-
-        List<Picture> pictureList = request.getPicturesList().stream().map(picture -> pictureService.save(picture.getUrl())).collect(Collectors.toList());
 
         User user = userService.find(request.getAuth());
 
@@ -69,9 +70,9 @@ public class RecipeMapper {
                 .description(request.getDescription())
                 .title(request.getTitle())
                 .steps(request.getSteps())
-                .pictures(pictureList)
                 .timeMinutes(request.getTimeMinutes())
                 .build();
+
 
         return recipe;
     }
@@ -90,14 +91,16 @@ public class RecipeMapper {
     }
 
     public RecipeResponse convertRecipeToRecipeResponse(Recipe request) throws Exception {
+
         RecipeResponse response = RecipeResponse.newBuilder()
+
                 .addAllIngredients(request.getIngredients().stream().map(ingredientE -> ingredientMapper.convertIngredientToIngredientG(ingredientE)).collect(Collectors.toList()))
                 .setNameCategory(request.getCategory().getNameCategory())
                 .setAuth(userMapper.convertUsertoUserAuth(request.getAuthor()))
                 .setDescription(request.getDescription())
                 .setTitle(request.getTitle())
                 .setSteps(request.getSteps())
-                .addAllPictures(request.getPictures().stream().map(pictureE -> pictureMapper.convertIngredientToIngredientG(pictureE)).collect(Collectors.toList()))
+                .addAllPictures(request.getPictures().stream().map(pictureE -> pictureMapper.convertPictureToPictureG(pictureE)).collect(Collectors.toList()))
                 .setTimeMinutes(request.getTimeMinutes())
                 .setId(request.getId())
                 .build();
@@ -125,6 +128,8 @@ public class RecipeMapper {
             }catch (Exception e){
                 log.error("Error en obtener la receta en RecipeMapper : ", e.getMessage());
             }
+            List<com.grpc.grpcServer.entities.Comment> comments = commentService.findByIdRecipe(userRecipe.getId());
+            List<Picture> pictures = pictureService.findByIdRecipe(userRecipe.getId());
 
             RecipeResponseBasic response = RecipeResponseBasic.newBuilder()
                     .addAllIngredients(userRecipe.getIngredients().stream().map(ingredientE -> ingredientMapper.convertIngredientToIngredientG(ingredientE)).collect(Collectors.toList()))
@@ -132,13 +137,14 @@ public class RecipeMapper {
                     .setDescription(userRecipe.getDescription())
                     .setTitle(userRecipe.getTitle())
                     .setSteps(userRecipe.getSteps())
-                    .addAllPictures(userRecipe.getPictures().stream().map(pictureE -> pictureMapper.convertIngredientToIngredientG(pictureE)).collect(Collectors.toList()))
+                    .addAllPictures(pictures.stream().map(pictureE -> pictureMapper.convertPictureToPictureG(pictureE)).collect(Collectors.toList()))
                     .setTimeMinutes(userRecipe.getTimeMinutes())
                     .setScore(score)
-                    .addAllComments(userRecipe.getComments().stream().map(commentE -> commentMapper.convertCommentToCommentG(commentE)).collect(Collectors.toList()))
+                    .setUsername(userRecipe.getAuthor().getUsername())
+                    .addAllComments(comments.stream().map(commentE -> commentMapper.convertCommentToCommentG(commentE)).collect(Collectors.toList()))
                     .setId(userRecipe.getId())
-            //        .setUserResponse(convertUsertoUserResponse(userRecipe.getAuthor()))
                     .build();
+
             responseBuilder.addRecipe(response);
             score =0;
         }
