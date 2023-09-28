@@ -51,7 +51,6 @@ public class Recipe {
     @OneToMany(mappedBy = "id")
     private List<Picture> pictures = new ArrayList<>();
 
-    @OrderBy("id ASC")
     @OneToMany(mappedBy = "id")
     private List<Comment> comments = new ArrayList<>();
 }

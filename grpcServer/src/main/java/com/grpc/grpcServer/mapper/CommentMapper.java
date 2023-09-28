@@ -18,7 +18,8 @@ public class CommentMapper {
         public Comment convertCommentKafkaToCommentEntity(CommentDto request) {
         return Comment.builder()
                 .comment(request.getComment())
-                .usuario(UserService.findByUsername(request.getUsername()))//falta verificar que exista
+                .usuario(UserService.findByUsername(request.getUsername()))
+                .receta(recipesService.findById(request.getIdRecipe()))
                 .build();
 
     }

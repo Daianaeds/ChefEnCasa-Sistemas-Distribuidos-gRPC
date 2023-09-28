@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Builder
@@ -27,5 +28,8 @@ public class Picture {
 
     @Column(name="url_picture")
     private String urlPicture;
+
+    @ManyToOne
+    private Recipe recipe;
 
 }
