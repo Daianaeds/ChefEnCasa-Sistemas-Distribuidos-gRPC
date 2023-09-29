@@ -27,6 +27,14 @@ app.get("/publicarReceta", function (req, res) {
   res.sendFile(__dirname + "/views/publicarReceta.html");
 });
 
+app.get("/recetas", function (req, res) {
+  res.sendFile(__dirname + "/views/recetas.html");
+});
+
+app.get("/usuarios", function (req, res) {
+  res.sendFile(__dirname + "/views/usuarios.html");
+});
+
 app.get("/register", function (req, res) {
   res.sendFile(__dirname + "/views/register.html");
 });
@@ -86,7 +94,7 @@ app.post("/api/save-user", (req, res) => {
 });
 
 //Listar todos los usuarios.
-app.get("/users", auth, (req, res) => {
+app.get("/users", (req, res) => {
   client.listUser({}, (err, data) => {
     if (!err) {
       res.json(data);
