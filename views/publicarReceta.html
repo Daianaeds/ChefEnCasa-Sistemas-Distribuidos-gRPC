@@ -65,6 +65,51 @@
         background-color: #ccd7db;
         border-color: #ccd7db;
       }
+
+      .box-titulo {
+        color: rgb(202, 69, 69);
+        font-style: oblique;
+        border: 1px solid #cf3333;
+        background-color: rgba(248, 248, 248, 0.8);
+      }
+
+      .menuUsuario {
+        margin: auto;
+        width: 500px; /*ancho del sombreado*/
+        font-family: "Helvetica", sans-serif; /*tipografía texto*/
+      }
+
+      .nav li a {
+        border: 1px solid #e05555; /*anchura, estilo y color borde*/
+        background-color: #cccccc; /*color botón*/
+        color: #000000; /*color texto*/
+        text-decoration: none; /*decoración texto*/
+        padding: 10px 15px; /*espacio alrededor texto*/
+        display: block;
+        font-family: "Helvetica", sans-serif; /*tipografía texto*/
+      }
+
+      .nav > li {
+        float: left;
+      }
+
+      .nav li a:hover {
+        background-color: #434343;
+      }
+
+      .nav li ul {
+        display: none;
+        position: absolute;
+        min-width: 140px;
+      }
+
+      .nav li:hover > ul {
+        display: block;
+      }
+
+      ul {
+        list-style: none;
+      }
     </style>
 
     <script>
@@ -202,6 +247,11 @@
       cellspacing="0"
       cellpadding="0"
     >
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" href="/recetas">Recetas</a>
+        </li>
+      </ul>
       <tr>
         <td>
           <section>
