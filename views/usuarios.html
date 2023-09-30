@@ -156,12 +156,12 @@
             let html = "<div class='container row'>";
                       
                 obj.response.forEach((element) => {
-                    html += "<div class='col-mc-4'><div class='card card-body position-relative' style= 'display:block'>"
-                    html += "<span class='badge bg-secondary'>"+element.username+"</span>"
-                    html += "<a href='#' class='btn btn-primary'>Follow</a>"
+                    html += "<div class='col-mc-1'><div class='card card-body position-relative' style='width: 18rem;' style= 'display:block'>"
+                    html += "<p>"+element.username+"</p>"
+                    html += "<a href='#' class='btn btn-primary ml-auto'>Follow</a>"
                     html += "</div>" 
                 })
-                html += '</div>'
+            html += '</div>'
             content.innerHTML = html;
         }).catch(function(e){
             console.error(e);
