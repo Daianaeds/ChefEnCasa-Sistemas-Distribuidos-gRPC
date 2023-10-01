@@ -1,8 +1,10 @@
 package com.grpc.grpcServer.service;
 
+import com.grpc.grpcServer.*;
 import com.grpc.grpcServer.FindRecipeRequest;
 import com.grpc.grpcServer.RecipeRequest;
 import com.grpc.grpcServer.RecipeResponse;
+import com.grpc.grpcServer.RecipeResponseBasic;
 import com.grpc.grpcServer.RecipeResponseBasicList;
 import com.grpc.grpcServer.entities.Recipe;
 
@@ -21,4 +23,6 @@ public interface RecipesService {
     RecipeResponseBasicList findRecipeByFilter(FindRecipeRequest findRecipeRequest);
 
     Recipe findById(int id);
+
+    RecipeResponseBasic findRecipeById(int recipeId) throws Exception;
 }
