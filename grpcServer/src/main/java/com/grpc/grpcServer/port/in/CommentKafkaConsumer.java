@@ -1,7 +1,9 @@
 package com.grpc.grpcServer.port.in;
 
+import com.grpc.grpcServer.port.in.deserializers.CommentDeserializer;
 import com.grpc.grpcServer.port.in.dtos.CommentDto;
 import com.grpc.grpcServer.service.CommentService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -32,13 +34,16 @@ public class CommentKafkaConsumer {
     CommentService commentService;
 
     @Value("${spring.kafka.bootstrapServers}")
-    private static String bootstrapServers;
+    private String bootstrapServers;
 
-    @Scheduled(cron = "*/20 * * * * *") // Ejecutar cada 20 segundos
+    @Value("${comment.topic}")
+    private String topicComments;
+
+    @Scheduled(cron = "*/15 * * * * *") // Ejecutar cada 20 segundos
     public void consumeAndSaveMessages() {
 
         //Se envia el topico y el deserializador. Falta revisar si viene vacio, para evita null
-        List<CommentDto> comments = consumeMessages("comentario", new CommentDeserializer());
+        List<CommentDto> comments = consumeMessages(topicComments, new CommentDeserializer());
 
         //envia la lista para persistirla
         commentService.saveList(comments);
@@ -50,7 +55,7 @@ public class CommentKafkaConsumer {
     public List<CommentDto> consumeMessages(String topic, Deserializer<CommentDto> valueDeserializer) {
         //carga los datos para configurar el consumidor
         Properties properties = new Properties();
-        properties.setProperty("bootstrap.servers", "localhost:9092");
+        properties.setProperty("bootstrap.servers", bootstrapServers);
         properties.setProperty("group.id", "group");
         properties.setProperty("key.deserializer", StringDeserializer.class.getName());
         properties.setProperty("value.deserializer", valueDeserializer.getClass().getName());
