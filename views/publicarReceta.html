@@ -177,17 +177,7 @@
                 password: password,
               };
               var authJSON = JSON.stringify(auth);
-              // Guardar el objeto auth en localStorage
-              //window.localStorage.setItem("auth", authJSON);
-              //window.localStorage.setItem("title", title);
-              //window.localStorage.setItem("description", description);
-              //window.localStorage.setItem("pictures", newPictureArray);
-              //window.localStorage.setItem("steps", steps);
-              //window.localStorage.setItem(
-              //"ingredients",
-              /*JSON.stringify(ingredients)
-              );
-              window.localStorage.setItem("time_minutes", time_minutes);*/
+              
               window.alert("Receta publicada");
               window.location.replace("/home");
             } else {
@@ -258,14 +248,14 @@
           <a class="nav-link" href="/usuarios">Usuarios</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Recetas favoritas</a>
+          <a class="nav-link" href="/recetasFavoritas">Recetas favoritas</a>
         </li>
       </ul>
       <tr>
         <td>
           <section>
             <font face="Verdana, Geneva, sans-serif" color="black" size="4"
-              ><h1 align="center">Publicar una receta</h1></font
+              ><h1 align="center">Publicar receta</h1></font
             >
 
             <article>

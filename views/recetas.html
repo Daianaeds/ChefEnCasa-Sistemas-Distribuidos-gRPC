@@ -206,7 +206,7 @@
               <a class="nav-link" href="/usuarios">Usuarios</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Recetas favoritas</a>
+              <a class="nav-link" href="/recetasFavoritas">Recetas favoritas</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/publicarReceta">Publicar</a>
@@ -275,9 +275,10 @@
 
                         html += "<div class='col-md-4'><div class='card card-body position-relative'>"
                         html += "<button id='btn-fav-"+element.id+"' class='btn btn-link favorite-btn "+claseEstrella+" position-absolute' onclick='toggleFavoritosEnServidor(\"" + username + "\","+element.id+")' data-idrecipe='${element.id}' style='top: 10px; right: 10px;'></button>"
-                        html += "<img src='"+element.pictures[0].url+"' alt='img-i' class='text-center imagen-receta'/>"
                         html += "<h4 class='text-center'>"+element.title+"</h4>"
+                        html += "<img src='"+element.pictures[0].url+"' alt='img-i' class='text-center imagen-receta'/>"
                         html += "<p>"+element.description+"</p>"
+                        html += "<a href='#' role='button'>Ver más...</a>"
                         html += "</div></div>" 
                     })
                     html += '</div>'

@@ -27,6 +27,10 @@ app.get("/publicarReceta", function (req, res) {
   res.sendFile(__dirname + "/views/publicarReceta.html");
 });
 
+app.get("/recetasFavoritas", function (req, res) {
+  res.sendFile(__dirname + "/views/recetasFavoritas.html");
+});
+
 app.get("/recetas", function (req, res) {
   res.sendFile(__dirname + "/views/recetas.html");
 });
