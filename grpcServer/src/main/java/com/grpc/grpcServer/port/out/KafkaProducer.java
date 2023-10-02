@@ -15,7 +15,7 @@ public class KafkaProducer{
 
    private final KafkaProducerConfig kafkaProducerConfig;
     @Value("${comment.topic}")
-    private String topicComentario;
+    private String topicComentarios;
 
     @Value("${popularidad.usuario.topic}")
     private String topicPopularidadUsuario;
@@ -27,7 +27,7 @@ public class KafkaProducer{
     public void sendComment(CommentDto comment){
 
         try{
-            kafkaProducerConfig.kafkaTemplate().send(topicComentario, comment);
+            kafkaProducerConfig.kafkaTemplate().send(topicComentarios, comment);
         }catch(Exception e){
             log.error("Comment TOPIC : {}", e.getMessage());
         }
