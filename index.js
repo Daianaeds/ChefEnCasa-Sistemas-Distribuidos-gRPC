@@ -5,8 +5,11 @@ const { log } = require("@grpc/grpc-js/build/src/logging");
 const auth = require("./middleware/auth");
 const jwt = require("jsonwebtoken");
 const path = require("path");
-
 const cors = require("cors");
+const kafkaConfiguration = require("./Kafka/ConfigKafka.js");
+
+// Se instancia kafka.
+const kafkaConfig = new kafkaConfiguration();
 
 var corsOptions = {
   origin: "*",
@@ -19,12 +22,25 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 app.use("/public", express.static(path.join(__dirname, "public")));
 
+//INICIO - ENDPOINTS PARA FRONT
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/views/index.html");
 });
 
 app.get("/publicarReceta", function (req, res) {
   res.sendFile(__dirname + "/views/publicarReceta.html");
+});
+
+app.get("/recetasFavoritas", function (req, res) {
+  res.sendFile(__dirname + "/views/recetasFavoritas.html");
+});
+
+app.get("/recetas", function (req, res) {
+  res.sendFile(__dirname + "/views/recetas.html");
+});
+
+app.get("/usuarios", function (req, res) {
+  res.sendFile(__dirname + "/views/usuarios.html");
 });
 
 app.get("/register", function (req, res) {
@@ -34,7 +50,9 @@ app.get("/register", function (req, res) {
 app.get("/home", function (req, res) {
   res.sendFile(__dirname + "/views/home.html");
 });
+//FIN - ENDPOINTS PARA FRONT
 
+//INICIO METODOS LLAMADAS GRPC
 app.post("/api/login", (req, res) => {
   // Get user input
   let userAuth = {
@@ -86,7 +104,8 @@ app.post("/api/save-user", (req, res) => {
 });
 
 //Listar todos los usuarios.
-app.get("/users", auth, (req, res) => {
+
+app.get("/users", (req, res) => {
   client.listUser({}, (err, data) => {
     if (!err) {
       res.json(data);
@@ -104,6 +123,7 @@ app.post("/follow-user", (req, res) => {
   };
   client.followUser(UserAndFavourite, (err, data) => {
     if (!err) {
+      addPopularidadUsuario(req.body.favouriteUsername, 1);
       res.json(data);
     } else {
       res.status(400).send("Falló al realizar la busqueda");
@@ -117,8 +137,11 @@ app.post("/unfollow-user", (req, res) => {
     username: req.body.username,
     favouriteUsername: req.body.favouriteUsername,
   };
+
   client.unfollowUser(UserAndFavourite, (err, data) => {
     if (!err) {
+      addPopularidadUsuario(req.body.favouriteUsername, -1);
+
       res.json(data);
     } else {
       res.status(400).send("Falló al realizar la busqueda");
@@ -140,7 +163,7 @@ app.get("/favouriteUsers/:username", (req, res) => {
   });
 });
 
-//Crear receta
+//Crear receta y guarda en el topico Novedades las recetas
 app.post("/api/save-recipe", (req, res) => {
   let recipe = {
     auth: req.body.auth,
@@ -154,11 +177,22 @@ app.post("/api/save-recipe", (req, res) => {
   };
 
   client.newRecipe(recipe, (err, data) => {
-    console.log(err);
+    kafkaConfig.consumeNovedades("novedades");
     if (!err) {
+      const mensajeNovedades = {
+        username: req.body.auth.username,
+        title: req.body.title,
+        url: req.body.pictures[0],
+      };
+      const kafkaMsjNovedades = {
+        key: "key1",
+        value: new Buffer.from(JSON.stringify(mensajeNovedades)),
+      };
+      kafkaConfig.produce("novedades", kafkaMsjNovedades);
+
       res.send(JSON.stringify(data)).status(200);
     } else {
-      res.status(400).send(data);
+      res.status(400).json(data);
     }
   });
 });
@@ -169,8 +203,11 @@ app.post("/follow-recipe", (req, res) => {
     username: req.body.username,
     idRecipe: req.body.idRecipe,
   };
+
   client.followRecipe(UserAndFavouriteRecipe, (err, data) => {
     if (!err) {
+      addPopularidadReceta(req.body.idRecipe, 1);
+      addPopularidadUsuario(req.body.author, 1); //tiene que capturar el author de la receta
       res.json(data);
     } else {
       res.status(400).send("Falló al realizar la busqueda");
@@ -186,6 +223,8 @@ app.post("/unfollow-recipe", (req, res) => {
   };
   client.unfollowRecipe(UserAndFavouriteRecipe, (err, data) => {
     if (!err) {
+      addPopularidadReceta(req.body.idRecipe, -1);
+      addPopularidadUsuario(req.body.author, -1); //tiene que capturar el author de la receta
       res.json(data);
     } else {
       res.status(400).send("Falló al realizar la busqueda");
@@ -238,6 +277,78 @@ app.get(
     });
   }
 );
+
+//Buscar receta por id
+app.get("/api/recipe/:idRecipe", (req, res) => {
+  let recipe = {
+    idRecipe: req.params.idRecipe,
+  };
+  client.findRecipeById(recipe, (err, data) => {
+    if (!err) {
+      res.json(data);
+    } else {
+      res.status(400).send("Falló al realizar la busqueda");
+    }
+  });
+});
+
+//FIN METODOS LLAMADAS GRPC
+
+//Consumir los ultimos 5 mensajes de novedades
+app.get("/lastFiveMessageNovedades", (req, res) => {
+  const messages = kafkaConfig.lastMessageNovedades();
+  res.json(messages);
+});
+
+//AgregarComentario
+app.post("/addComment", (req, res) => {
+  const messageComentarios = {
+    username: req.body.username,
+    idRecipe: req.body.idRecipe,
+    comment: req.body.comment,
+  };
+  const kafkaMsjComentarios = {
+    key: "key1",
+    value: new Buffer.from(JSON.stringify(messageComentarios)),
+  };
+  kafkaConfig.produce("comentarios", kafkaMsjComentarios);
+  addPopularidadUsuario(req.body.author, 1); //Dai me puede pasar el usuario creador
+  res.json("OK");
+});
+
+//Agregar Puntaje Estrellas
+app.post("/addStart", (req, res) => {
+  if (!err) {
+    addPopularidadReceta(req.body.idRecipe, req.body.score);
+    res.json("OK");
+  } else {
+    res.status(400).send("Falló al guardar las estrellas");
+  }
+});
+
+function addPopularidadReceta(idRecipe, score) {
+  const messagePopularidadReceta = {
+    identifier: idRecipe,
+    score: score,
+  };
+  const kafkaMsjPopularidadReceta = {
+    key: "key1",
+    value: new Buffer.from(JSON.stringify(messagePopularidadReceta)),
+  };
+  kafkaConfig.produce("popularidadReceta", kafkaMsjPopularidadReceta);
+}
+
+function addPopularidadUsuario(favouriteUsername, score) {
+  const messagePopularidadUsuario = {
+    identifier: favouriteUsername,
+    score: score,
+  };
+  const kafkaMsjPopularidad = {
+    key: "key1",
+    value: new Buffer.from(JSON.stringify(messagePopularidadUsuario)),
+  };
+  kafkaConfig.produce("popularidadUsuario", kafkaMsjPopularidad);
+}
 
 app.listen(5555, () => {
   console.log("Client running at port %d", 5555);

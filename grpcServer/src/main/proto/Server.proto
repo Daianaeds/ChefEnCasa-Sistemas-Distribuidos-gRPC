@@ -28,6 +28,7 @@ message RecipeResponseBasic {
   repeated Comment comments = 9;
   string username = 10;
   int32 score = 11;
+  string error = 12;
 }
 
 message RecipeResponseBasicList{
@@ -129,6 +130,10 @@ message Comment{
   string comment = 2;
 }
 
+message FindRecipeById{
+  int32 idRecipe = 1;
+}
+
 
 service Service {
   rpc newUser(UserRequest) returns (UserResponse) {}
@@ -143,4 +148,5 @@ service Service {
   rpc favouriteRecipes(ResponseOrRequestString) returns (RecipeResponseBasicList) {}
   rpc listRecipes(Empty) returns (RecipeResponseBasicList) {}
   rpc findRecipeByFilter(FindRecipeRequest) returns (RecipeResponseBasicList) {}
+  rpc findRecipeById(FindRecipeById) returns (RecipeResponseBasic) {}
 }

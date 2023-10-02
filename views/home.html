@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <head>
     <title>Página de inicio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
         header{
-            width: ;
+            width: 100%;
             height: 160px;
             background-image: url("../public/chefencasa.jpg");
             background-repeat: no-repeat;
@@ -32,8 +34,8 @@
             height: 40px; 
         }
 
-        .titulo{
-            text-align: center;
+        .box-titulo{
+            
             color: rgb(202, 69, 69);
             font-style: oblique;
             border: 1px solid #cf3333;
@@ -169,9 +171,14 @@
             font-family: 'Helvetica', sans-serif; /*tipografía texto*/
             border-radius: 50px; /*bordes redondos*/ 
         }
+
+        .imagen-receta{
+            width: 300px;
+            height: 300px; 
+        }
       
     </style>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -184,36 +191,32 @@
 
         <h2 id="bienvenida">Bienvenido, <span id="usernamePlaceholder"></span></h2>
 
-        <article class="filtros"> <!--Se pueden tildar o destildar varias opciones, o solo una. Cada campo deberia tener una seleccion que le corresponda. ej: Pasos-> Cantidad de pasos-->
-            <label>Filtrar por:</label><br>
-            <input type="checkbox" name="filter" value="category" onclick="this.form.subm.disabled = !this.checked"> Categoría <br> <!--value es lo que recibe el back-->
-            <input type="checkbox" name="filter" value="title" onclick="this.form.subm.disabled = !this.checked"> Título <br>
-            <input type="checkbox" name="filter" value="steps" onclick="this.form.subm.disabled = !this.checked"> Pasos <br>               
-            <input type="checkbox" name="filter" value="time" onclick="this.form.subm.disabled = !this.checked"> Tiempo de preparación<br>               
-            <input type="submit" name="subm" value="Filtrar" disabled>
-    
-        </article>
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link" href="/recetas">Recetas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/usuarios">Usuarios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/recetasFavoritas">Recetas favoritas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/publicarReceta">Publicar</a>
+            </li>
+          </ul>
 
-        <article class="menuUsuario">
-            <ul class="nav">
-                <li> <a href="">Inicio</a> </li>
-                <li> <a href="/publicarReceta">Publicar</a> </li>
-                <li> <a href="">Mi Cuenta</a> 
-                    <ul>
-                        <li> <a href=""> Mis recetas</a> </li>
-                        <li> <a href=""> Favoritos</a> </li>
-                        <li> <a href=""> Usuarios seguidos</a> </li>
-                        <li> <a href=""> Cerrar sesión</a> </li>
-                    </ul>
-                </li>
-
-            </ul>
-
-        </article>
-
-           <br><br> <p><h2 class="titulo">Últimas recetas:</h2></p>
-    
         
+        <div class="container-fluid mt-lg-4">
+            <div class="row">
+                <div class="col-md-12 text-center box-titulo">
+                    <h2>Últimas recetas</h2>
+                </div>
+                <div class="col-md-12 row">
+                    <div id="content-ultimas-recetas"></div>
+                </div>
+            </div>
+        </div>        
           
     </section>
 
@@ -224,48 +227,48 @@
     </footer>
 
 
-<script>
-    (function (){
-        const username = window.localStorage.getItem("username");
-        const password = window.localStorage.getItem("password");
-        if(!username||!password){
-            window.location.replace("/");
-        }
-        const usernamePlaceholder = document.getElementById("usernamePlaceholder");
-        usernamePlaceholder.textContent = username;
-        fetch("/api/recipes", {
-            headers: { "Content-Type": "application/json" },
+    <script>
+        (function (){
+            const username = window.localStorage.getItem("username");
+            const password = window.localStorage.getItem("password");
+            if(!username||!password){
+                window.location.replace("/");
+            }
+            const usernamePlaceholder = document.getElementById("usernamePlaceholder");
+            usernamePlaceholder.textContent = username;
+            
+            fetch("/lastFiveMessageNovedades", {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+    
+            }).then(function(res){
+                return res.json();
+            }).then(function(obj){
+                const content = document.querySelector('#content-ultimas-recetas'); 
+                let html = "<div class='container row'>";       
+                    obj.forEach((element) => {
 
-        }).then(function(res){
-            return res.json();
-        }).then(function(obj){
-            console.log(obj);
-            const content = document.getElementById("content");
-            obj.recipe.forEach(function(recipe){
-                const article = document.createElement("article");
-                article.setAttribute("class",`recetario${
-                    recipe.name_category.charAt(0).toUpperCase() + recipe.name_category.slice(1)
-                }`);
-                const h2 = document.createElement("h2");
-                h2.innerHTML = recipe.title;
-                const p = document.createElement("p");
-                p.innerHTML = recipe.description;
-                const img = document.createElement("img");
-                img.setAttribute("src", recipe.pictures?.[0]?.url);
-                img.setAttribute("align","center");
-                img.setAttribute("width","300");
-                const a = document.createElement("a");
-                article.appendChild(h2);                
-                article.appendChild(p);
-                article.appendChild(img);
-                article.appendChild(a);
-                content.appendChild(article);
+                        html += "<div class='col-md-4'><div class='card card-body position-relative'>"
+                            html += "<p>"+element.username+"</p>"
+                            html += "<h4 class='text-center'>"+element.title+"</h4>"
+                        
+                            if (element.url && element.url.url) {
+                                // Verificar que 'element.url' y 'element.url.url' estén definidos antes de acceder
+                                html += "<img src='"+element.url.url+"' alt='img-i' class='text-center imagen-receta'/>"
+                            } else {
+                                // Manejar el caso en que 'element.url' o 'element.url.url' no están definidos
+                                html += "<p>URL no disponible</p>"
+                            }
+                            html += "</div></div>"
+                    })
+                    html += '</div>'
+                content.innerHTML = html;
+            }).catch(function(e){
+                console.error(e);
             })
-        }).catch(function(e){
-            console.error(e);
-        })
-    })();
-</script>
+        })();
+
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<head>
+    <title>Página de inicio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        header{
+            width: 100%;
+            height: 160px;
+            background-image: url("../public/chefencasa.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;    
+        }
+
+        body{
+            background-image: url('https://www.cursosadistancia.com.ar/img/article/estudiar-cursos-en-gastronomia-en-argentina');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            backdrop-filter: blur(5px);
+        }
+
+        footer{
+            text-align: left;
+            color:white;
+            background-color:black; 
+            height: 40px;       
+        }
+        
+        #bienvenida{
+            text-align: left;
+            color:white;
+            height: 40px; 
+        }
+
+        .box-titulo{
+            
+            color: rgb(202, 69, 69);
+            font-style: oblique;
+            border: 1px solid #cf3333;
+            background-color: rgba(248, 248, 248, 0.8);
+        }
+
+        .menuUsuario{
+            margin: auto;
+            width: 500px;/*ancho del sombreado*/
+            font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+        }
+
+        .nav li a{
+            border: 1px solid #e05555; /*anchura, estilo y color borde*/
+            background-color: #cccccc; /*color botón*/
+            color: #000000; /*color texto*/
+            text-decoration: none; /*decoración texto*/
+            padding: 10px 15px; /*espacio alrededor texto*/
+            display: block;
+            font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+        }
+
+        .nav > li{
+            float: left;
+        }
+
+        .nav li a:hover{
+            background-color: #434343;
+        }
+
+        .nav li ul{
+            display: none;
+            position: absolute;
+            min-width: 140px;
+        }
+
+        .nav li:hover > ul{
+            display: block;
+        }
+
+        ul{
+            list-style: none;
+        }
+
+        .filtros{
+            text-align: left;
+            color:rgb(0, 0, 0);
+            background-color:rgb(218, 217, 217);
+            display: inline-block;
+        }
+
+        .recetarioPostres{
+            text-align: center;
+            color:black;
+            background-color: rgba(206, 159, 148, 0.80);
+         } 
+
+         .botonRecetaPostres{
+            border: 1px solid #ff9900; /*anchura, estilo y color borde*/
+            padding: 10px; /*espacio alrededor texto*/
+            background-color: #cfb88b; /*color botón*/
+            color: #000000; /*color texto*/
+            text-decoration: none; /*decoración texto*/
+            text-transform: uppercase; /*capitalización texto*/
+            font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+            border-radius: 50px; /*bordes redondos*/ 
+        }
+
+         .recetarioReposteria{
+            text-align: center;
+            color:black;
+            background-color: rgba(202, 174, 235, 0.8);
+         } 
+
+         .botonRecetaReposteria{
+            border: 1px solid #ae00ff; /*anchura, estilo y color borde*/
+            padding: 10px; /*espacio alrededor texto*/
+            background-color: #e6a7ff; /*color botón*/
+            color: #000000; /*color texto*/
+            text-decoration: none; /*decoración texto*/
+            text-transform: uppercase; /*capitalización texto*/
+            font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+            border-radius: 50px; /*bordes redondos*/ 
+        }
+
+         .recetarioBebida{
+            text-align: center;
+            color:black;
+            background-color: rgba(125, 168, 248, 0.8);
+         } 
+
+         .botonRecetaBebida{
+            border: 1px solid #262af5; /*anchura, estilo y color borde*/
+            padding: 10px; /*espacio alrededor texto*/
+            background-color: #5cbeff; /*color botón*/
+            color: #000000; /*color texto*/
+            text-decoration: none; /*decoración texto*/
+            text-transform: uppercase; /*capitalización texto*/
+            font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+            border-radius: 50px; /*bordes redondos*/ 
+        }
+
+        .recetarioRegionales{
+            text-align: center;
+            color:black;
+            background-color: rgba(158, 150, 135, 0.8);
+         } 
+
+         .botonRecetaRegional{
+            border: 1px solid #414244; /*anchura, estilo y color borde*/
+            padding: 10px; /*espacio alrededor texto*/
+            background-color: #a7b1b8; /*color botón*/
+            color: #000000; /*color texto*/
+            text-decoration: none; /*decoración texto*/
+            text-transform: uppercase; /*capitalización texto*/
+            font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+            border-radius: 50px; /*bordes redondos*/ 
+        }
+
+        .recetarioVegetariano{
+            text-align: center;
+            color:black;
+            background-color: rgba(192, 248, 204, 0.8);
+         } 
+
+         .botonRecetaVegana{
+            border: 1px solid #21e62b; /*anchura, estilo y color borde*/
+            padding: 10px; /*espacio alrededor texto*/
+            background-color: #74a37a; /*color botón*/
+            color: #000000; /*color texto*/
+            text-decoration: none; /*decoración texto*/
+            text-transform: uppercase; /*capitalización texto*/
+            font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+            border-radius: 50px; /*bordes redondos*/ 
+        }
+
+        .imagen-receta{
+            width: 300px;
+            height: 300px; 
+        }
+
+        .far{
+            color: gray;
+        }
+        .fas{
+            color: gold;
+        }
+      
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <header>
+
+    </header>
+
+    <section id="content">
+
+        <h2 id="bienvenida">Bienvenido, <span id="usernamePlaceholder"></span></h2>
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="/home">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/usuarios">Usuarios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Recetas favoritas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/publicarReceta">Publicar</a>
+            </li>
+        </ul>
+
+        
+        <div class="container-fluid mt-lg-4">
+            <div class="row">
+                <div class="col-md-12 text-center box-titulo">
+                    <h2>Recetas favoritas</h2>
+                </div>
+                <div class="col-md-12 row">
+                    <div id="content-receta"></div>
+                </div>
+            </div>
+        </div>        
+          
+    </section>
+
+    <footer>      
+
+        <p>ChefEnCasaⓇ - Todos los derechos reservados ~ 2023 Distribuidos ~</p>
+
+    </footer>
+
+
+<script>
+    (function (){
+        const username = window.localStorage.getItem("username");
+        const password = window.localStorage.getItem("password");
+        if(!username||!password){
+            window.location.replace("/");
+        }
+        const usernamePlaceholder = document.getElementById("usernamePlaceholder");
+        usernamePlaceholder.textContent = username;
+        
+        fetch("/favouriteRecipe/"+username, {
+            headers: { "Content-Type": "application/json" },
+
+        }).then(function(res){
+            return res.json();
+        }).then(function(obj){
+            // Guarda los datos en una variable
+            const content = document.querySelector('#content-receta'); 
+            let html = "<div class='container row'>";       
+                obj.recipe.forEach((element) => {
+
+                    var claseEstrella = "far fa-star"; // far fa-star -> desactivada
+
+                    var recetaEncontrada = obj.recipe.find(function(receta) {
+                        return receta.id === element.id;
+                        });
+
+                    if(recetaEncontrada){
+                        claseEstrella = "fas fa-star"; // fas fa-star -> activada
+                    }
+
+                    html += "<div class='col-md-4'><div class='card card-body position-relative'>"
+                    html += "<button id='btn-fav-"+element.id+"' class='btn btn-link favorite-btn "+claseEstrella+" position-absolute' onclick='toggleFavoritosEnServidor(\"" + username + "\","+element.id+")' data-idrecipe='${element.id}' style='top: 10px; right: 10px;'></button>"
+                    html += "<h4 class='text-center'>"+element.title+"</h4>"
+                    html += "<img src='"+element.pictures[0].url+"' alt='img-i' class='text-center imagen-receta'/>"
+                    html += "<p>"+element.description+"</p>"
+                    html += "<a href='#' role='button'>Ver más...</a>"
+                    html += "</div></div>" 
+                })
+                html += '</div>'
+            content.innerHTML = html;
+      
+          }).catch(function(e){
+            console.error(e);
+        })
+    })();
+
+    function toggleFavoritosEnServidor(username, idRecipe) {
+        var elemento = document.getElementById("btn-fav-"+idRecipe);
+        var endpoint;
+
+        if (elemento.classList.contains("far")) {
+            elemento.classList.remove("far");
+            elemento.classList.add("fas");
+            elemento.classList.add("fa-star");
+            endpoint = "/follow-recipe";
+        } else {
+            elemento.classList.remove("fas");
+            elemento.classList.remove("fa-star");
+            elemento.classList.add("far");
+            elemento.classList.add("fa-star");
+            endpoint = "/unfollow-recipe";
+        }
+        
+        // Realiza una solicitud HTTP POST al servidor para guardar los favoritos
+        fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username, // Reemplaza con el nombre de usuario real
+                idRecipe: idRecipe,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                // Maneja la respuesta del servidor si es necesario
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error('Error al guardar los favoritos:', error);
+            });
+    }  
+    
+</script>
+</body>
+
+</html>

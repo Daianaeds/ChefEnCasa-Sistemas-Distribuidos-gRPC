@@ -25,11 +25,15 @@ message RecipeResponseBasic {
   string name_category = 6;
   repeated Ingredient ingredients = 7;
   repeated Picture pictures = 8;
-  
+  repeated Comment comments = 9;
+  string username = 10;
+  int32 score = 11;
+  string error = 12;
 }
 
 message RecipeResponseBasicList{
   repeated RecipeResponseBasic recipe = 1;
+  string error = 2;
 }
 
 message UserRequest {
@@ -52,7 +56,7 @@ message UserListRequest {
 
 message UserListResponse {
   repeated UserBasic users = 1;
-  string error = 4;
+  string error = 2;
 }
 
 message Ingredient {
@@ -91,6 +95,7 @@ message RecipeResponse {
 message ResponseUsernameAndEmail {
   string username = 1;
   string email = 2;
+  int32 score = 3;
 }
 
 message ResponseUsernameAndEmailList {
@@ -109,7 +114,7 @@ message UserAndFavouriteUser {
 
 message UserAndFavouriteRecipe {
   string username = 1;
-  int32 idRecipe = 2; 
+  int32 idRecipe = 2;
 }
 
 message FindRecipeRequest {
@@ -119,6 +124,16 @@ message FindRecipeRequest {
   int32 time_minutes = 4;
   UserAuth auth = 5;
 }
+
+message Comment{
+  string username = 1;
+  string comment = 2;
+}
+
+message FindRecipeById{
+  int32 idRecipe = 1;
+}
+
 
 service Service {
   rpc newUser(UserRequest) returns (UserResponse) {}
@@ -133,4 +148,5 @@ service Service {
   rpc favouriteRecipes(ResponseOrRequestString) returns (RecipeResponseBasicList) {}
   rpc listRecipes(Empty) returns (RecipeResponseBasicList) {}
   rpc findRecipeByFilter(FindRecipeRequest) returns (RecipeResponseBasicList) {}
+  rpc findRecipeById(FindRecipeById) returns (RecipeResponseBasic) {}
 }
