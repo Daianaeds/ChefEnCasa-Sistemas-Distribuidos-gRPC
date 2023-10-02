@@ -50,6 +50,10 @@ app.get("/register", function (req, res) {
 app.get("/home", function (req, res) {
   res.sendFile(__dirname + "/views/home.html");
 });
+
+app.get("/recetaSola", function (req, res) {
+  res.sendFile(__dirname + "/views/recetaSola.html");
+});
 //FIN - ENDPOINTS PARA FRONT
 
 //INICIO METODOS LLAMADAS GRPC
