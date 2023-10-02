@@ -119,7 +119,7 @@
         <div class="container-fluid mt-lg-4">
             <div class="row">
                 <div class="col-md-12 text-center box-titulo">
-                    <h2>Todas las recetas</h2>
+                    <h2>Receta</h2>
                 </div>
                 <div class="col-md-12 row">
                     <div id="content-receta"></div>
@@ -145,92 +145,39 @@
         }
         const usernamePlaceholder = document.getElementById("usernamePlaceholder");
         usernamePlaceholder.textContent = username;
+        const recetaID = window.localStorage.getItem("idReceta");
         
-        fetch("/favouriteRecipe/"+username, {
+        fetch("/api/recipe/", {
+            method: "GET",
             headers: { "Content-Type": "application/json" },
 
         }).then(function(res){
             return res.json();
-        }).then(data => {
-            // Guarda los datos en una variable
-            var listaFavoritos = data;
+        }).then(function(obj){
+            const content = document.querySelector('#content-receta'); 
+            let html = "<div class='container row'>";
 
-            fetch("/api/recipes", {
-                headers: { "Content-Type": "application/json" },
-    
-            }).then(function(res){
-                return res.json();
-            }).then(function(obj){
-                const content = document.querySelector('#content-receta'); 
-                let html = "<div class='container row'>";       
-                    obj.recipe.forEach((element) => {
+                obj.forEach((element) => {
 
-                        var claseEstrella = "far fa-star"; // far fa-star -> desactivada
-
-                        var recetaEncontrada = listaFavoritos.recipe.find(function(receta) {
-                            return receta.id === element.id;
-                          });
-
-                        if(recetaEncontrada){
-                            claseEstrella = "fas fa-star"; // fas fa-star -> activada
-                        }
-
-                        html += "<div class='col-md-4'><div class='card card-body position-relative'>"
-                        html += "<button id='btn-fav-"+element.id+"' class='btn btn-link favorite-btn "+claseEstrella+" position-absolute' onclick='toggleFavoritosEnServidor(\"" + username + "\","+element.id+")' data-idrecipe='${element.id}' style='top: 10px; right: 10px;'></button>"
+                    html += "<div class='col-md-4'><div class='card card-body position-relative'>"
+                        html += "<p>"+element.username+"</p>"
                         html += "<h4 class='text-center'>"+element.title+"</h4>"
-                        html += "<img src='"+element.pictures[0].url+"' alt='img-i' class='text-center imagen-receta'/>"
-                        html += "<p>"+element.description+"</p>"
-                        html += "<a href='#' role='button'>Ver más...</a>"
-                        html += "</div></div>" 
-                    })
-                    html += '</div>'
-                content.innerHTML = html;
-            }).catch(function(e){
-                console.error(e);
-            })
-      
-          }).catch(function(e){
+                    
+                        if (element.url && element.url.url) {
+                            // Verificar que 'element.url' y 'element.url.url' estén definidos antes de acceder
+                            html += "<img src='"+element.url.url+"' alt='img-i' class='text-center imagen-receta'/>"
+                        } else {
+                            // Manejar el caso en que 'element.url' o 'element.url.url' no están definidos
+                            html += "<p>URL no disponible</p>"
+                        }
+                        html += "</div></div>"
+                })
+                html += '</div>'
+            content.innerHTML = html;
+        }).catch(function(e){
             console.error(e);
         })
     })();
-
-    function toggleFavoritosEnServidor(username, idRecipe) {
-        var elemento = document.getElementById("btn-fav-"+idRecipe);
-        var endpoint;
-
-        if (elemento.classList.contains("far")) {
-            elemento.classList.remove("far");
-            elemento.classList.add("fas");
-            elemento.classList.add("fa-star");
-            endpoint = "/follow-recipe";
-        } else {
-            elemento.classList.remove("fas");
-            elemento.classList.remove("fa-star");
-            elemento.classList.add("far");
-            elemento.classList.add("fa-star");
-            endpoint = "/unfollow-recipe";
-        }
-        
-        // Realiza una solicitud HTTP POST al servidor para guardar los favoritos
-        fetch(endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: username, // Reemplaza con el nombre de usuario real
-                idRecipe: idRecipe,
-            }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                // Maneja la respuesta del servidor si es necesario
-                console.log(data);
-            })
-            .catch((error) => {
-                console.error('Error al guardar los favoritos:', error);
-            });
-    }  
     
 </script>
 </body>
