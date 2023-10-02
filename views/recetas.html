@@ -278,7 +278,7 @@
                         html += "<h4 class='text-center'>"+element.title+"</h4>"
                         html += "<img src='"+element.pictures[0].url+"' alt='img-i' class='text-center imagen-receta'/>"
                         html += "<p>"+element.description+"</p>"
-                        html += "<a href='#' role='button'>Ver más...</a>"
+                        html += "<a href='/recetaSola' role='button' onclick='guardarIdReceta(" + element.id + ")'>Ver más...</a>"
                         html += "</div></div>" 
                     })
                     html += '</div>'
@@ -291,6 +291,10 @@
             console.error(e);
         })
     })();
+
+    function guardarIdReceta(id){
+        window.localStorage.setItem("idReceta", id);
+    }
 
     function toggleFavoritosEnServidor(username, idRecipe) {
         var elemento = document.getElementById("btn-fav-"+idRecipe);
