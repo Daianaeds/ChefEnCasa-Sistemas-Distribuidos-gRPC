@@ -1,15 +1,17 @@
 package com.grpc.grpcServer.service.implementation;
 
+import com.grpc.grpcServer.*;
 import com.grpc.grpcServer.FindRecipeRequest;
 import com.grpc.grpcServer.RecipeRequest;
 import com.grpc.grpcServer.RecipeResponse;
+import com.grpc.grpcServer.RecipeResponseBasic;
 import com.grpc.grpcServer.RecipeResponseBasicList;
+import com.grpc.grpcServer.entities.Picture;
 import com.grpc.grpcServer.entities.Recipe;
 import com.grpc.grpcServer.entities.User;
-import com.grpc.grpcServer.mapper.IngredientMapper;
-import com.grpc.grpcServer.mapper.PictureMapper;
 import com.grpc.grpcServer.mapper.RecipeMapper;
 import com.grpc.grpcServer.repositories.RecipeRepository;
+import com.grpc.grpcServer.service.PictureService;
 import com.grpc.grpcServer.service.RecipesService;
 import com.grpc.grpcServer.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -32,13 +34,20 @@ public class RecipeServiceImpl implements RecipesService {
     RecipeMapper recipeMapper;
 
     @Autowired
+    PictureService pictureService;
+
+    @Autowired
     UserService userService;
-    
+
+    @Transactional
     @Override
     public RecipeResponse newRecipe(RecipeRequest request) throws Exception {
         Recipe recipe = recipeMapper.convertRecipeRequestToRecipes(request);
 
         Recipe recipeSave = recipesRepository.save(recipe);
+
+        List<Picture> pictures = request.getPicturesList().stream().map(picture -> pictureService.save(picture.getUrl(), recipeSave)).collect(Collectors.toList());
+        recipeSave.setPictures(pictures);
 
         userService.addRecipe(recipeSave, request.getAuth());
 
@@ -93,5 +102,17 @@ public class RecipeServiceImpl implements RecipesService {
 
            return recipeMapper.convertRecipetoRecipeResponseBasicList(recipes);
 
+    }
+
+    @Override
+    public Recipe findById(int id) {
+        return recipesRepository.findById(id).get();
+    }
+
+    @Transactional
+    @Override
+    public RecipeResponseBasic findRecipeById(int recipeId) throws Exception {
+        Recipe recipe = findById(recipeId);
+       return recipeMapper.convertRecipeToRecipeResponseBasic(recipe);
     }
 }

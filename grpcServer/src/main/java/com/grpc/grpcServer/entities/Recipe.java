@@ -51,4 +51,6 @@ public class Recipe {
     @OneToMany(mappedBy = "id")
     private List<Picture> pictures = new ArrayList<>();
 
+    @OneToMany(mappedBy = "id")
+    private List<Comment> comments = new ArrayList<>();
 }

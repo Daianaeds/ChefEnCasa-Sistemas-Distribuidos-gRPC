@@ -1,20 +1,30 @@
 package com.grpc.grpcServer.mapper;
 
 import com.grpc.grpcServer.*;
+import com.grpc.grpcServer.RecipeRequest;
+import com.grpc.grpcServer.RecipeResponse;
+import com.grpc.grpcServer.RecipeResponseBasic;
+import com.grpc.grpcServer.RecipeResponseBasicList;
 import com.grpc.grpcServer.entities.*;
 import com.grpc.grpcServer.entities.Ingredient;
 import com.grpc.grpcServer.entities.Picture;
+import com.grpc.grpcServer.repositories.PopularRecipeRepository;
 import com.grpc.grpcServer.service.CategoryService;
+import com.grpc.grpcServer.service.CommentService;
 import com.grpc.grpcServer.service.IngredientService;
 import com.grpc.grpcServer.service.PictureService;
 import com.grpc.grpcServer.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RecipeMapper {
@@ -38,13 +48,20 @@ public class RecipeMapper {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    CommentMapper commentMapper;
+
+    @Autowired
+    CommentService commentService;
+
+    @Autowired
+    PopularRecipeRepository popularRecipeRepository;
+
     public Recipe convertRecipeRequestToRecipes(RecipeRequest request) throws Exception {
 
         List<Ingredient> ingredientList = ingredientService.findListIngredient(request);
 
         Category category = categoryService.find(request.getNameCategory());
-
-        List<Picture> pictureList = request.getPicturesList().stream().map(picture -> pictureService.save(picture.getUrl())).collect(Collectors.toList());
 
         User user = userService.find(request.getAuth());
 
@@ -55,9 +72,9 @@ public class RecipeMapper {
                 .description(request.getDescription())
                 .title(request.getTitle())
                 .steps(request.getSteps())
-                .pictures(pictureList)
                 .timeMinutes(request.getTimeMinutes())
                 .build();
+
 
         return recipe;
     }
@@ -76,14 +93,16 @@ public class RecipeMapper {
     }
 
     public RecipeResponse convertRecipeToRecipeResponse(Recipe request) throws Exception {
+
         RecipeResponse response = RecipeResponse.newBuilder()
+
                 .addAllIngredients(request.getIngredients().stream().map(ingredientE -> ingredientMapper.convertIngredientToIngredientG(ingredientE)).collect(Collectors.toList()))
                 .setNameCategory(request.getCategory().getNameCategory())
                 .setAuth(userMapper.convertUsertoUserAuth(request.getAuthor()))
                 .setDescription(request.getDescription())
                 .setTitle(request.getTitle())
                 .setSteps(request.getSteps())
-                .addAllPictures(request.getPictures().stream().map(pictureE -> pictureMapper.convertIngredientToIngredientG(pictureE)).collect(Collectors.toList()))
+                .addAllPictures(request.getPictures().stream().map(pictureE -> pictureMapper.convertPictureToPictureG(pictureE)).collect(Collectors.toList()))
                 .setTimeMinutes(request.getTimeMinutes())
                 .setId(request.getId())
                 .build();
@@ -91,32 +110,82 @@ public class RecipeMapper {
         return response;
     }
 
+    private int scoreRecipeById(int id) throws Exception {
+        PopularRecipe popularRecipe =  popularRecipeRepository.findByIdRecipe(id);
+        if(popularRecipe == null) throw new Exception("La receta aun no tiene popularidad");
+        //saca prmedio entre el score y la cantidad de peticiones
+        int score = popularRecipe.getScore() / popularRecipe.getAmount();
+        return  score;
+    }
+
+    @Transactional
     public RecipeResponseBasicList convertRecipetoRecipeResponseBasicList(List<Recipe> recipes) {
         RecipeResponseBasicList.Builder responseBuilder = RecipeResponseBasicList.newBuilder();
-
+        int score = 0;
         for (Recipe userRecipe : recipes) {
+
+            try{
+                score = scoreRecipeById(userRecipe.getId());
+
+            }catch (Exception e){
+                log.error("Error en obtener la receta en RecipeMapper : ", e.getMessage());
+            }
+            List<com.grpc.grpcServer.entities.Comment> comments = commentService.findByIdRecipe(userRecipe.getId());
+            List<Picture> pictures = pictureService.findByIdRecipe(userRecipe.getId());
+
             RecipeResponseBasic response = RecipeResponseBasic.newBuilder()
                     .addAllIngredients(userRecipe.getIngredients().stream().map(ingredientE -> ingredientMapper.convertIngredientToIngredientG(ingredientE)).collect(Collectors.toList()))
                     .setNameCategory(userRecipe.getCategory().getNameCategory())
                     .setDescription(userRecipe.getDescription())
                     .setTitle(userRecipe.getTitle())
                     .setSteps(userRecipe.getSteps())
-                    .addAllPictures(userRecipe.getPictures().stream().map(pictureE -> pictureMapper.convertIngredientToIngredientG(pictureE)).collect(Collectors.toList()))
+                    .addAllPictures(pictures.stream().map(pictureE -> pictureMapper.convertPictureToPictureG(pictureE)).collect(Collectors.toList()))
                     .setTimeMinutes(userRecipe.getTimeMinutes())
+                    .setScore(score)
+                    .setUsername(userRecipe.getAuthor().getUsername())
+                    .addAllComments(comments.stream().map(commentE -> commentMapper.convertCommentToCommentG(commentE)).collect(Collectors.toList()))
                     .setId(userRecipe.getId())
-            //        .setUserResponse(convertUsertoUserResponse(userRecipe.getAuthor()))
                     .build();
+
             responseBuilder.addRecipe(response);
+            score =0;
         }
-        return responseBuilder.build();
+        return OrderByScore(responseBuilder);
     }
 
-    public UserResponse convertUsertoUserResponse(User user) {
+    private RecipeResponseBasicList OrderByScore(RecipeResponseBasicList.Builder responseBuilder){
+        // Ordenar la lista de RecipeResponseBasic de mayor a menor score
+        List<RecipeResponseBasic> sortedList = responseBuilder.getRecipeList()
+                .stream()
+                .sorted(Comparator.comparingInt(RecipeResponseBasic::getScore).reversed())
+                .collect(Collectors.toList());
 
-        UserResponse userResponse = UserResponse.newBuilder()
-                .setId(user.getId())
-                .setUsername(user.getUsername())
+        // Construir un nuevo objeto RecipeResponseBasicList con la lista ordenada
+        RecipeResponseBasicList sortedRecipeList = RecipeResponseBasicList.newBuilder()
+                .addAllRecipe(sortedList)
                 .build();
-        return userResponse;
+
+        return sortedRecipeList;
+    }
+
+    public RecipeResponseBasic convertRecipeToRecipeResponseBasic(Recipe request) throws Exception {
+        List<com.grpc.grpcServer.entities.Comment> comments = commentService.findByIdRecipe(request.getId());
+        int score = scoreRecipeById(request.getId());
+
+        RecipeResponseBasic response = RecipeResponseBasic.newBuilder()
+                .setId(request.getId())
+                .setTitle(request.getTitle())
+                .setDescription(request.getDescription())
+                .setSteps(request.getSteps())
+                .setTimeMinutes(request.getTimeMinutes())
+                .setNameCategory(request.getCategory().getNameCategory())
+                .addAllIngredients(request.getIngredients().stream().map(ingredientE -> ingredientMapper.convertIngredientToIngredientG(ingredientE)).collect(Collectors.toList()))
+                .addAllPictures(request.getPictures().stream().map(pictureE -> pictureMapper.convertPictureToPictureG(pictureE)).collect(Collectors.toList()))
+                .addAllComments(comments.stream().map(commentE -> commentMapper.convertCommentToCommentG(commentE)).collect(Collectors.toList()))
+                .setUsername(request.getAuthor().getUsername())
+                .setScore(score)
+                .build();
+
+        return response;
     }
 }
