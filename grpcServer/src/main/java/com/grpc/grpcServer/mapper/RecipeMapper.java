@@ -1,6 +1,8 @@
 package com.grpc.grpcServer.mapper;
 
 import com.grpc.grpcServer.*;
+import com.grpc.grpcServer.RecipeRequest;
+import com.grpc.grpcServer.RecipeResponse;
 import com.grpc.grpcServer.RecipeResponseBasic;
 import com.grpc.grpcServer.RecipeResponseBasicList;
 import com.grpc.grpcServer.entities.*;
@@ -166,4 +168,24 @@ public class RecipeMapper {
         return sortedRecipeList;
     }
 
+    public RecipeResponseBasic convertRecipeToRecipeResponseBasic(Recipe request) throws Exception {
+        List<com.grpc.grpcServer.entities.Comment> comments = commentService.findByIdRecipe(request.getId());
+        int score = scoreRecipeById(request.getId());
+
+        RecipeResponseBasic response = RecipeResponseBasic.newBuilder()
+                .setId(request.getId())
+                .setTitle(request.getTitle())
+                .setDescription(request.getDescription())
+                .setSteps(request.getSteps())
+                .setTimeMinutes(request.getTimeMinutes())
+                .setNameCategory(request.getCategory().getNameCategory())
+                .addAllIngredients(request.getIngredients().stream().map(ingredientE -> ingredientMapper.convertIngredientToIngredientG(ingredientE)).collect(Collectors.toList()))
+                .addAllPictures(request.getPictures().stream().map(pictureE -> pictureMapper.convertPictureToPictureG(pictureE)).collect(Collectors.toList()))
+                .addAllComments(comments.stream().map(commentE -> commentMapper.convertCommentToCommentG(commentE)).collect(Collectors.toList()))
+                .setUsername(request.getAuthor().getUsername())
+                .setScore(score)
+                .build();
+
+        return response;
+    }
 }

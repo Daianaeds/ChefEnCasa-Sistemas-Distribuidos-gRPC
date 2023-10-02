@@ -1,8 +1,10 @@
 package com.grpc.grpcServer.service.implementation;
 
+import com.grpc.grpcServer.*;
 import com.grpc.grpcServer.FindRecipeRequest;
 import com.grpc.grpcServer.RecipeRequest;
 import com.grpc.grpcServer.RecipeResponse;
+import com.grpc.grpcServer.RecipeResponseBasic;
 import com.grpc.grpcServer.RecipeResponseBasicList;
 import com.grpc.grpcServer.entities.Picture;
 import com.grpc.grpcServer.entities.Recipe;
@@ -105,5 +107,12 @@ public class RecipeServiceImpl implements RecipesService {
     @Override
     public Recipe findById(int id) {
         return recipesRepository.findById(id).get();
+    }
+
+    @Transactional
+    @Override
+    public RecipeResponseBasic findRecipeById(int recipeId) throws Exception {
+        Recipe recipe = findById(recipeId);
+       return recipeMapper.convertRecipeToRecipeResponseBasic(recipe);
     }
 }

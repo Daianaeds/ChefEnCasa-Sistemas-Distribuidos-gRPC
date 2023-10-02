@@ -2,9 +2,11 @@ package com.grpc.grpcServer.service;
 
 import com.grpc.grpcServer.*;
 import com.grpc.grpcServer.Empty;
+import com.grpc.grpcServer.FindRecipeById;
 import com.grpc.grpcServer.FindRecipeRequest;
 import com.grpc.grpcServer.RecipeRequest;
 import com.grpc.grpcServer.RecipeResponse;
+import com.grpc.grpcServer.RecipeResponseBasic;
 import com.grpc.grpcServer.RecipeResponseBasicList;
 import com.grpc.grpcServer.ResponseOrRequestString;
 import com.grpc.grpcServer.ResponseUsernameAndEmailList;
@@ -209,6 +211,23 @@ public class ServiceImpl extends ServiceGrpc.ServiceImplBase {
                     .setError(e.getMessage())
                     .build();
 
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+    }
+
+    @Override
+    public void findRecipeById(FindRecipeById request, StreamObserver<RecipeResponseBasic> responseObserver) {
+        try {
+            RecipeResponseBasic recipe = recipesService.findRecipeById(request.getIdRecipe());
+
+                    responseObserver.onNext(recipe);
+            responseObserver.onCompleted();
+
+        } catch (Exception e) {
+            RecipeResponseBasic response = RecipeResponseBasic.newBuilder()
+                    .setError(e.getMessage())
+                    .build();
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         }

@@ -264,6 +264,21 @@ app.get(
     })
   }
 )
+
+//Buscar receta por id
+app.get('/api/recipe/:idRecipe', (req, res) => {
+  let recipe = {
+    idRecipe: req.params.idRecipe,
+  }
+  client.findRecipeById(recipe, (err, data) => {
+    if (!err) {
+      res.json(data)
+    } else {
+      res.status(400).send('Falló al realizar la busqueda')
+    }
+  })
+})
+
 //FIN METODOS LLAMADAS GRPC
 
 //Consumir los ultimos 5 mensajes de novedades
