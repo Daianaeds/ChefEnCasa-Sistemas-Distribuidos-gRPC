@@ -62,15 +62,11 @@
         })
           .then(function (e) {
             if (e.ok) {
-              window.localStorage.setItem("name", ev.form.name.value);
-              window.localStorage.setItem("email", ev.form.email.value);
-              window.localStorage.setItem("username", ev.form.username.value);
-              window.localStorage.setItem("password", ev.form.password.value);
               window.alert("Registro exitoso!");
               window.location.replace("/");
             } else {
               document.getElementById("error").innerHTML =
-                "El usuario y/o contraseña son incorrectos";
+                "Error al registrarse";
             }
           })
           .catch(function (e) {

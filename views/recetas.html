@@ -21,6 +21,18 @@
             backdrop-filter: blur(5px);
         }
 
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Altura mínima de la ventana gráfica */
+            margin: 0;
+            padding: 0;
+        }
+
+        #content {
+            flex-grow: 1; /* Permite que el contenido crezca para ocupar el espacio disponible */
+        }
+
         footer{
             text-align: left;
             color:white;
@@ -177,11 +189,36 @@
             height: 300px; 
         }
 
+        .card {
+            min-height: 300px; /* Ajusta la altura mínima según tus necesidades */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
         .far{
             color: gray;
         }
         .fas{
             color: gold;
+        }
+
+        .content-container {
+            display: flex; /* Crea una disposición horizontal */
+            align-items: center; /* Alinea verticalmente los elementos al centro */
+        }
+        
+        .favorite-btn {
+            margin-left: auto; /* Añade un espacio entre el título y el botón */
+        }
+
+        .element {
+            margin-bottom: 20px; /* Agrega espacio entre elementos */
+        }
+
+        #todas_recetas {
+            margin-bottom: 30px; /* Agrega espacio entre el contenedor y las cards */
         }
       
     </style>
@@ -216,10 +253,11 @@
         
         <div class="container-fluid mt-lg-4">
             <div class="row">
-                <div class="col-md-12 text-center box-titulo">
+                <div class="col-md-12 text-center box-titulo" id="todas_recetas">
                     <h2>Todas las recetas</h2>
                 </div>
-                <div class="col-md-12 row">
+
+                <div class="col-md-12 row ">
                     <div id="content-receta"></div>
                 </div>
             </div>
@@ -260,7 +298,7 @@
                 return res.json();
             }).then(function(obj){
                 const content = document.querySelector('#content-receta'); 
-                let html = "<div class='container row'>";       
+                let html = "<div class='col-md-12 row'>";       
                     obj.recipe.forEach((element) => {
 
                         var claseEstrella = "far fa-star"; // far fa-star -> desactivada
@@ -273,13 +311,15 @@
                             claseEstrella = "fas fa-star"; // fas fa-star -> activada
                         }
 
-                        html += "<div class='col-md-4'><div class='card card-body position-relative'>"
-                        html += "<button id='btn-fav-"+element.id+"' class='btn btn-link favorite-btn "+claseEstrella+" position-absolute' onclick='toggleFavoritosEnServidor(\"" + username + "\","+element.id+")' data-idrecipe='${element.id}' style='top: 10px; right: 10px;'></button>"
-                        html += "<h4 class='text-center'>"+element.title+"</h4>"
-                        html += "<img src='"+element.pictures[0].url+"' alt='img-i' class='text-center imagen-receta'/>"
-                        html += "<p>"+element.description+"</p>"
-                        html += "<a href='/recetaSola' role='button' onclick='guardarIdReceta(" + element.id + ")'>Ver más...</a>"
-                        html += "</div></div>" 
+                        html += "<div class='col-md-3 element'><div class='card card-body position-relative'>";
+                            html += "<div class='content-container'>";
+                            html += "<h4 class='text-center'>"+element.title+"</h4>";
+                            html += "<button id='btn-fav-"+element.id+"' class='btn btn-link favorite-btn "+claseEstrella+"' onclick='toggleFavoritosEnServidor(\"" + username + "\","+element.id+")' data-idrecipe='${element.id}'></button>";
+                            html += "</div>";
+                            html += "<img src='"+element.pictures[0].url+"' alt='img-i' class='text-center imagen-receta' style='vertical-align: middle;' />";
+                            var truncatedDescription = element.description.substring(0, 50);
+                            html += "<p>"+truncatedDescription+"... "+"<a href='/recetaSola' role='button' onclick='guardarIdReceta(" + element.id + ")'>Ver más</a></p>";
+                            html += "</div></div>";
                     })
                     html += '</div>'
                 content.innerHTML = html;

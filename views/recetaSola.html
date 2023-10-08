@@ -197,7 +197,7 @@
                 html += "<div class='comment-container'>";
                 html += "<textarea id='box-comentarios' class='col-md-6' rows='5' placeholder='Ingrese comentario..'></textarea>";
                 html += "<button class='btn btn-primary btn-custom' type='submit' onclick='enviarComentarios()'>Enviar</button>";
-                html += "</div>";
+                html += "</div id='comentarios'>";
                     obj.comments.forEach((comment)=>{
                         html += "<p class = 'card-text'>"+comment.comment+"</p>"
                     })
