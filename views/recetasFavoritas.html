@@ -176,6 +176,13 @@
             width: 300px;
             height: 300px; 
         }
+
+        .far{
+            color: gray;
+        }
+        .fas{
+            color: gold;
+        }
       
     </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
@@ -191,29 +198,29 @@
 
         <h2 id="bienvenida">Bienvenido, <span id="usernamePlaceholder"></span></h2>
 
-          <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs">
             <li class="nav-item">
-              <a class="nav-link" href="/recetas">Recetas</a>
+                <a class="nav-link" href="/home">Inicio</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/usuarios">Usuarios</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/recetasFavoritas">Recetas favoritas</a>
+              <a class="nav-link" href="#">Recetas favoritas</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/publicarReceta">Publicar</a>
             </li>
-          </ul>
+        </ul>
 
         
         <div class="container-fluid mt-lg-4">
             <div class="row">
                 <div class="col-md-12 text-center box-titulo">
-                    <h2>Últimas recetas</h2>
+                    <h2>Recetas favoritas</h2>
                 </div>
                 <div class="col-md-12 row">
-                    <div id="content-ultimas-recetas"></div>
+                    <div id="content-receta"></div>
                 </div>
             </div>
         </div>        
@@ -227,48 +234,92 @@
     </footer>
 
 
-    <script>
-        (function (){
-            const username = window.localStorage.getItem("username");
-            const password = window.localStorage.getItem("password");
-            if(!username||!password){
-                window.location.replace("/");
-            }
-            const usernamePlaceholder = document.getElementById("usernamePlaceholder");
-            usernamePlaceholder.textContent = username;
-            
-            fetch("/lastFiveMessageNovedades", {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-    
-            }).then(function(res){
-                return res.json();
-            }).then(function(obj){
-                const content = document.querySelector('#content-ultimas-recetas'); 
-                let html = "<div class='container row'>";       
-                    obj.forEach((element) => {
+<script>
+    (function (){
+        const username = window.localStorage.getItem("username");
+        const password = window.localStorage.getItem("password");
+        if(!username||!password){
+            window.location.replace("/");
+        }
+        const usernamePlaceholder = document.getElementById("usernamePlaceholder");
+        usernamePlaceholder.textContent = username;
+        
+        fetch("/favouriteRecipe/"+username, {
+            headers: { "Content-Type": "application/json" },
 
-                        html += "<div class='col-md-4'><div class='card card-body position-relative'>"
-                            html += "<p>"+element.username+"</p>"
-                            html += "<h4 class='text-center'>"+element.title+"</h4>"
-                        
-                            if (element.url && element.url.url) {
-                                // Verificar que 'element.url' y 'element.url.url' estén definidos antes de acceder
-                                html += "<img src='"+element.url.url+"' alt='img-i' class='text-center imagen-receta'/>"
-                            } else {
-                                // Manejar el caso en que 'element.url' o 'element.url.url' no están definidos
-                                html += "<p>URL no disponible</p>"
-                            }
-                            html += "</div></div>"
-                    })
-                    html += '</div>'
-                content.innerHTML = html;
-            }).catch(function(e){
-                console.error(e);
+        }).then(function(res){
+            return res.json();
+        }).then(function(obj){
+            // Guarda los datos en una variable
+            const content = document.querySelector('#content-receta'); 
+            let html = "<div class='container row'>";       
+                obj.recipe.forEach((element) => {
+
+                    var claseEstrella = "far fa-star"; // far fa-star -> desactivada
+
+                    var recetaEncontrada = obj.recipe.find(function(receta) {
+                        return receta.id === element.id;
+                        });
+
+                    if(recetaEncontrada){
+                        claseEstrella = "fas fa-star"; // fas fa-star -> activada
+                    }
+
+                    html += "<div class='col-md-4'><div class='card card-body position-relative'>"
+                    html += "<button id='btn-fav-"+element.id+"' class='btn btn-link favorite-btn "+claseEstrella+" position-absolute' onclick='toggleFavoritosEnServidor(\"" + username + "\","+element.id+")' data-idrecipe='${element.id}' style='top: 10px; right: 10px;'></button>"
+                    html += "<h4 class='text-center'>"+element.title+"</h4>"
+                    html += "<img src='"+element.pictures[0].url+"' alt='img-i' class='text-center imagen-receta'/>"
+                    html += "<p>"+element.description+"</p>"
+                    html += "<a href='#' role='button'>Ver más...</a>"
+                    html += "</div></div>" 
+                })
+                html += '</div>'
+            content.innerHTML = html;
+      
+          }).catch(function(e){
+            console.error(e);
+        })
+    })();
+
+    function toggleFavoritosEnServidor(username, idRecipe) {
+        var elemento = document.getElementById("btn-fav-"+idRecipe);
+        var endpoint;
+
+        if (elemento.classList.contains("far")) {
+            elemento.classList.remove("far");
+            elemento.classList.add("fas");
+            elemento.classList.add("fa-star");
+            endpoint = "/follow-recipe";
+        } else {
+            elemento.classList.remove("fas");
+            elemento.classList.remove("fa-star");
+            elemento.classList.add("far");
+            elemento.classList.add("fa-star");
+            endpoint = "/unfollow-recipe";
+        }
+        
+        // Realiza una solicitud HTTP POST al servidor para guardar los favoritos
+        fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username, // Reemplaza con el nombre de usuario real
+                idRecipe: idRecipe,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                // Maneja la respuesta del servidor si es necesario
+                console.log(data);
             })
-        })();
-
-    </script>
+            .catch((error) => {
+                console.error('Error al guardar los favoritos:', error);
+            });
+    }  
+    
+</script>
 </body>
 
 </html>

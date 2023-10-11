@@ -37,11 +37,15 @@ class KafkaConfiguration {
       await consumer.subscribe({ topic: topic })
       await consumer.run({
         eachMessage: async ({ message }) => {
-          this.messagesNovedades.push(message.value.toString('utf-8'))
+          const jsonString = message.value.toString('utf-8');
+          const jsonObject = JSON.parse(jsonString);
+          this.messagesNovedades.push(jsonObject);
+          
           if (this.messagesNovedades.length > maxMessages) {
-            this.messagesNovedades.shift() // Eliminar el mensaje más antiguo
+            this.messagesNovedades.shift(); // Eliminar el mensaje más antiguo
           }
-          console.log(message.value.toString())
+          
+          console.log(jsonObject);
         },
       })
     } catch (error) {
