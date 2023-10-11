@@ -181,7 +181,8 @@
                 html += "</div>"
                 html += "<div class='col-md-8'>"
                 html += "<div class = 'card-body'>"
-                html += "<h3 class = 'card-title'>"+obj.title+"</h3><p><strong>"+"Creada por: "+"</strong>"+obj.username+"</p>"
+                html += "<h3 class = 'card-title'>"+obj.title+"</h3><p><strong>"+"Creada por: </strong>"+ obj.username + "</p>"
+                html += "<p class='card-text'><strong>Promedio entre recetas: </strong>"+obj.score+"</p>"
                 html += "<p class = 'card-text'><strong>"+"Categoría: "+"</strong>"+obj.name_category+"</p>"
                 html += "<p class = 'card-text'><strong>"+"Descripción: "+"</strong>"+obj.description+"</p>"
                 html += "<p class = 'card-text'><strong>"+"Pasos: "+"</strong>"+obj.steps+"</p>"
@@ -196,9 +197,10 @@
                 html += "<p class='card-text'><strong>Comentarios:</strong></p>";
                 html += "<div class='comment-container'>";
                 html += "<textarea id='box-comentarios' class='col-md-6' rows='5' placeholder='Ingrese comentario..'></textarea>";
-                html += "<button class='btn btn-primary btn-custom' type='submit' onclick='enviarComentarios()'>Enviar</button>";
+                html += "<button class='btn btn-primary btn-custom' type='submit' onclick='enviarComentarios("+")'>Enviar</button>";
                 html += "</div id='comentarios'>";
                     obj.comments.forEach((comment)=>{
+                        html += "<p class = 'card-text'>"+comment.username+"</p>"
                         html += "<p class = 'card-text'>"+comment.comment+"</p>"
                     })
                 html += "</div></div>";
