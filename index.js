@@ -47,6 +47,14 @@ app.get("/register", function (req, res) {
   res.sendFile(__dirname + "/views/register.html");
 });
 
+app.get('/home', function (req, res) {
+  res.sendFile(__dirname + '/views/home.html')
+})
+
+app.get('/filterRecipe', (req, res) => {
+  res.sendFile(__dirname + '/views/filterRecipe.html')
+})
+
 app.get("/home", function (req, res) {
   res.sendFile(__dirname + "/views/home.html");
 });
@@ -54,6 +62,7 @@ app.get("/home", function (req, res) {
 app.get("/recetaSola", function (req, res) {
   res.sendFile(__dirname + "/views/recetaSola.html");
 });
+
 //FIN - ENDPOINTS PARA FRONT
 
 //INICIO METODOS LLAMADAS GRPC
@@ -262,25 +271,23 @@ app.get("/api/recipes", (req, res) => {
 });
 
 //Listar las recetas por filtro.
-app.get(
-  "/filter-recipes/name_ingredient/:name_ingredient?/title/:title?/name_category/:name_category?/time/:time_minutes?",
-  (req, res) => {
-    let findRecipeRequest = {
-      auth: req.params.auth,
-      name_ingredient: req.params.name_ingredient,
-      title: req.params.title,
-      name_category: req.params.name_category,
-      time_minutes: req.params.time_minutes,
-    };
-    client.findRecipeByFilter(findRecipeRequest, (err, data) => {
-      if (!err) {
-        res.json(data);
-      } else {
-        res.status(400).send("Falló al realizar la busqueda");
-      }
-    });
+app.get('/filter-recipes', (req, res) => {
+  let findRecipeRequest = {
+    // auth: req.params.auth,
+    name_ingredient: req.query.name_ingredient,
+    title: req.query.title,
+    name_category: req.query.name_category,
+    time_minutes: req.query.time_minutes,
   }
-);
+  client.findRecipeByFilter(findRecipeRequest, (err, data) => {
+    if (!err) {
+      console.log(data)
+      res.json(data)
+    } else {
+      res.status(400).send('Falló al realizar la busqueda')
+    }
+  })
+})
 
 //Buscar receta por id
 app.get("/api/recipe/:idRecipe", (req, res) => {
