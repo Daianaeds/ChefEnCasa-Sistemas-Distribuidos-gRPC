@@ -148,9 +148,15 @@
         if (picturesInput.trim() !== "") {
           const picturesArray = picturesInput.split(",");
           const isArray =
-            picturesArray.lenght > 0 ? picturesArray : picturesInput.split();
+            picturesArray.length > 0 ? picturesArray : picturesInput.split();
 
-          var newPictureArray = createArrayToPicture(picturesArray);
+          if (isArray.length > 5) {
+            document.getElementById("error").innerHTML =
+              "Error - No debe haber más de 5 imágenes";
+              return;
+          } else {
+            var newPictureArray = createArrayToPicture(picturesArray);
+          }
         }
 
         fetch("/api/save-recipe", {
@@ -187,7 +193,8 @@
           })
           .catch(function (e) {
             console.error(e);
-            document.getElementById("error").textContent = "Rompio";
+            //document.getElementById("error").textContent = "Rompio";
+            document.getElementById("error").textContent = "Error en la solicitud: " + error.message;
           });
       }
 
@@ -381,6 +388,8 @@
                   />
                   minutos
                 </div>
+
+                <div id="error" style="color: red;"></div>
 
                 <!-- <input type="submit" value="Publicar" /> -->
                 <input
