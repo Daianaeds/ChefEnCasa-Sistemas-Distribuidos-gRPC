@@ -331,9 +331,9 @@ app.post('/addComment', (req, res) => {
 app.post('/addStars', (req, res) => {
   try {
     addPopularidadReceta(req.body.idRecipe, req.body.score)
-    res.status(200).send('Receta puntuada correctamente')
+    res.status(200).json({ message: 'Receta puntuada correctamente' });
   } catch (error) {
-    res.status(500).send('Error al guardar el puntaje de estrellas')
+    res.status(500).json({ error: 'Error al guardar el puntaje de estrellas' });
   }
 })
 
