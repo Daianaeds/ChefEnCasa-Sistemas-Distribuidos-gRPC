@@ -1,7 +1,10 @@
 package com.grpc.grpcServer.port.in.soap;
 
+import com.grpc.grpcServer.GrpcServerApplication;
 import com.grpc.grpcServer.port.in.soap.dtos.MessageDto;
 import com.grpc.grpcServer.port.in.soap.dtos.RecipeBookRequestCreateDto;
+import com.grpc.grpcServer.service.RecipeBookService;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -9,14 +12,23 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 
 @WebService
-public class ControllerSoap {
+public class ControllerSoap{
+    private ConfigurableApplicationContext context = GrpcServerApplication.getContext();
+
+    private RecipeBookService recipeBookService = context.getBean(RecipeBookService.class);
+
 
     //crea un book
     @WebMethod(operationName = "createRecipeBook")
     @WebResult(name = "MessageDto")
     public MessageDto createRecipeBook(@WebParam(name = "request") RecipeBookRequestCreateDto request) {
-
-        MessageDto messageDto = new MessageDto("creado");
+        MessageDto messageDto = new MessageDto();
+        try {
+            recipeBookService.saveRecipeBook(request);
+            messageDto.setMessage("Book creado exitosamente");
+        } catch (Exception e) {
+            messageDto.setMessage("Error al crear el book   "+e.getMessage());
+        }
 
         return messageDto;
     }

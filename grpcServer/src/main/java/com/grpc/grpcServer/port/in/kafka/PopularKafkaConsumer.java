@@ -41,7 +41,7 @@ public class PopularKafkaConsumer {
     private String topicUser;
 
 
-    //@Scheduled(cron = "*/20 * * * * *")
+    @Scheduled(cron = "*/20 * * * * *")
     public void consumeAndSavePopularUser() {
 
         List<PopularDto> popularDtoList = consumeMessages(topicUser, new PopularDtoDeserializer());
@@ -54,7 +54,7 @@ public class PopularKafkaConsumer {
     }
 
 
-    //@Scheduled(cron = "*/30 * * * * *")
+    @Scheduled(cron = "*/30 * * * * *")
     public void consumeAndSavePopularRecipe() {
 
         List<PopularDto> popularDtoList = consumeMessages(topicRecipe, new PopularDtoDeserializer());
