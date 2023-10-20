@@ -2,20 +2,25 @@ package com.grpc.grpcServer.port.in.soap;
 
 import com.grpc.grpcServer.GrpcServerApplication;
 import com.grpc.grpcServer.port.in.soap.dtos.MessageDto;
+import com.grpc.grpcServer.port.in.soap.dtos.RecipeBookDto;
 import com.grpc.grpcServer.port.in.soap.dtos.RecipeBookRequestCreateDto;
 import com.grpc.grpcServer.service.RecipeBookService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
+import java.util.List;
 
+@Slf4j
 @WebService
 public class ControllerSoap{
     private ConfigurableApplicationContext context = GrpcServerApplication.getContext();
 
     private RecipeBookService recipeBookService = context.getBean(RecipeBookService.class);
+
 
 
     //crea un book
@@ -25,9 +30,9 @@ public class ControllerSoap{
         MessageDto messageDto = new MessageDto();
         try {
             recipeBookService.saveRecipeBook(request);
-            messageDto.setMessage("Book creado exitosamente");
+            messageDto.setMessage("Libro creado exitosamente");
         } catch (Exception e) {
-            messageDto.setMessage("Error al crear el book   "+e.getMessage());
+            messageDto.setMessage("Error al crear el libro   "+e.getMessage());
         }
 
         return messageDto;
@@ -38,7 +43,14 @@ public class ControllerSoap{
     @WebResult(name = "MessageDto")
     public MessageDto deleteRecipeBook(@WebParam(name = "idRecipeBook") int idRecipeBook) {
 
-        MessageDto messageDto = new MessageDto("eliminado");
+        MessageDto messageDto = new MessageDto();
+
+        try {
+            recipeBookService.deleteRecipeToBook(idRecipeBook);
+            messageDto.setMessage("libro eliminado exitosamente");
+        } catch (Exception e) {
+            messageDto.setMessage("Error al eliminar el libro   "+e.getMessage());
+        }
 
         return messageDto;
     }
@@ -48,7 +60,16 @@ public class ControllerSoap{
     @WebResult(name = "MessageDto")
     public MessageDto addRecipe(@WebParam(name = "idRecipeBook") int idRecipeBook, @WebParam(name = "idRecipe") int idRecipe) {
 
-        MessageDto messageDto = new MessageDto("receta agregada");
+        MessageDto messageDto = new MessageDto();
+
+        int flag = 1;
+
+        try {
+            recipeBookService.addOrRemoveRecipeToBook(idRecipeBook, idRecipe, flag);
+            messageDto.setMessage("Receta agregada exitosamente");
+        } catch (Exception e) {
+            messageDto.setMessage("Error al agregar la receta"+e.getMessage());
+        }
 
         return messageDto;
     }
@@ -58,28 +79,45 @@ public class ControllerSoap{
     @WebResult(name = "MessageDto")
     public MessageDto deleteRecipe(@WebParam(name = "idRecipeBook") int idRecipeBook, @WebParam(name = "idRecipe") int idRecipe) {
 
-        MessageDto messageDto = new MessageDto("receta eliminada");
+        MessageDto messageDto = new MessageDto();
+
+        int flag = 0;
+
+        try {
+
+            recipeBookService.addOrRemoveRecipeToBook(idRecipeBook, idRecipe, flag);
+            messageDto.setMessage("Receta eliminada exitosamente");
+        } catch (Exception e) {
+            messageDto.setMessage("Error al eliminar la receta"+e.getMessage());
+        }
 
         return messageDto;
     }
 
     //lista los books de un usuario
     @WebMethod(operationName = "listRecipeBooks")
-    @WebResult(name = "MessageDto")
-    public MessageDto listRecipeBooks(@WebParam(name = "username") String username) {
+    @WebResult(name = "recipeBookList")
+    public List<RecipeBookDto> listRecipeBooks(@WebParam(name = "username") String username) {
 
-        MessageDto messageDto = new MessageDto("lista");
+        List<RecipeBookDto> recipeBookList = recipeBookService.list(username);
 
-        return messageDto;
+
+        return recipeBookList;
     }
 
     //retorna solo un book
     @WebMethod(operationName = "getRecipeBook")
-    @WebResult(name = "MessageDto")
-    public MessageDto getRecipeBook(@WebParam(name = "idRecipeBook") int idRecipeBook) {
+    @WebResult(name = "recipeBook")
+    public RecipeBookDto getRecipeBook(@WebParam(name = "idRecipeBook") int idRecipeBook){
 
-        MessageDto messageDto = new MessageDto("book");
+        RecipeBookDto recipeBook = new RecipeBookDto();
 
-        return messageDto;
+        try {
+            recipeBook = recipeBookService.findById(idRecipeBook);
+        }catch(Exception e){
+            log.error(e.getMessage());
+        }
+
+        return recipeBook;
     }
 }
