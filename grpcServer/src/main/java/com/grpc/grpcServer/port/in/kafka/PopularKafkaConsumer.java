@@ -1,9 +1,8 @@
-package com.grpc.grpcServer.port.in;
+package com.grpc.grpcServer.port.in.kafka;
 
 import com.grpc.grpcServer.port.in.deserializers.PopularDtoDeserializer;
-import com.grpc.grpcServer.port.in.dtos.PopularDto;
+import com.grpc.grpcServer.port.in.kafka.dtos.PopularDto;
 import com.grpc.grpcServer.service.PopularService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -14,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 

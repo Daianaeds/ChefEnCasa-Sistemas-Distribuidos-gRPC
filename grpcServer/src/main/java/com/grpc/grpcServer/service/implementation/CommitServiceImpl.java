@@ -2,7 +2,7 @@ package com.grpc.grpcServer.service.implementation;
 
 import com.grpc.grpcServer.entities.Comment;
 import com.grpc.grpcServer.mapper.CommentMapper;
-import com.grpc.grpcServer.port.in.dtos.CommentDto;
+import com.grpc.grpcServer.port.in.kafka.dtos.CommentDto;
 import com.grpc.grpcServer.repositories.CommentRepository;
 import com.grpc.grpcServer.service.CommentService;
 import lombok.extern.slf4j.Slf4j;

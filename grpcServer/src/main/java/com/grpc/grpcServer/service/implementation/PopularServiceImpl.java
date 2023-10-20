@@ -4,7 +4,7 @@ import com.grpc.grpcServer.entities.PopularRecipe;
 import com.grpc.grpcServer.entities.PopularUser;
 import com.grpc.grpcServer.entities.Recipe;
 import com.grpc.grpcServer.entities.User;
-import com.grpc.grpcServer.port.in.dtos.PopularDto;
+import com.grpc.grpcServer.port.in.kafka.dtos.PopularDto;
 import com.grpc.grpcServer.repositories.PopularRecipeRepository;
 import com.grpc.grpcServer.repositories.PopularUserRepository;
 import com.grpc.grpcServer.service.PopularService;
