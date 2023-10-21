@@ -1,9 +1,8 @@
-package com.grpc.grpcServer.port.in;
+package com.grpc.grpcServer.port.in.kafka;
 
 import com.grpc.grpcServer.port.in.deserializers.CommentDeserializer;
-import com.grpc.grpcServer.port.in.dtos.CommentDto;
+import com.grpc.grpcServer.port.in.kafka.dtos.CommentDto;
 import com.grpc.grpcServer.service.CommentService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;

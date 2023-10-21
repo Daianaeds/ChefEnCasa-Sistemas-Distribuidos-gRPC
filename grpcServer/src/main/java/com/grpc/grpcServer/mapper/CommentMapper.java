@@ -1,7 +1,7 @@
 package com.grpc.grpcServer.mapper;
 
 import com.grpc.grpcServer.entities.Comment;
-import com.grpc.grpcServer.port.in.dtos.CommentDto;
+import com.grpc.grpcServer.port.in.kafka.dtos.CommentDto;
 import com.grpc.grpcServer.service.RecipesService;
 import com.grpc.grpcServer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

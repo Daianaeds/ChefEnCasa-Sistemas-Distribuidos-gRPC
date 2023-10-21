@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,9 @@ public class User {
     @JoinTable(name = "favorite_recipes_user", joinColumns=@JoinColumn(name="id_user"),
             inverseJoinColumns=@JoinColumn(name="id_favorite_recipes"))
     private List<Recipe> favoriteRecipes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "id")
+    private List<RecipeBook> recipeBooks = new ArrayList<>();
 
     public User() {
     }
