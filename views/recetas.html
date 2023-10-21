@@ -319,7 +319,7 @@
                             html += "</div>";
                             var truncatedDescription = element.description.substring(0, 100);
                             html += "<p>"+truncatedDescription+"... "+"<a href='/recetaSola' role='button' onclick='guardarIdReceta(" + element.id + ")'>Ver más</a></p>";
-                            html += "<img src='"+element.pictures[0].url+"' alt='img-i' class='text-center imagen-receta' style='vertical-align: middle;' />";
+                            html += "<img src='" + element.pictures[0].url + "' alt='img-i' class='text-center imagen-receta' style='vertical-align: middle;' onerror=\"this.src='https://www.udacity.com/blog/wp-content/uploads/2021/02/img8.png'\" />";
                             html += "<p><strong>Usuario: </strong>"+element.username+"</p>"
                             html += "</div></div>";
                     })
