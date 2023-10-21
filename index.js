@@ -9,9 +9,6 @@ const cors = require('cors')
 const kafkaConfiguration = require('./Kafka/ConfigKafka.js')
 const SoapConfiguration = require('./Soap/client.js')
 
-//var soap = require('soap')
-//var url = 'http://127.0.0.1:8087/?WSDL'
-
 // Se instancia kafka.
 const kafkaConfig = new kafkaConfiguration()
 
