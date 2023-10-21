@@ -7,9 +7,15 @@ const jwt = require('jsonwebtoken')
 const path = require('path')
 const cors = require('cors')
 const kafkaConfiguration = require('./Kafka/ConfigKafka.js')
+const SoapConfiguration = require('./Soap/client.js')
+
+//var soap = require('soap')
+//var url = 'http://127.0.0.1:8087/?WSDL'
 
 // Se instancia kafka.
 const kafkaConfig = new kafkaConfiguration()
+
+const soapConfig = new SoapConfiguration()
 
 var corsOptions = {
   origin: '*',
@@ -360,6 +366,85 @@ function addPopularidadUsuario(favouriteUsername, score) {
   }
   kafkaConfig.produce('popularidadUsuario', kafkaMsjPopularidad)
 }
+
+//Crear recetario
+app.post('/save/recipebooks', (req, res) => {
+  let args = {
+    name: req.body.name,
+    username: req.body.username,
+  }
+  soapConfig.createRecipeBook(args, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+//Eliminar recetario
+app.delete('/delete/recipebooks', (req, res) => {
+  var idRecipeBook = req.body.idRecipeBook
+  soapConfig.deleteRecipeBook(idRecipeBook, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+//agregar receta de recetario
+app.post('/add-recipe', (req, res) => {
+  var args = {
+    idRecipeBook: req.body.idRecipeBook,
+    idRecipe: req.body.idRecipe,
+  }
+
+  soapConfig.addRecipeToRecipeBook(args, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+//Eliminar receta de recetario
+app.delete('/delete-recipe', (req, res) => {
+  var args = {
+    idRecipeBook: req.body.idRecipeBook,
+    idRecipe: req.body.idRecipe,
+  }
+
+  soapConfig.deleteRecipeToRecipeBook(args, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+app.get('/listRecipeBooks', (req, res) => {
+  soapConfig.listRecipeBooks(req.body.username, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+app.get('/recipebook', (req, res) => {
+  soapConfig.getRecipeBook(req.body.idRecipeBook, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
 
 app.listen(5555, () => {
   console.log('Client running at port %d', 5555)
