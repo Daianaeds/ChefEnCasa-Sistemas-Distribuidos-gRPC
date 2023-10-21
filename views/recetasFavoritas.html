@@ -120,6 +120,10 @@
         })
     })();
 
+    function guardarIdReceta(id){
+        window.localStorage.setItem("idReceta", id);
+    }
+
     function toggleFavoritosEnServidor(username, idRecipe) {
         var elemento = document.getElementById("btn-fav-"+idRecipe);
         var endpoint;
