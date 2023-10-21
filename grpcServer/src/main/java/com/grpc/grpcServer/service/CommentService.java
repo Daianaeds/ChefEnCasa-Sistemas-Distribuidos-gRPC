@@ -1,7 +1,7 @@
 package com.grpc.grpcServer.service;
 
 import com.grpc.grpcServer.entities.Comment;
-import com.grpc.grpcServer.port.in.dtos.CommentDto;
+import com.grpc.grpcServer.port.in.kafka.dtos.CommentDto;
 
 import java.util.List;
 

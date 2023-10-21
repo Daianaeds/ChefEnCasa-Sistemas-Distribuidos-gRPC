@@ -1,6 +1,6 @@
 package com.grpc.grpcServer.service;
 
-import com.grpc.grpcServer.port.in.dtos.PopularDto;
+import com.grpc.grpcServer.port.in.kafka.dtos.PopularDto;
 
 import java.util.List;
 
