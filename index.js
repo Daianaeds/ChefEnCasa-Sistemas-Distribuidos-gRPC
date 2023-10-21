@@ -32,6 +32,11 @@ app.get('/styles/home.css', function (req, res) {
   res.sendFile(__dirname + '/styles/home.css');
 });
 
+app.get('/Js/home.js', function (req, res) {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(__dirname + '/Js/home.js');
+});
+
 /*************************************/
 
 app.get('/publicarReceta', function (req, res) {
@@ -41,6 +46,11 @@ app.get('/publicarReceta', function (req, res) {
 app.get('/styles/publicarReceta.css', function (req, res) {
   res.setHeader('Content-Type', 'text/css');
   res.sendFile(__dirname + '/styles/publicarReceta.css');
+});
+
+app.get('/Js/publicarReceta.js', function (req, res) {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(__dirname + '/Js/publicarReceta.js');
 });
 
 /*************************************/
@@ -54,6 +64,11 @@ app.get('/styles/recetasFavoritas.css', function (req, res) {
   res.sendFile(__dirname + '/styles/recetasFavoritas.css');
 });
 
+app.get('/Js/recetasFavoritas.js', function (req, res) {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(__dirname + '/Js/recetasFavoritas.js');
+});
+
 /*************************************/
 
 app.get('/recetas', function (req, res) {
@@ -63,6 +78,11 @@ app.get('/recetas', function (req, res) {
 app.get('/styles/recetas.css', function (req, res) {
   res.setHeader('Content-Type', 'text/css');
   res.sendFile(__dirname + '/styles/recetas.css');
+});
+
+app.get('/Js/recetas.js', function (req, res) {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(__dirname + '/Js/recetas.js');
 });
 
 /*************************************/
@@ -76,6 +96,11 @@ app.get('/styles/usuarios.css', function (req, res) {
   res.sendFile(__dirname + '/styles/usuarios.css');
 });
 
+app.get('/Js/usuarios.js', function (req, res) {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(__dirname + '/Js/usuarios.js');
+});
+
 /*************************************/
 
 app.get('/register', function (req, res) {
@@ -85,6 +110,11 @@ app.get('/register', function (req, res) {
 app.get('/styles/register.css', function (req, res) {
   res.setHeader('Content-Type', 'text/css');
   res.sendFile(__dirname + '/styles/register.css');
+});
+
+app.get('/Js/register.js', function (req, res) {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(__dirname + '/Js/register.js');
 });
 
 /*************************************/
@@ -97,6 +127,12 @@ app.get('/styles/home.css', function (req, res) {
   res.setHeader('Content-Type', 'text/css');
   res.sendFile(__dirname + '/styles/home.css');
 });
+
+app.get('/Js/home.js', function (req, res) {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(__dirname + '/Js/home.js');
+});
+
 
 /*************************************/
 
