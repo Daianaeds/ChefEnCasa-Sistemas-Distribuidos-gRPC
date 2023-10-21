@@ -1,0 +1,24 @@
+.tabla2 {
+    opacity: 0.5;
+  }
+
+  .tabla3 {
+    background-color: white;
+    opacity: 1;
+    width: 250px;
+    height: 250px;
+    border-radius: 25px;
+    margin-top: 50px;
+  }
+
+  input[type="submit"],
+  input[type="button"] {
+    font-size: 20px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 2px solid red;
+  }
+
+  .tabla3 font {
+    margin-top: 10; /* Ajusta el valor según tus preferencias */
+  }
