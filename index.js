@@ -27,25 +27,65 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/views/index.html')
 })
 
+app.get('/styles/home.css', function (req, res) {
+  res.setHeader('Content-Type', 'text/css');
+  res.sendFile(__dirname + '/styles/home.css');
+});
+
+/*************************************/
+
 app.get('/publicarReceta', function (req, res) {
   res.sendFile(__dirname + '/views/publicarReceta.html')
 })
+
+app.get('/styles/publicarReceta.css', function (req, res) {
+  res.setHeader('Content-Type', 'text/css');
+  res.sendFile(__dirname + '/styles/publicarReceta.css');
+});
+
+/*************************************/
 
 app.get('/recetasFavoritas', function (req, res) {
   res.sendFile(__dirname + '/views/recetasFavoritas.html')
 })
 
+app.get('/styles/recetasFavoritas.css', function (req, res) {
+  res.setHeader('Content-Type', 'text/css');
+  res.sendFile(__dirname + '/styles/recetasFavoritas.css');
+});
+
+/*************************************/
+
 app.get('/recetas', function (req, res) {
   res.sendFile(__dirname + '/views/recetas.html')
 })
+
+app.get('/styles/recetas.css', function (req, res) {
+  res.setHeader('Content-Type', 'text/css');
+  res.sendFile(__dirname + '/styles/recetas.css');
+});
+
+/*************************************/
 
 app.get('/usuarios', function (req, res) {
   res.sendFile(__dirname + '/views/usuarios.html')
 })
 
+app.get('/styles/usuarios.css', function (req, res) {
+  res.setHeader('Content-Type', 'text/css');
+  res.sendFile(__dirname + '/styles/usuarios.css');
+});
+
+/*************************************/
+
 app.get('/register', function (req, res) {
   res.sendFile(__dirname + '/views/register.html')
 })
+
+app.get('/styles/register.css', function (req, res) {
+  res.setHeader('Content-Type', 'text/css');
+  res.sendFile(__dirname + '/styles/register.css');
+});
 
 /*************************************/
 
@@ -60,16 +100,19 @@ app.get('/styles/home.css', function (req, res) {
 
 /*************************************/
 
-app.get('/filterRecipe', (req, res) => {
-  res.sendFile(__dirname + '/views/filterRecipe.html')
-})
-
-app.get('/home', function (req, res) {
-  res.sendFile(__dirname + '/views/home.html')
-})
-
 app.get('/recetaSola', function (req, res) {
   res.sendFile(__dirname + '/views/recetaSola.html')
+})
+
+app.get('/styles/recetaSola.css', function (req, res) {
+  res.setHeader('Content-Type', 'text/css');
+  res.sendFile(__dirname + '/styles/recetaSola.css');
+});
+
+/*************************************/
+
+app.get('/filterRecipe', (req, res) => {
+  res.sendFile(__dirname + '/views/filterRecipe.html')
 })
 
 //FIN - ENDPOINTS PARA FRONT
