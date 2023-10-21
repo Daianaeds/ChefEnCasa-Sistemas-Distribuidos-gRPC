@@ -109,6 +109,11 @@ app.get('/styles/recetaSola.css', function (req, res) {
   res.sendFile(__dirname + '/styles/recetaSola.css');
 });
 
+app.get('/Js/recetaSola.js', function (req, res) {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(__dirname + '/Js/recetaSola.js');
+});
+
 /*************************************/
 
 app.get('/filterRecipe', (req, res) => {
