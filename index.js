@@ -47,9 +47,18 @@ app.get('/register', function (req, res) {
   res.sendFile(__dirname + '/views/register.html')
 })
 
+/*************************************/
+
 app.get('/home', function (req, res) {
-  res.sendFile(__dirname + '/views/home.html')
-})
+  res.sendFile(__dirname + '/views/home.html');
+});
+
+app.get('/styles/home.css', function (req, res) {
+  res.setHeader('Content-Type', 'text/css');
+  res.sendFile(__dirname + '/styles/home.css');
+});
+
+/*************************************/
 
 app.get('/filterRecipe', (req, res) => {
   res.sendFile(__dirname + '/views/filterRecipe.html')
