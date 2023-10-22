@@ -9,7 +9,6 @@ class SoapConfiguration {
       if (err) {
         callback(err, null)
       } else {
-        console.log('client:', client)
         client.createRecipeBook({ request: args }, function (err, result) {
           callback(null, result)
         })
@@ -22,7 +21,6 @@ class SoapConfiguration {
       if (err) {
         callback(err, null)
       } else {
-        console.log('client:', client)
         client.deleteRecipeBook({ idRecipeBook: args }, function (err, result) {
           callback(null, result)
         })
@@ -35,7 +33,6 @@ class SoapConfiguration {
       if (err) {
         callback(err, null)
       } else {
-        console.log('client:', client)
         client.addRecipe(
           { idRecipeBook: args.idRecipeBook, idRecipe: args.idRecipe },
           function (err, result) {
@@ -51,7 +48,6 @@ class SoapConfiguration {
       if (err) {
         callback(err, null)
       } else {
-        console.log('client:', client)
         client.deleteRecipe(
           { idRecipeBook: args.idRecipeBook, idRecipe: args.idRecipe },
           function (err, result) {
@@ -67,7 +63,6 @@ class SoapConfiguration {
       if (err) {
         callback(err, null)
       } else {
-        console.log('client:', client)
         client.listRecipeBooks({ username: args }, function (err, result) {
           callback(null, result)
         })
@@ -80,8 +75,19 @@ class SoapConfiguration {
       if (err) {
         callback(err, null)
       } else {
-        console.log('client:', client)
         client.getRecipeBook({ idRecipeBook: args }, function (err, result) {
+          callback(null, result)
+        })
+      }
+    })
+  }
+
+  addDenunciation(args, callback) {
+    soap.addDenunciation(url, (err, client) => {
+      if (err) {
+        callback(err, null)
+      } else {
+        client.getRecipeBook({ args: args }, function (err, result) {
           callback(null, result)
         })
       }
