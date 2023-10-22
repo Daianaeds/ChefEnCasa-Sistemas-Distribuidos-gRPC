@@ -542,6 +542,7 @@ app.get('/listRecipeBooks', (req, res) => {
   })
 })
 
+//traer todas las recetas de un book
 app.get('/recipebook', (req, res) => {
   soapConfig.getRecipeBook(req.body.idRecipeBook, (err, result) => {
     if (err) {
