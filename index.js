@@ -30,6 +30,22 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/views/index.html')
 })
 
+app.get('/styles/index.css', function (req, res) {
+  res.setHeader('Content-Type', 'text/css');
+  res.sendFile(__dirname + '/styles/index.css');
+});
+
+app.get('/Js/index.js', function (req, res) {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(__dirname + '/Js/index.js');
+});
+
+/*************************************/
+
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/views/home.html')
+})
+
 app.get('/styles/home.css', function (req, res) {
   res.setHeader('Content-Type', 'text/css');
   res.sendFile(__dirname + '/styles/home.css');
