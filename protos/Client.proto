@@ -9,6 +9,11 @@ message UserAuth{
   string password = 2;
 }
 
+message IsMod{
+  bool isMod = 1;
+  string error = 2;
+}
+
 message UserBasic {
   string name = 1;
   string username = 2;
@@ -134,10 +139,9 @@ message FindRecipeById{
   int32 idRecipe = 1;
 }
 
-
 service Service {
   rpc newUser(UserRequest) returns (UserResponse) {}
-  rpc authentication(UserAuth) returns (UserBasic) {}
+  rpc authentication(UserAuth) returns (IsMod) {}
   rpc listUser(Empty) returns (ResponseUsernameAndEmailList) {}
   rpc followUser(UserAndFavouriteUser) returns (ResponseOrRequestString) {}
   rpc unfollowUser(UserAndFavouriteUser) returns (ResponseOrRequestString) {}
