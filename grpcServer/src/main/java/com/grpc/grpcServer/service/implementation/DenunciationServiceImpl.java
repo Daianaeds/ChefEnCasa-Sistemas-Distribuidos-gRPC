@@ -59,6 +59,11 @@ public class DenunciationServiceImpl implements DenunciationService {
 
     @Override
     public void ignore(int idDenunciation) throws Exception {
+        Denunciation denunciation = denunciationRepository.getReferenceById(idDenunciation);
+
+        if(denunciation == null)throw new Exception("Denuncia no encontrada ");
+
+        denunciationRepository.delete(denunciation);
 
     }
 

@@ -32,7 +32,7 @@ public class DenunciationControllerSoap {
             denunciationService.save(username, motive, idRecipe);
             messageDto.setMessage("Denuncia realizada");
         } catch (Exception e) {
-            messageDto.setMessage("Error al guardar la denuncia   "+e.getMessage());
+            messageDto.setMessage("Error al guardar la denuncia   " + e.getMessage());
         }
 
         return messageDto;
@@ -48,9 +48,21 @@ public class DenunciationControllerSoap {
         log.error(" Error    " + e.getMessage());
     }
 
-
         return denunciationDtoList;
     }
 
+    @WebMethod(operationName = "ignoreDenunciation")
+    @WebResult(name = "MessageDto")
+    public MessageDto ignoreDenunciation(@WebParam(name = "idDenunciation") int idDenunciation) {
+        MessageDto messageDto = new MessageDto();
+        try {
+            denunciationService.ignore(idDenunciation);
+            messageDto.setMessage("Denuncia ignorada");
+        }catch (Exception e){
+            messageDto.setMessage("Error al ignorar la denuncia   " + e.getMessage());
+        }
+
+        return messageDto;
+    }
 
 }
