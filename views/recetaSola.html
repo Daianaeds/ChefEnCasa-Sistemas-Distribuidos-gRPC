@@ -1,103 +1,27 @@
 <!DOCTYPE html>
+
 <head>
     <title>Página de inicio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/styles/recetaSola.css">
 
     <style>
-        header{
-            width: 100%;
-            height: 160px;
-            background-image: url("../public/chefencasa.jpg");
-            background-repeat: no-repeat;
-            background-size: cover;    
-        }
-
-        body{
-            background-image: url('https://www.cursosadistancia.com.ar/img/article/estudiar-cursos-en-gastronomia-en-argentina');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-            backdrop-filter: blur(5px);
-        }
-
-        footer{
+        #bienvenida {
             text-align: left;
-            color:white;
-            background-color:black; 
-            height: 40px;       
-        }
-        
-        #bienvenida{
-            text-align: left;
-            color:white;
-            height: 40px; 
+            color: white;
+            height: 40px;
         }
 
-        .box-titulo{
-            
-            color: rgb(202, 69, 69);
-            font-style: oblique;
-            border: 1px solid #cf3333;
-            background-color: rgba(248, 248, 248, 0.8);
+        #content {
+            flex-grow: 1;
+            /* Permite que el contenido crezca para ocupar el espacio disponible */
         }
-
-        .menuUsuario{
-            margin: auto;
-            width: 500px;/*ancho del sombreado*/
-            font-family: 'Helvetica', sans-serif; /*tipografía texto*/
-        }
-
-        .nav li a{
-            border: 1px solid #e05555; /*anchura, estilo y color borde*/
-            background-color: #cccccc; /*color botón*/
-            color: #000000; /*color texto*/
-            text-decoration: none; /*decoración texto*/
-            padding: 10px 15px; /*espacio alrededor texto*/
-            display: block;
-            font-family: 'Helvetica', sans-serif; /*tipografía texto*/
-        }
-
-        .nav > li{
-            float: left;
-        }
-
-        .nav li a:hover{
-            background-color: #434343;
-        }
-
-        .nav li ul{
-            display: none;
-            position: absolute;
-            min-width: 140px;
-        }
-
-        .nav li:hover > ul{
-            display: block;
-        }
-
-        ul{
-            list-style: none;
-        }
-
-        .imagen-receta{
-            width: 300px;
-            height: 300px; 
-        }
-
-        .comment-container {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .btn-custom {
-            width: 100px; /* Ajusta el ancho como desees */
-            margin-top: 10px; /* Agrega espacio superior para separar el botón del textarea */
-        }
-
-      
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -116,19 +40,19 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/recetas">Recetas</a>
-              </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/usuarios">Usuarios</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/recetasFavoritas">Recetas favoritas</a>
+                <a class="nav-link" href="/usuarios">Usuarios</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/publicarReceta">Publicar</a>
+                <a class="nav-link" href="/recetasFavoritas">Recetas favoritas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/publicarReceta">Publicar</a>
             </li>
         </ul>
 
-        
+
         <div class="container-fluid mt-lg-4">
             <div class="row">
                 <div class="col-md-12 text-center box-titulo">
@@ -144,127 +68,17 @@
                     <div id="comentarios"></div>
                 </div>
             </div>
-        </div>        
-          
+        </div>
+
     </section>
 
-    <footer>      
+    <footer>
 
         <p>ChefEnCasaⓇ - Todos los derechos reservados ~ 2023 Distribuidos ~</p>
 
     </footer>
 
-
-<script>
-    (function (){
-        const username = window.localStorage.getItem("username");
-        const password = window.localStorage.getItem("password");
-        if(!username||!password){
-            window.location.replace("/");
-        }
-        const usernamePlaceholder = document.getElementById("usernamePlaceholder");
-        usernamePlaceholder.textContent = username;
-        const recetaID = window.localStorage.getItem("idReceta");
-        
-        fetch("/api/recipe/"+recetaID, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-
-        }).then(function(res){
-            return res.json();
-        }).then(function(obj){
-            const content = document.querySelector('#content-receta'); 
-            let html = "<div class='col-md-12 max-width: 800px'><div class='card card-body position-relative'>"
-                html += "<div class='row g-0'>"
-                html += "<div class='col-md-4'>"
-                html += "<img src='"+obj.pictures[0].url+"' alt='img-i' class='img-fluid rounded-start'/>"
-                html += "<label for='puntaje'>Calificar receta: </label>"
-                html += "<select id='puntaje' name='puntaje'>"
-                html += "<option value='1'>⭐</option>"
-                html += "<option value='2'>⭐⭐</option>"
-                html += "<option value='3'>⭐⭐⭐</option>" 
-                html += "<option value='4'>⭐⭐⭐⭐</option>"
-                html += "<option value='5'>⭐⭐⭐⭐⭐</option></select>"
-                html += "<button class='btn btn-primary' type='submit' onclick='enviarPuntaje("+obj.id+")'>Enviar</button>"
-                html += "</div>"
-                html += "<div class='col-md-8'>"
-                html += "<div class = 'card-body'>"
-                html += "<h3 class = 'card-title'>"+obj.title+"</h3><p><strong>"+"Creada por: </strong>"+ obj.username + "</p>"
-                html += "<p class='card-text'><strong>Promedio entre recetas: </strong>"+obj.score+"</p>"
-                html += "<p class = 'card-text'><strong>"+"Categoría: "+"</strong>"+obj.name_category+"</p>"
-                html += "<p class = 'card-text'><strong>"+"Descripción: "+"</strong>"+obj.description+"</p>"
-                html += "<p class = 'card-text'><strong>"+"Pasos: "+"</strong>"+obj.steps+"</p>"
-                html += "<p class = 'card-text'><strong>"+"Tiempo de cocción: "+"</strong>"+obj.time_minutes+" minutos"+"</p>"
-                html += "<p class = 'card-text'><strong>"+"Ingredientes: "+"</strong></p>"
-                html += "<ul>";
-                    obj.ingredients.forEach((ingredient) => {
-                        html += "<li>" +"● "+ingredient.nombre + " " + ingredient.cantidad + "</li>";
-                    });
-                    html += "</ul>";
-                html += "</div></div>"
-                html += "<p class='card-text'><strong>Comentarios:</strong></p>";
-                html += "<div class='comment-container'>";
-                html += "<textarea id='box-comentarios' class='col-md-6' rows='5' placeholder='Ingrese comentario..'></textarea>";
-                html += "<button class='btn btn-primary btn-custom' type='submit' onclick='enviarComentarios(\"" + username + "\","+ obj.id +")' >Enviar</button>";
-                html += "</div id='comentarios'>";
-                    obj.comments.forEach((comment)=>{
-                        html += "<p class = 'card-text'>"+comment.username+"</p>"
-                        html += "<p class = 'card-text'>"+comment.comment+"</p>"
-                    })
-                html += "</div></div>";
-
-            content.innerHTML = html;
-        }).catch(function(e){
-            console.error(e);
-        })
-    })();
-
-    function enviarPuntaje(idRecipe){
-        const select = document.querySelector('#puntaje');
-        const score = select.value;
-
-        fetch("/addStart", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ // Reemplaza con el nombre de usuario real
-                idRecipe: idRecipe,
-                score: score,
-            }),
-
-        }).then((response) => response.json()
-        ).then(function(obj){
-            // Maneja la respuesta del servidor si es necesario
-            console.log(obj);
-        }).catch(function(e){
-            console.error('Error al ingresar la puntuación: ', e);
-        })
-
-
-    }
-
-    function enviarComentarios(username, idRecipe ){
-        const textarea = document.querySelector('#box-comentarios');
-        const comentario = textarea.value;
-
-        fetch("/addComment", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                username: username, // Reemplaza con el nombre de usuario real
-                idRecipe: idRecipe,
-                comment: comentario,
-            }),
-
-        }).then((response) => response.json()
-        ).then(function(obj){
-            // Maneja la respuesta del servidor si es necesario
-            console.log(obj);
-        }).catch(function(e){
-            console.error('Error al ingresar comentarios: ', e);
-        })
-    }
-    
-</script>
+    <script src="/Js/recetaSola.js"></script>
 </body>
 
 </html>
