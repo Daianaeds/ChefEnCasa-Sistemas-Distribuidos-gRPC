@@ -551,13 +551,48 @@ app.get('/recipebook', (req, res) => {
   })
 })
 
-app.post('add/denunciation', (req, res) => {
+//DENUNCIAS
+//Agregar denuncias
+app.post('/add/denunciation', (req, res) => {
   let args = {
     idRecipe: req.body.idRecipe,
     username: req.body.username,
     motive: req.body.motive,
   }
   soapConfig.addDenunciation(args, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+//eliminar denuncias
+app.post('/delete/denunciation', (req, res) => {
+  soapConfig.deleteDenunciation(req.body.idDenunciation, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+//ignorar denuncias
+app.post('/ignore/denunciation', (req, res) => {
+  soapConfig.ignoreDenunciation(req.body.idDenunciation, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+//Listar denuncias
+app.get('/denunciations', (req, res) => {
+  soapConfig.denunciations({}, (err, result) => {
     if (err) {
       res.json(err)
     } else {

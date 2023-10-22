@@ -83,11 +83,47 @@ class SoapConfiguration {
   }
 
   addDenunciation(args, callback) {
-    soap.addDenunciation(url, (err, client) => {
+    soap.createClient(url, (err, client) => {
       if (err) {
         callback(err, null)
       } else {
-        client.getRecipeBook({ args: args }, function (err, result) {
+        client.addDenunciation({ args: args }, function (err, result) {
+          callback(null, result)
+        })
+      }
+    })
+  }
+
+  deleteDenunciation(args, callback) {
+    soap.createClient(url, (err, client) => {
+      if (err) {
+        callback(err, null)
+      } else {
+        client.deleteDenunciation({ idDenunciation: args }, function (err, result) {
+          callback(null, result)
+        })
+      }
+    })
+  }
+
+  ignoreDenunciation(args, callback) {
+    soap.createClient(url, (err, client) => {
+      if (err) {
+        callback(err, null)
+      } else {
+        client.ignoreDenunciation({ idDenunciation: args }, function (err, result) {
+          callback(null, result)
+        })
+      }
+    })
+  }
+
+  denunciations(args, callback) {
+    soap.createClient(url, (err, client) => {
+      if (err) {
+        callback(err, null)
+      } else {
+        client.listDenunciation({}, function (err, result) {
           callback(null, result)
         })
       }
