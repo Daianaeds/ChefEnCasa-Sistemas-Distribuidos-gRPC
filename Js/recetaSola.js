@@ -23,16 +23,17 @@
         html += "<div class='col-md-4'>"
         html += "<img src='" + obj.pictures[0].url + "' alt='img-i' class='img-fluid rounded-start'/>"
 
-        html += "<label for='puntaje'>Calificar receta: </label>"
-        html += "<select id='puntaje' name='puntaje'>"
-        html += "<option value='1'>⭐</option>"
-        html += "<option value='2'>⭐⭐</option>"
-        html += "<option value='3'>⭐⭐⭐</option>"
-        html += "<option value='4'>⭐⭐⭐⭐</option>"
-        html += "<option value='5'>⭐⭐⭐⭐⭐</option></select>"
-        html += "<button class='btn btn-success btn-sm' type='submit' onclick='enviarPuntaje(" + obj.id + ")'>Enviar</button>"
+        if (username !== obj.username) {
+            html += "<label for='puntaje'>Calificar receta: </label>"
+            html += "<select id='puntaje' name='puntaje'>"
+            html += "<option value='1'>⭐</option>"
+            html += "<option value='2'>⭐⭐</option>"
+            html += "<option value='3'>⭐⭐⭐</option>"
+            html += "<option value='4'>⭐⭐⭐⭐</option>"
+            html += "<option value='5'>⭐⭐⭐⭐⭐</option></select>"
+            html += "<button class='btn btn-success btn-sm' type='submit' onclick='enviarPuntaje(" + obj.id + ")'>Enviar</button>"
+        }
         html += "</div>"
-
         html += "<div class='col-md-8'>"
         html += "<div class = 'card-body'>"
         html += "<h3 class = 'card-title'>" + obj.title + "</h3>"
@@ -48,25 +49,27 @@
             html += "<li>" + "● " + ingredient.nombre + " " + ingredient.cantidad + "</li>";
         });
         html += "</ul>";
-        html += "<label><strong>Denunciar receta por: </strong></label>"
-        html += "<select id='denuncia' name='denuncia'>"
-        html += "<option value='1'>Contenido inapropiado</option>"
-        html += "<option value='2'>Ingredientes prohibidos</option>"
-        html += "<option value='3'>Peligroso para la salud</option></select>"
-        html += "<button class='btn btn-danger btn-sm' type='submit' onclick='enviarDenuncia(" + obj.id + ")'>Denunciar</button>"
-        html += "</div></div>"
 
+        if (username !== obj.username) {
+            html += "<label><strong>Denunciar receta por: </strong></label>"
+            html += "<select id='denuncia' name='denuncia'>"
+            html += "<option value='1'>Contenido inapropiado</option>"
+            html += "<option value='2'>Ingredientes prohibidos</option>"
+            html += "<option value='3'>Peligroso para la salud</option></select>"
+            html += "<button class='btn btn-danger btn-sm' type='submit' onclick='enviarDenuncia(" + obj.id + ")'>Denunciar</button>"
+            html += "</div></div>"
 
-        html += "<p class='card-text'><strong>Agregar comentarios:</strong></p>";
-        html += "<div class='comment-container'>";
-        html += "<textarea id='box-comentarios' class='col-md-6' rows='5' placeholder='Ingrese comentario..'></textarea>";
-        html += "<button class='btn btn-primary btn-custom' type='submit' onclick='enviarComentarios(\"" + username + "\"," + obj.id + ")' >Enviar</button>";
-        html += "</div id='comentarios'>";
-        html += "<h5>Comentarios de los usuarios sobre la receta:</h5>"
-        html += "<div class= 'card-body' >"
-        obj.comments.forEach((comment) => {
-            html += "<p><strong>" + comment.username + ": </strong> " + comment.comment + "</p>"
-        })
+            html += "<p class='card-text'><strong>Agregar comentarios:</strong></p>";
+            html += "<div class='comment-container'>";
+            html += "<textarea id='box-comentarios' class='col-md-6' rows='5' placeholder='Ingrese comentario..'></textarea>";
+            html += "<button class='btn btn-primary btn-custom' type='submit' onclick='enviarComentarios(\"" + username + "\"," + obj.id + ")' >Enviar</button>";
+            html += "</div id='comentarios'>";
+            html += "<h5>Comentarios de los usuarios sobre la receta:</h5>"
+            html += "<div class= 'card-body' >"
+            obj.comments.forEach((comment) => {
+                html += "<p><strong>" + comment.username + ": </strong> " + comment.comment + "</p>"
+            })
+        }
         html += "</div></div></div>";
 
         content.innerHTML = html;
