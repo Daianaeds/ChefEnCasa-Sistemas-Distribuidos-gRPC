@@ -1,3 +1,4 @@
+const indexRouter = require('./routes/indexRoutes.js');
 const client = require('./client.js')
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -8,38 +9,24 @@ const path = require('path')
 const cors = require('cors')
 const kafkaConfiguration = require('./Kafka/ConfigKafka.js')
 const SoapConfiguration = require('./Soap/client.js')
-
+const app = express()
 // Se instancia kafka.
 const kafkaConfig = new kafkaConfiguration()
-
 const soapConfig = new SoapConfiguration()
-
 var corsOptions = {
   origin: '*',
   optionsSuccessStatus: 200,
 }
 
-const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors(corsOptions))
 app.use('/public', express.static(path.join(__dirname, 'public')))
 
+app.use(indexRouter);
+
+/********************************************************************************************************************************************************************/
 //INICIO - ENDPOINTS PARA FRONT
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/views/index.html')
-})
-
-app.get('/styles/index.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css');
-  res.sendFile(__dirname + '/styles/index.css');
-});
-
-app.get('/Js/index.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript');
-  res.sendFile(__dirname + '/Js/index.js');
-});
-
 /*************************************/
 
 app.get('/', function (req, res) {
@@ -178,33 +165,7 @@ app.get('/filterRecipe', (req, res) => {
 //FIN - ENDPOINTS PARA FRONT
 
 //INICIO METODOS LLAMADAS GRPC
-app.post('/api/login', (req, res) => {
-  // Get user input
-  let userAuth = {
-    username: req.body.username,
-    password: req.body.password,
-  }
-  console.log(userAuth)
-  // Validar contenido de usuario y pass
-  if (!(userAuth.username && userAuth.password)) {
-    res.status(400).send('All input is required')
-  }
 
-  client.authentication(userAuth, (err, data) => {
-    if (data?.error == '') {
-      const response = { username: userAuth.username, token: '' }
-      // Crear token/ Sign toma algunos datos y un secreto o clave privada y crea un JWT firmado que contiene esos datos.
-      const TOKEN_KEY = 'RANDOMSTRING'
-      const token = jwt.sign({ username: userAuth.username }, TOKEN_KEY, {
-        expiresIn: '5h',
-      })
-      response.token = token
-      res.status(201).json(response)
-    } else {
-      res.status(400).json(data)
-    }
-  })
-})
 
 //Crear y modificar usuario.
 app.post('/api/save-user', (req, res) => {
