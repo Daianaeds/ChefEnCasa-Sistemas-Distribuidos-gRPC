@@ -140,10 +140,11 @@ function enviarComentarios(username, idRecipe) {
             comment: comentario,
         }),
 
-    }).then((response) => response.json()
-    ).then(function (obj) {
-        // Maneja la respuesta del servidor si es necesario
+    }).then((response) => {
+        return response.json();
+    }).then(function (obj) {
         console.log(obj);
+        location.reload();
     }).catch(function (e) {
         console.error('Error al ingresar comentarios: ', e);
     })
