@@ -47,6 +47,8 @@ public class User {
     @NotNull
     private String email;
 
+    private boolean isMod;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "favourite_user", joinColumns=@JoinColumn(name="id_user"),
             inverseJoinColumns=@JoinColumn(name="id_favourite"))

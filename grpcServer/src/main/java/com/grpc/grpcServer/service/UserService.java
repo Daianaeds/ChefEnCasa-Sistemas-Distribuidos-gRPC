@@ -1,5 +1,6 @@
 package com.grpc.grpcServer.service;
 
+import com.grpc.grpcServer.IsMod;
 import com.grpc.grpcServer.ResponseUsernameAndEmailList;
 import com.grpc.grpcServer.UserAuth;
 import com.grpc.grpcServer.UserBasic;
@@ -17,7 +18,7 @@ public interface UserService {
 
     ResponseUsernameAndEmailList findAll() throws Exception;
 
-    UserBasic auth(UserAuth auth) throws Exception;
+    IsMod auth(UserAuth auth) throws Exception;
 
     User find(UserAuth auth);
 
