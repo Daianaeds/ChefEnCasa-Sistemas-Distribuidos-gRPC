@@ -14,7 +14,12 @@ function validation(ev, from) {
           if (e.ok) {
             window.localStorage.setItem("username", ev.form.username.value);
             window.localStorage.setItem("password", ev.form.password.value);
-            window.location.replace("/home");
+            if (e.isMod == true){
+              window.location.replace("/homemod");
+            }
+            else{
+              window.location.replace("/home");
+            }
           } else {
             document.getElementById("error").innerHTML =
               "El usuario y/o contraseña son incorrectos";
