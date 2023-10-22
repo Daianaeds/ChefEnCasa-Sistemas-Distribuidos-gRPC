@@ -64,13 +64,16 @@
             html += "<textarea id='box-comentarios' class='col-md-6' rows='5' placeholder='Ingrese comentario..'></textarea>";
             html += "<button class='btn btn-primary btn-custom' type='submit' onclick='enviarComentarios(\"" + username + "\"," + obj.id + ")' >Enviar</button>";
             html += "</div id='comentarios'>";
-            html += "<h5>Comentarios de los usuarios sobre la receta:</h5>"
-            html += "<div class= 'card-body' >"
-            obj.comments.forEach((comment) => {
-                html += "<p><strong>" + comment.username + ": </strong> " + comment.comment + "</p>"
-            })
+
         }
-        html += "</div></div></div>";
+
+        html += "</div>";
+        html += "<h5>Comentarios de los usuarios sobre la receta:</h5>"
+        html += "<div class= 'card-body' >"
+        obj.comments.forEach((comment) => {
+            html += "<p><strong>" + comment.username + ": </strong> " + comment.comment + "</p>"
+        })
+        html += "</div></div>"
 
         content.innerHTML = html;
     }).catch(function (e) {
