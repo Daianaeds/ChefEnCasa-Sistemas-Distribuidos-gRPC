@@ -17,7 +17,7 @@
     }).then(function (obj) {
         const content = document.querySelector('#content-recetarios');
         let html = "<button class='btn btn-secondary' onclick='abrirModal()'>Crear recetario</button>"
-        html += "<div class='col-md-12 max-width: 800px'><div class='card card-body position-relative'>"
+        html += "<div class='col-md-12'><div class='card card-body position-relative'>"
         var i = 1;
         obj.recipeBookList.forEach((element) => {
             html += "<ul>"
@@ -39,19 +39,59 @@ function guardarIdRecetario(idRecetario) {
 
 // Función para abrir el modal
 function abrirModal() {
+    const content = document.querySelector('#modal');
+    let html = "<div class='modal'>";
+    html += "<form id='recetarioForm' class='modal-form'>";
+    html += "<div class='modal-content position-relative'>";
+    html += "<h5>Crear recetario</h5>";
+    html += "<div>";
+    html += "<input type='text' id='nombreRecetario' class='form-control' placeholder='Nombre del recetario' required>";
+    html += "</div>";
+    html += "<p id='mensaje'></p>";
+    html += "<div>";
+    html += "<div><button class='btn btn-secondary modal-button' onclick='cerrarModal()'>Cancelar</button>"
+    html += "<button class='btn btn-primary modal-button' onclick='crearRecetario()'>Crear</button></div></div>"
+    html += "</div>";
+    html += "</div>";
+    html += "</form></div>";
+    content.innerHTML = html;
+
     document.getElementById('modal').style.display = 'block';
 }
+
 
 // Función para cerrar el modal
 function cerrarModal() {
     document.getElementById('modal').style.display = 'none';
 }
 
+
 // Función para crear el recetario (debes agregar la lógica de tu fetch)
 function crearRecetario() {
-    const nombreRecetario = document.getElementById('nombreRecetario').value;
-    // Agregar lógica para crear el recetario con el nombre proporcionado
-    // Puedes usar un fetch aquí para enviar la solicitud al servidor
-    // Luego, cierra el modal
-    cerrarModal();
+    const input = document.querySelector('#nombreRecetario');
+    const nombreRecetario = input.value;
+    const usernameActive = window.localStorage.getItem("username");
+
+    fetch("/save/recipebooks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            name: nombreRecetario,
+            username: usernameActive,
+        }),
+
+    }).then(function (e) {
+        if (e.ok) {
+            location.reload();
+            cerrarModal();
+            window.alert("Registro exitoso!");
+        }
+    })
+        .catch(function (e) {
+            console.error(e);
+            document.getElementById("error").innerHTML = "Rompio";
+            window.alert("No creo la receta");
+        });
+
+
 }
