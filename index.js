@@ -570,7 +570,7 @@ app.post('/add/denunciation', (req, res) => {
 
 //eliminar denuncias
 app.post('/delete/denunciation', (req, res) => {
-  soapConfig.deleteDenunciation(req.body.idDenunciation, (err, result) => {
+  soapConfig.deleteDenunciation(req.body.idRecipe, (err, result) => {
     if (err) {
       res.json(err)
     } else {
