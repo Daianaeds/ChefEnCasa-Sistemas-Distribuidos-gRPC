@@ -8,7 +8,7 @@
     const usernamePlaceholder = document.getElementById("usernamePlaceholder");
     usernamePlaceholder.textContent = usernameActive;
 
-    fetch("/listRecipeBooks/" + usernameActive, {
+    fetch("/api/recipebook/listRecipeBooks/" + usernameActive, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
 
@@ -72,7 +72,7 @@ function crearRecetario() {
     const nombreRecetario = input.value;
     const usernameActive = window.localStorage.getItem("username");
 
-    fetch("/save/recipebooks", {
+    fetch("/api/recipebook/save/recipebooks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

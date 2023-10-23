@@ -44,7 +44,7 @@ function postRecipe(ev, from) {
     }
   }
 
-  fetch("/api/save-recipe", {
+  fetch("/api/recipe/save-recipe", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

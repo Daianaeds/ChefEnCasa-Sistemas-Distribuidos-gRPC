@@ -2,7 +2,7 @@ function validation(ev, from) {
   if (from == "register") {
     window.location.replace("/register");
   } else {
-    fetch("/api/users/login", {
+    fetch("/api/user/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

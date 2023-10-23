@@ -8,7 +8,7 @@
     const usernamePlaceholder = document.getElementById("usernamePlaceholder");
     usernamePlaceholder.textContent = usernameActive;
 
-    fetch("/favouriteUsers/" + usernameActive, {
+    fetch("/api/user/favouriteUsers/" + usernameActive, {
         Headers: { "Content-Type": "application/json" },
     }).then(function (res) {
         return res.json();
@@ -16,7 +16,7 @@
 
         var listaFavoritos = data;
 
-        fetch("/users", {
+        fetch("/api/user/users", {
             headers: { "Content-Type": "application/json" },
 
         }).then(function (res) {
@@ -60,10 +60,10 @@ function toggleFavoritosEnServidor(usernameActive, username) {
 
     if (elemento.textContent.trim() === "Unfollow") {
         elemento.textContent = "Follow";
-        endpoint = "/unfollow-user";
+        endpoint = "/api/user/unfollow-user";
     } else {
         elemento.textContent = "Unfollow";
-        endpoint = "/follow-user";
+        endpoint = "/api/user/follow-user";
     }
 
     // Realiza una solicitud HTTP POST al servidor para guardar los favoritos

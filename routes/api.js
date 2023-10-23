@@ -1,10 +1,14 @@
 const express = require('express');
-const usersRouter = require('./users'); 
+const userRouter = require('./user');
+const recetasRouter = require('./recipe');
+const recipeBookRouter = require('./recipeBook');
+const denunciasRouter = require('./denuncias')
 const apiRouter = express.Router();
 
-//apiRouter.use("/recetas", recetasRouter);
-apiRouter.use("/users", usersRouter);
-
+apiRouter.use("/recipe", recetasRouter);
+apiRouter.use("/user", userRouter);
+apiRouter.use("/recipebook", recipeBookRouter);
+apiRouter.use("/denuncias", denunciasRouter);
 
 
 module.exports = apiRouter;

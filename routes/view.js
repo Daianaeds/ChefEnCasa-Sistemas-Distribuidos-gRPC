@@ -62,7 +62,7 @@ viewRouter.get('/styles/recetasFavoritas.css', function (req, res) {
 
 viewRouter.get('/Js/recetasFavoritas.js', function (req, res) {
     res.setHeader('Content-Type', 'application/javascript');
-    res.sendFile(path.join(__dirname, '..', '/Js/publicarReceta.js'));
+    res.sendFile(path.join(__dirname, '..', '/Js/recetasFavoritas.js'));
 });
 
 /***************RECETAS**********************/

@@ -85,7 +85,7 @@ function enviarPuntaje(idRecipe) {
     const select = document.querySelector('#puntaje');
     const score = select.value;
 
-    fetch("/addStars", {
+    fetch("/api/recipe/addStars", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ // Reemplaza con el nombre de usuario real
@@ -108,7 +108,7 @@ function enviarDenuncia(idRecipe) {
     const select = document.querySelector('#puntaje');
     const score = select.value;
 
-    fetch("/addStars", {
+    fetch("/api/recipe/addStars", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ // Reemplaza con el nombre de usuario real
@@ -131,7 +131,7 @@ function enviarComentarios(username, idRecipe) {
     const textarea = document.querySelector('#box-comentarios');
     const comentario = textarea.value;
 
-    fetch("/addComment", {
+    fetch("/api/recipe/addComment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
