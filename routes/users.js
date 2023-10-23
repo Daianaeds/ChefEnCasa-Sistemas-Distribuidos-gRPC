@@ -1,22 +1,9 @@
+const client = require('../client.js')
 const express = require('express');
+const usersRouter = express.Router();
 const jwt = require('jsonwebtoken');
-const indexRouter = express.Router();
 
-indexRouter.get('/', function (req, res) {
-    res.sendFile(__dirname + '/../views/index.html')
-})
-
-indexRouter.get('/styles/index.css', function (req, res) {
-    res.setHeader('Content-Type', 'text/css');
-    res.sendFile(__dirname + '/../styles/index.css');
-});
-
-indexRouter.get('/Js/index.js', function (req, res) {
-    res.setHeader('Content-Type', 'application/javascript');
-    res.sendFile(__dirname + '/../Js/index.js');
-});
-
-indexRouter.post('/api/login', (req, res) => {
+usersRouter.post('/login', (req, res) => {
     // Get user input
     let userAuth = {
         username: req.body.username,
@@ -44,4 +31,4 @@ indexRouter.post('/api/login', (req, res) => {
     })
 })
 
-module.exports = indexRouter;
+module.exports = usersRouter;
