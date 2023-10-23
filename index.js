@@ -1,3 +1,5 @@
+const apiRouter = require('./routes/api.js');
+const viewRouter = require('./routes/view.js');
 const client = require('./client.js')
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -8,22 +10,21 @@ const path = require('path')
 const cors = require('cors')
 const kafkaConfiguration = require('./Kafka/ConfigKafka.js')
 const SoapConfiguration = require('./Soap/client.js')
+// Se instancia kafka.
+const kafkaConfig = new kafkaConfiguration()
+const app = express()
+
 const swaggerUi = require('swagger-ui-express')
 const swaggerJSDoc = require('swagger-jsdoc')
 
-// Se instancia kafka.
-const kafkaConfig = new kafkaConfiguration()
-
 //Se instancia Soap.
 const soapConfig = new SoapConfiguration()
-
 var corsOptions = {
   origin: '*',
   optionsSuccessStatus: 200,
 }
 
-const app = express()
-
+//Configuraciones Swagger
 const swaggerOptions = {
   swaggerDefinition: {
     openapi: '3.0.0',
@@ -38,206 +39,13 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJSDoc(swaggerOptions)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
+//Configuraciones para routeo
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors(corsOptions))
 app.use('/public', express.static(path.join(__dirname, 'public')))
-
-//INICIO - ENDPOINTS PARA FRONT
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/views/index.html')
-})
-
-app.get('/styles/index.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css')
-  res.sendFile(__dirname + '/styles/index.css')
-})
-
-app.get('/Js/index.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript')
-  res.sendFile(__dirname + '/Js/index.js')
-})
-
-/*************************************/
-
-app.get('/recetarios', function (req, res) {
-  res.sendFile(__dirname + '/views/recetarios.html')
-})
-
-app.get('/styles/recetarios.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css')
-  res.sendFile(__dirname + '/styles/recetarios.css')
-})
-
-app.get('/Js/recetarios.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript')
-  res.sendFile(__dirname + '/Js/recetarios.js')
-})
-
-/*************************************/
-
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/views/home.html')
-})
-
-app.get('/styles/home.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css')
-  res.sendFile(__dirname + '/styles/home.css')
-})
-
-app.get('/Js/home.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript')
-  res.sendFile(__dirname + '/Js/home.js')
-})
-
-/*************************************/
-
-app.get('/publicarReceta', function (req, res) {
-  res.sendFile(__dirname + '/views/publicarReceta.html')
-})
-
-app.get('/styles/publicarReceta.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css')
-  res.sendFile(__dirname + '/styles/publicarReceta.css')
-})
-
-app.get('/Js/publicarReceta.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript')
-  res.sendFile(__dirname + '/Js/publicarReceta.js')
-})
-
-/*************************************/
-
-app.get('/recetasFavoritas', function (req, res) {
-  res.sendFile(__dirname + '/views/recetasFavoritas.html')
-})
-
-app.get('/styles/recetasFavoritas.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css')
-  res.sendFile(__dirname + '/styles/recetasFavoritas.css')
-})
-
-app.get('/Js/recetasFavoritas.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript')
-  res.sendFile(__dirname + '/Js/recetasFavoritas.js')
-})
-
-/*************************************/
-
-app.get('/recetas', function (req, res) {
-  res.sendFile(__dirname + '/views/recetas.html')
-})
-
-app.get('/styles/recetas.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css')
-  res.sendFile(__dirname + '/styles/recetas.css')
-})
-
-app.get('/Js/recetas.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript')
-  res.sendFile(__dirname + '/Js/recetas.js')
-})
-
-/*************************************/
-
-app.get('/usuarios', function (req, res) {
-  res.sendFile(__dirname + '/views/usuarios.html')
-})
-
-app.get('/styles/usuarios.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css')
-  res.sendFile(__dirname + '/styles/usuarios.css')
-})
-
-app.get('/Js/usuarios.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript')
-  res.sendFile(__dirname + '/Js/usuarios.js')
-})
-
-/*************************************/
-
-app.get('/register', function (req, res) {
-  res.sendFile(__dirname + '/views/register.html')
-})
-
-app.get('/styles/register.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css')
-  res.sendFile(__dirname + '/styles/register.css')
-})
-
-app.get('/Js/register.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript')
-  res.sendFile(__dirname + '/Js/register.js')
-})
-
-/*************************************/
-
-app.get('/home', function (req, res) {
-  res.sendFile(__dirname + '/views/home.html')
-})
-
-app.get('/styles/home.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css')
-  res.sendFile(__dirname + '/styles/home.css')
-})
-
-app.get('/Js/home.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript')
-  res.sendFile(__dirname + '/Js/home.js')
-})
-
-/*************************************/
-
-app.get('/recetaSola', function (req, res) {
-  res.sendFile(__dirname + '/views/recetaSola.html')
-})
-
-app.get('/styles/recetaSola.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css')
-  res.sendFile(__dirname + '/styles/recetaSola.css')
-})
-
-app.get('/Js/recetaSola.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript')
-  res.sendFile(__dirname + '/Js/recetaSola.js')
-})
-
-/*************************************/
-
-app.get('/filterRecipe', (req, res) => {
-  res.sendFile(__dirname + '/views/filterRecipe.html')
-})
-
-//FIN - ENDPOINTS PARA FRONT
-
-//INICIO METODOS LLAMADAS GRPC
-app.post('/api/login', (req, res) => {
-  // Get user input
-  let userAuth = {
-    username: req.body.username,
-    password: req.body.password,
-  }
-  console.log(userAuth)
-  // Validar contenido de usuario y pass
-  if (!(userAuth.username && userAuth.password)) {
-    res.status(400).send('All input is required')
-  }
-
-  client.authentication(userAuth, (err, data) => {
-    if (data?.error == '') {
-      const response = { username: userAuth.username, token: '' }
-      // Crear token/ Sign toma algunos datos y un secreto o clave privada y crea un JWT firmado que contiene esos datos.
-      const TOKEN_KEY = 'RANDOMSTRING'
-      const token = jwt.sign({ username: userAuth.username }, TOKEN_KEY, {
-        expiresIn: '5h',
-      })
-      response.token = token
-      res.json(data)
-    } else {
-      res.status(400).json(data)
-    }
-  })
-})
+app.use("/api", apiRouter);
+app.use("/", viewRouter);
 
 //Crear y modificar usuario.
 app.post('/api/save-user', (req, res) => {

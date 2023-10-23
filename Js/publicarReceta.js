@@ -38,7 +38,7 @@ function postRecipe(ev, from) {
     if (isArray.length > 5) {
       document.getElementById("error").innerHTML =
         "Error - No debe haber más de 5 imágenes";
-        return;
+      return;
     } else {
       var newPictureArray = createArrayToPicture(picturesArray);
     }
