@@ -2,10 +2,18 @@ openapi: 3.0.0
 info:
   title: Mi API sistemas distribuidos
   version: 1.0.0
+
+tags:
+  - name: Recetas
+    description: Operaciones relacionadas con recetas y recetarios
+  - name: Denuncias
+    description: Operaciones relacionadas con denuncias
 paths:
   /save/recipebooks:
     post:
       summary: Crear recetario
+      tags:
+        - Recetas
       requestBody:
         description: Datos de entrada
         required: true
@@ -27,6 +35,8 @@ paths:
   /delete/recipebooks:
     post:
       summary: Eliminar recetario
+      tags:
+        - Recetas
       requestBody:
         description: Datos de entrada
         required: true
@@ -46,6 +56,8 @@ paths:
   /add-recipe:
     post:
       summary: Agregar receta a recetario
+      tags:
+        - Recetas
       requestBody:
         description: Datos de entrada
         required: true
@@ -67,6 +79,8 @@ paths:
   /delete-recipe:
     delete:
       summary: Eliminar receta a recetario
+      tags:
+        - Recetas
       requestBody:
         description: Datos de entrada
         required: true
@@ -88,6 +102,8 @@ paths:
   /listRecipeBooks/{username}:
     get:
       summary: Listar todas los recetarios de un usuario
+      tags:
+        - Recetas
       parameters:
         - name: username
           in: query
@@ -126,6 +142,8 @@ paths:
   /add/denunciation:
     post:
       summary: Agregar denuncia
+      tags:
+        - Denuncias
       requestBody:
         description: Datos de entrada
         required: true
@@ -149,6 +167,8 @@ paths:
   /ignore/denunciation:
     post:
       summary: Ignorar denuncia
+      tags:
+        - Denuncias
       requestBody:
         description: Datos de entrada
         required: true
@@ -169,6 +189,8 @@ paths:
   /denunciations:
     get:
       summary: listar denuncias
+      tags:
+        - Denuncias
       responses:
         '200':
           description: Listado de recetas
