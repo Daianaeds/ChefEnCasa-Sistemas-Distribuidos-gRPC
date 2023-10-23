@@ -1,5 +1,6 @@
 const soap = require('soap')
 const url = 'http://127.0.0.1:8087/?WSDL'
+const urlDenunciation = 'http://127.0.0.1:8088/?WSDL'
 
 class SoapConfiguration {
   constructor() {}
@@ -83,11 +84,49 @@ class SoapConfiguration {
   }
 
   addDenunciation(args, callback) {
-    soap.addDenunciation(url, (err, client) => {
+    soap.createClient(urlDenunciation, (err, client) => {
       if (err) {
         callback(err, null)
       } else {
-        client.getRecipeBook({ args: args }, function (err, result) {
+        client.createDenunciation(
+          { username: args.username, motive: args.motive, idRecipe: args.idRecipe },
+          function (err, result) {
+            callback(null, result)
+          }
+        )
+      }
+    })
+  }
+
+  deleteDenunciation(args, callback) {
+    soap.createClient(urlDenunciation, (err, client) => {
+      if (err) {
+        callback(err, null)
+      } else {
+        client.deleteDenunciation({ idDenunciation: args }, function (err, result) {
+          callback(null, result)
+        })
+      }
+    })
+  }
+
+  ignoreDenunciation(args, callback) {
+    soap.createClient(urlDenunciation, (err, client) => {
+      if (err) {
+        callback(err, null)
+      } else {
+        client.ignoreDenunciation({ idDenunciation: args }, function (err, result) {
+          callback(null, result)
+        })
+      }
+    })
+  }
+  denunciations(args, callback) {
+    soap.createClient(urlDenunciation, (err, client) => {
+      if (err) {
+        callback(err, null)
+      } else {
+        client.denunciationList({}, function (err, result) {
           callback(null, result)
         })
       }
