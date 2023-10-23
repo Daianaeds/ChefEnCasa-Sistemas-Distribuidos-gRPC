@@ -8,81 +8,50 @@
     const usernamePlaceholder = document.getElementById("usernamePlaceholder");
     usernamePlaceholder.textContent = usernameActive;
 
-    fetch("/favouriteUsers/" + usernameActive, {
-        Headers: { "Content-Type": "application/json" },
+    fetch("/listRecipeBooks/" + usernameActive, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+
     }).then(function (res) {
         return res.json();
-    }).then(data => {
-
-        var listaFavoritos = data;
-
-        fetch("/users", {
-            headers: { "Content-Type": "application/json" },
-
-        }).then(function (res) {
-            return res.json();
-        }).then(function (obj) {
-            const content = document.querySelector('#content-usuarios');
-            let html = "<div class='container row'>";
-
-            obj.response.forEach((element) => {
-
-                if (element.username !== usernameActive) {
-                    var claseBoton = "Follow"; // boton follow
-
-                    var usuarioEncontrado = listaFavoritos.response.find(function (usuarioFav) {
-                        return usuarioFav.username === element.username;
-                    });
-
-                    if (usuarioEncontrado) {
-                        claseBoton = "Unfollow"; // boton unfollow
-                    }
-
-                    html += "<div class='col-mc-1'><div class='card card-body position-relative' style='width: 18rem;' style= 'display:block'>"
-                    html += "<p>" + element.username + "</p>"
-                    html += "<button id='btn-fav-" + element.username + "' class='btn btn-primary ml-auto' onclick='toggleFavoritosEnServidor(\"" + usernameActive + "\",\"" + element.username + "\")' data-username='${element.username}' >" + claseBoton + "</button>"
-                    html += "</div>"
-                }
-            })
-            html += '</div>'
-            content.innerHTML = html;
-        }).catch(function (e) {
-            console.error(e);
+    }).then(function (obj) {
+        const content = document.querySelector('#content-recetarios');
+        let html = "<button class='btn btn-secondary' onclick='abrirModal()'>Crear recetario</button>"
+        html += "<div class='col-md-12 max-width: 800px'><div class='card card-body position-relative'>"
+        var i = 1;
+        obj.recipeBookList.forEach((element) => {
+            html += "<ul>"
+            html += "<ol><strong>" + i + " - Recetario:  " + "</strong>" + element.nameBook + "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+            html += "<a href='/recetasRecetario' role='button' onclick='guardarIdRecetario(" + element.id + ")'>Ver recetario...</a></ol>"
+            html += "</ul>"
+            i++;
         })
+        html += "</div></div>"
+        content.innerHTML = html;
     }).catch(function (e) {
         console.error(e);
     })
 })();
 
-function toggleFavoritosEnServidor(usernameActive, username) {
-    var elemento = document.getElementById("btn-fav-" + username);
-    var endpoint;
+function guardarIdRecetario(idRecetario) {
+    window.localStorage.setItem("idRecetario", idRecetario);
+}
 
-    if (elemento.textContent.trim() === "Unfollow") {
-        elemento.textContent = "Follow";
-        endpoint = "/unfollow-user";
-    } else {
-        elemento.textContent = "Unfollow";
-        endpoint = "/follow-user";
-    }
+// Función para abrir el modal
+function abrirModal() {
+    document.getElementById('modal').style.display = 'block';
+}
 
-    // Realiza una solicitud HTTP POST al servidor para guardar los favoritos
-    fetch(endpoint, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            username: usernameActive, // Reemplaza con el nombre de usuario real
-            favouriteUsername: username,
-        }),
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            // Maneja la respuesta del servidor si es necesario
-            console.log(data);
-        })
-        .catch((error) => {
-            console.error('Error al guardar los favoritos:', error);
-        });
+// Función para cerrar el modal
+function cerrarModal() {
+    document.getElementById('modal').style.display = 'none';
+}
+
+// Función para crear el recetario (debes agregar la lógica de tu fetch)
+function crearRecetario() {
+    const nombreRecetario = document.getElementById('nombreRecetario').value;
+    // Agregar lógica para crear el recetario con el nombre proporcionado
+    // Puedes usar un fetch aquí para enviar la solicitud al servidor
+    // Luego, cierra el modal
+    cerrarModal();
 }
