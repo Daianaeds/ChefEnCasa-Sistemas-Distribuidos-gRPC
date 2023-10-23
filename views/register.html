@@ -1,134 +1,92 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="/styles/register.css">
 
-    <title>Chef en casa</title>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/styles/register.css">
 
-    <style>
+  <title>Chef en casa</title>
 
-      #miFormulario {
-        text-align: center;
-      }
+  <style>
+    #miFormulario {
+      text-align: center;
+    }
 
-      #email,
-      #password,
-      #name,
-      #username {
-        font-size: 20px;
-      }
+    #email,
+    #password,
+    #name,
+    #username {
+      font-size: 20px;
+    }
+  </style>
 
-    </style>
+  <script src="/Js/register.js"></script>
 
-    <script src="/Js/register.js"></script>
+</head>
 
-  </head>
-
-  <body>
-    <table
-      class="tabla1"
-      background="/public/chefencasa.jpg"
-      width="100%"
-      height="150"
-      border="0"
-      cellspacing="0"
-      cellpadding="0"
-    ></table>
-    <table
-      class="tabla2"
-      width="100%"
-      height="800"
-      border="0"
-      cellspacing="0"
-      cellpadding="0"
-    >
-      <tr>
-        <td
-          style="
+<body>
+  <table class="tabla1" background="/public/chefencasa.jpg" width="100%" height="150" border="0" cellspacing="0"
+    cellpadding="0"></table>
+  <table class="tabla2" width="100%" height="800" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td style="
             background-image: url('https://www.cursosadistancia.com.ar/img/article/estudiar-cursos-en-gastronomia-en-argentina');
-          "
-        >
-          <table class="tabla3" align="center" border="0">
-            <tr>
-              <td align="center">
-                <font face="Verdana, Geneva, sans-serif" color="black" size="4"
-                  ><br /><strong>Formulario de registro</strong>
-                </font>
-              </td>
-            </tr>
-            <tr>
-              <td align="center">
-                <form name="register" method="post" action="/save-user">
-                  <table
-                    align="center"
-                    border="0"
-                    cellspacing="2"
-                    cellpadding="2"
-                  >
-                    <tr>
-                      <td><label for="name">Nombre:</label></td>
-                      <td>
-                        <input type="name" name="name" id="name" required />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><label for="email">E-mail:</label></td>
-                      <td>
-                        <input type="email" name="email" id="email" required />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><label for="username">Nombre Usuario:</label></td>
-                      <td>
-                        <input
-                          type="username"
-                          name="username"
-                          id="username"
-                          required
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><label for="password">Contraseña:</label></td>
-                      <td>
-                        <input
-                          type="password"
-                          name="password"
-                          id="password"
-                          required
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" align="center">
-                        <br />
-                        <input
-                          type="button"
-                          name="registerButton"
-                          value="Registrarse"
-                          onclick="registrarse(this, 'register'); return false;"
-                        />
-                      </td>
-                    </tr>
-                  </table>
-                </form>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  </body>
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-    crossorigin="anonymous"
-  ></script>
+          ">
+        <table class="tabla3" align="center" border="0">
+          <tr>
+            <td align="center">
+              <font face="Verdana, Geneva, sans-serif" color="black" size="4"><br /><strong>Formulario de
+                  registro</strong>
+              </font>
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
+              <form name="register" method="post" action="/save-user">
+                <table align="center" border="0" cellspacing="2" cellpadding="2">
+                  <tr>
+                    <td><label for="name">Nombre:</label></td>
+                    <td>
+                      <input type="name" name="name" id="name" required />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="email">E-mail:</label></td>
+                    <td>
+                      <input type="email" name="email" id="email" required />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="username">Nombre Usuario:</label></td>
+                    <td>
+                      <input type="username" name="username" id="username" required />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="password">Contraseña:</label></td>
+                    <td>
+                      <input type="password" name="password" id="password" required />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="center">
+                      <br />
+                      <input type="button" name="registerButton" value="Registrarse"
+                        onclick="registrarse(this, 'register'); return false;" />
+                    </td>
+                  </tr>
+                </table>
+              </form>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
 </html>

@@ -4,6 +4,7 @@ import com.grpc.grpcServer.*;
 import com.grpc.grpcServer.Empty;
 import com.grpc.grpcServer.FindRecipeById;
 import com.grpc.grpcServer.FindRecipeRequest;
+import com.grpc.grpcServer.IsMod;
 import com.grpc.grpcServer.RecipeRequest;
 import com.grpc.grpcServer.RecipeResponse;
 import com.grpc.grpcServer.RecipeResponseBasic;
@@ -55,14 +56,14 @@ public class ServiceImpl extends ServiceGrpc.ServiceImplBase {
     }
 
     @Override
-    public void authentication(UserAuth auth, StreamObserver<UserBasic> responseObserver) {
+    public void authentication(UserAuth auth, StreamObserver<IsMod> responseObserver) {
         try {
-            UserBasic userBasic = userService.auth(auth);
-            responseObserver.onNext(userBasic);
+            IsMod isMod = userService.auth(auth);
+            responseObserver.onNext(isMod);
             responseObserver.onCompleted();
 
         } catch (Exception e) {
-            UserBasic response = UserBasic.newBuilder()
+            IsMod response = IsMod.newBuilder()
                     .setError(e.getMessage())
                     .build();
             responseObserver.onNext(response);

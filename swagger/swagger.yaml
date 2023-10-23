@@ -1,0 +1,196 @@
+openapi: 3.0.0
+info:
+  title: Mi API sistemas distribuidos
+  version: 1.0.0
+paths:
+  /save/recipebooks:
+    post:
+      summary: Crear recetario
+      requestBody:
+        description: Datos de entrada
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                name:
+                  type: string
+      responses:
+        '200':
+          description: Libro creado exitosamente
+        '400':
+          description: Error al crear libro
+
+  /delete/recipebooks:
+    post:
+      summary: Eliminar recetario
+      requestBody:
+        description: Datos de entrada
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idRecipe:
+                  type: integer
+      responses:
+        '200':
+          description: Libro eliminado exitosamente
+        '400':
+          description: Error al eliminar libro
+
+  /add-recipe:
+    post:
+      summary: Agregar receta a recetario
+      requestBody:
+        description: Datos de entrada
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idRecipeBook:
+                  type: integer
+                idRecipe:
+                  type: integer
+      responses:
+        '200':
+          description: Receta agregada exitosamente
+        '400':
+          description: Error al agregar la receta
+
+  /delete-recipe:
+    delete:
+      summary: Eliminar receta a recetario
+      requestBody:
+        description: Datos de entrada
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idRecipeBook:
+                  type: integer
+                idRecipe:
+                  type: integer
+      responses:
+        '200':
+          description: Receta eliminada exitosamente
+        '400':
+          description: Error al eliminar la receta
+
+  /listRecipeBooks/{username}:
+    get:
+      summary: Listar todas los recetarios de un usuario
+      parameters:
+        - name: username
+          in: query
+          description: Nombre usuario
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Listado de recetas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Id de recetario
+                  nameBook:
+                    type: integer
+                    description: Nombre del recetario
+                  receta:
+                    type: object
+                    description: Lista de recetas
+                    properties:
+                      id:
+                        type: integer
+                        description: id de Receta
+                      title:
+                        type: string
+                        description: titulo de receta
+                      picture:
+                        type: string
+                        description: primera foto de la receta
+
+  /add/denunciation:
+    post:
+      summary: Agregar denuncia
+      requestBody:
+        description: Datos de entrada
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                idRecipe:
+                  type: integer
+                motive:
+                  type: integer
+      responses:
+        '200':
+          description: Denuncia realizada
+        '400':
+          description: Error al guardar la denuncia
+
+  /ignore/denunciation:
+    post:
+      summary: Ignorar denuncia
+      requestBody:
+        description: Datos de entrada
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idDenunciation:
+                  type: integer
+
+      responses:
+        '200':
+          description: Denuncia ignorada
+        '400':
+          description: Error al ignorar la denuncia
+
+  /denunciations:
+    get:
+      summary: listar denuncias
+      responses:
+        '200':
+          description: Listado de recetas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Id de recetario
+                  username:
+                    type: string
+                    description: Usuario que realizo la denuncia
+                  motive:
+                    type: string
+                    description: Motivo de la denuncia
+                  idRecipe:
+                    type: integer
+                    description: Id de la receta
+                  title:
+                    type: string
+                    description: Titulo de la receta
+        '400':
+          description: Error

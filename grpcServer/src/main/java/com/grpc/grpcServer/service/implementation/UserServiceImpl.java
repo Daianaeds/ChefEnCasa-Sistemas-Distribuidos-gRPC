@@ -1,5 +1,6 @@
 package com.grpc.grpcServer.service.implementation;
 
+import com.grpc.grpcServer.IsMod;
 import com.grpc.grpcServer.ResponseUsernameAndEmailList;
 import com.grpc.grpcServer.UserAuth;
 import com.grpc.grpcServer.UserBasic;
@@ -46,8 +47,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserBasic auth(UserAuth auth) throws Exception {
-        return authentication(auth.getUsername(), auth.getPassword());
+    public IsMod auth(UserAuth auth) throws Exception {
+        return IsMod.newBuilder()
+                .setIsMod(authentication(auth.getUsername(), auth.getPassword()))
+                .build();
     }
 
     @Override
@@ -72,12 +75,12 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    private UserBasic authentication(String username, String password) throws Exception {
+    private boolean authentication(String username, String password) throws Exception {
         User user = userRepository.findByUsername(username);
         if (user == null) throw new Exception("Los datos ingresados no son correctos. Intente nuevamente");
         if (!user.getPassword().equals(password))
             throw new Exception("Los datos ingresados no son correctos. Intente nuevamente");
-        return userMapper.convertUsertoUserBasic(user);
+        return user.isMod();
     }
 
     @Override

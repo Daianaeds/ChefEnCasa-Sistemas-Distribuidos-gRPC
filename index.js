@@ -10,23 +10,42 @@ const path = require('path')
 const cors = require('cors')
 const kafkaConfiguration = require('./Kafka/ConfigKafka.js')
 const SoapConfiguration = require('./Soap/client.js')
-const app = express()
 // Se instancia kafka.
 const kafkaConfig = new kafkaConfiguration()
+const app = express()
+
+const swaggerUi = require('swagger-ui-express')
+const swaggerJSDoc = require('swagger-jsdoc')
+
+//Se instancia Soap.
 const soapConfig = new SoapConfiguration()
 var corsOptions = {
   origin: '*',
   optionsSuccessStatus: 200,
 }
 
+//Configuraciones Swagger
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Mi API sistemas-distribuidos',
+      version: '1.0.0',
+    },
+  },
+  apis: ['./swagger/swagger.yaml'],
+}
+
+const swaggerSpec = swaggerJSDoc(swaggerOptions)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+
+//Configuraciones para routeo
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors(corsOptions))
 app.use('/public', express.static(path.join(__dirname, 'public')))
-
 app.use("/api", apiRouter);
 app.use("/", viewRouter);
-
 
 //Crear y modificar usuario.
 app.post('/api/save-user', (req, res) => {
@@ -265,9 +284,9 @@ app.post('/addComment', (req, res) => {
 app.post('/addStars', (req, res) => {
   try {
     addPopularidadReceta(req.body.idRecipe, req.body.score)
-    res.status(200).json({ message: 'Receta puntuada correctamente' });
+    res.status(200).json({ message: 'Receta puntuada correctamente' })
   } catch (error) {
-    res.status(500).json({ error: 'Error al guardar el puntaje de estrellas' });
+    res.status(500).json({ error: 'Error al guardar el puntaje de estrellas' })
   }
 })
 
@@ -354,8 +373,8 @@ app.delete('/delete-recipe', (req, res) => {
   })
 })
 
-app.get('/listRecipeBooks', (req, res) => {
-  soapConfig.listRecipeBooks(req.body.username, (err, result) => {
+app.get('/listRecipeBooks/:username', (req, res) => {
+  soapConfig.listRecipeBooks(req.params.username, (err, result) => {
     if (err) {
       res.json(err)
     } else {
@@ -364,8 +383,59 @@ app.get('/listRecipeBooks', (req, res) => {
   })
 })
 
+//traer todas las recetas de un book
 app.get('/recipebook', (req, res) => {
   soapConfig.getRecipeBook(req.body.idRecipeBook, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+//DENUNCIAS
+//Agregar denuncias
+app.post('/add/denunciation', (req, res) => {
+  let args = {
+    idRecipe: req.body.idRecipe,
+    username: req.body.username,
+    motive: req.body.motive,
+  }
+  soapConfig.addDenunciation(args, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+//eliminar denuncias
+app.delete('/delete/denunciation', (req, res) => {
+  soapConfig.deleteDenunciation(req.body.idRecipe, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+//ignorar denuncias
+app.post('/ignore/denunciation', (req, res) => {
+  soapConfig.ignoreDenunciation(req.body.idDenunciation, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+//Listar denuncias
+app.get('/denunciations', (req, res) => {
+  soapConfig.denunciations({}, (err, result) => {
     if (err) {
       res.json(err)
     } else {
