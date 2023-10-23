@@ -42,6 +42,22 @@ app.get('/Js/index.js', function (req, res) {
 
 /*************************************/
 
+app.get('/recetarios', function (req, res) {
+  res.sendFile(__dirname + '/views/recetarios.html')
+})
+
+app.get('/styles/recetarios.css', function (req, res) {
+  res.setHeader('Content-Type', 'text/css');
+  res.sendFile(__dirname + '/styles/recetarios.css');
+});
+
+app.get('/Js/recetarios.js', function (req, res) {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(__dirname + '/Js/recetarios.js');
+});
+
+/*************************************/
+
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/views/home.html')
 })
@@ -531,8 +547,8 @@ app.delete('/delete-recipe', (req, res) => {
   })
 })
 
-app.get('/listRecipeBooks', (req, res) => {
-  soapConfig.listRecipeBooks(req.body.username, (err, result) => {
+app.get('/listRecipeBooks/:username', (req, res) => {
+  soapConfig.listRecipeBooks(req.params.username, (err, result) => {
     if (err) {
       res.json(err)
     } else {
@@ -541,6 +557,7 @@ app.get('/listRecipeBooks', (req, res) => {
   })
 })
 
+//traer todas las recetas de un book
 app.get('/recipebook', (req, res) => {
   soapConfig.getRecipeBook(req.body.idRecipeBook, (err, result) => {
     if (err) {

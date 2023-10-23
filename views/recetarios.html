@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+
 <head>
     <title>Página de inicio</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/styles/home.css">
+    <link rel="stylesheet" href="/styles/recetarios.css">
 
     <style>
         #bienvenida {
@@ -14,13 +14,15 @@
             height: 40px;
         }
 
+        #todos_usuarios {
+            margin-bottom: 30px;
+        }
+
         #content {
             flex-grow: 1;
             /* Permite que el contenido crezca para ocupar el espacio disponible */
         }
     </style>
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
@@ -38,6 +40,9 @@
 
         <ul class="nav nav-tabs">
             <li class="nav-item">
+                <a class="nav-link" href="/home">Inicio</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="/recetas">Recetas</a>
             </li>
             <li class="nav-item">
@@ -49,24 +54,25 @@
             <li class="nav-item">
                 <a class="nav-link" href="/publicarReceta">Publicar</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/recetarios">Recetarios</a>
-            </li>
         </ul>
-
 
         <div class="container-fluid mt-lg-4">
             <div class="row">
-                <div class="col-md-12 text-center box-titulo">
-                    <h2>Recetas y usuarios más populares!</h2>
+                <div class="col-md-12 text-center box-titulo" id="todos_usuarios">
+                    <h2>Recetarios</h2>
                 </div>
-                <div class="col-md-12 row">
-                    <div id="content-ultimas-recetas"></div>
+                <div class="col-md-6 row">
+                    <div id="content-recetarios"></div>
                 </div>
             </div>
         </div>
 
+        <!-- Modal -->
+        <div id="modal"></div>
+
     </section>
+
+
 
     <footer>
 
@@ -74,7 +80,7 @@
 
     </footer>
 
-     <script src="/Js/home.js"></script>
+    <script src="/Js/recetarios.js"></script>
 
 </body>
 
