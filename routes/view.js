@@ -65,6 +65,21 @@ viewRouter.get('/Js/recetasFavoritas.js', function (req, res) {
     res.sendFile(path.join(__dirname, '..', '/Js/recetasFavoritas.js'));
 });
 
+/***************HOME**********************/
+viewRouter.get('/recetarios', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/views/recetarios.html'));
+});
+
+viewRouter.get('/styles/recetarios.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/styles/recetarios.css'));
+});
+
+viewRouter.get('/Js/recetarios.js', function (req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, '..', '/Js/recetarios.js'));
+});
+
 /***************RECETAS**********************/
 
 viewRouter.get('/recetas', function (req, res) {

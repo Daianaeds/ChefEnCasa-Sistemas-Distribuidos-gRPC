@@ -75,8 +75,8 @@ recipeBookRouter.get('/listRecipeBooks/:username', (req, res) => {
 })
 
 //traer todas las recetas de un book
-recipeBookRouter.get('/recipebook', (req, res) => {
-    soapConfig.getRecipeBook(req.body.idRecipeBook, (err, result) => {
+recipeBookRouter.get('/recipebook/:idRecipeBook', (req, res) => {
+    soapConfig.getRecipeBook(req.params.idRecipeBook, (err, result) => {
         if (err) {
             res.json(err)
         } else {
