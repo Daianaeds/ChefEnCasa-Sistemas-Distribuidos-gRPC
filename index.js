@@ -8,10 +8,13 @@ const path = require('path')
 const cors = require('cors')
 const kafkaConfiguration = require('./Kafka/ConfigKafka.js')
 const SoapConfiguration = require('./Soap/client.js')
+const swaggerUi = require('swagger-ui-express')
+const swaggerJSDoc = require('swagger-jsdoc')
 
 // Se instancia kafka.
 const kafkaConfig = new kafkaConfiguration()
 
+//Se instancia Soap.
 const soapConfig = new SoapConfiguration()
 
 var corsOptions = {
@@ -20,6 +23,21 @@ var corsOptions = {
 }
 
 const app = express()
+
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Mi API sistemas-distribuidos',
+      version: '1.0.0',
+    },
+  },
+  apis: ['./swagger/swagger.yaml'],
+}
+
+const swaggerSpec = swaggerJSDoc(swaggerOptions)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors(corsOptions))
@@ -47,14 +65,14 @@ app.get('/recetarios', function (req, res) {
 })
 
 app.get('/styles/recetarios.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css');
-  res.sendFile(__dirname + '/styles/recetarios.css');
-});
+  res.setHeader('Content-Type', 'text/css')
+  res.sendFile(__dirname + '/styles/recetarios.css')
+})
 
 app.get('/Js/recetarios.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript');
-  res.sendFile(__dirname + '/Js/recetarios.js');
-});
+  res.setHeader('Content-Type', 'application/javascript')
+  res.sendFile(__dirname + '/Js/recetarios.js')
+})
 
 /*************************************/
 
@@ -586,7 +604,7 @@ app.post('/add/denunciation', (req, res) => {
 })
 
 //eliminar denuncias
-app.post('/delete/denunciation', (req, res) => {
+app.delete('/delete/denunciation', (req, res) => {
   soapConfig.deleteDenunciation(req.body.idRecipe, (err, result) => {
     if (err) {
       res.json(err)
