@@ -31,14 +31,14 @@ app.get('/', function (req, res) {
 })
 
 app.get('/styles/index.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css');
-  res.sendFile(__dirname + '/styles/index.css');
-});
+  res.setHeader('Content-Type', 'text/css')
+  res.sendFile(__dirname + '/styles/index.css')
+})
 
 app.get('/Js/index.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript');
-  res.sendFile(__dirname + '/Js/index.js');
-});
+  res.setHeader('Content-Type', 'application/javascript')
+  res.sendFile(__dirname + '/Js/index.js')
+})
 
 /*************************************/
 
@@ -63,14 +63,14 @@ app.get('/', function (req, res) {
 })
 
 app.get('/styles/home.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css');
-  res.sendFile(__dirname + '/styles/home.css');
-});
+  res.setHeader('Content-Type', 'text/css')
+  res.sendFile(__dirname + '/styles/home.css')
+})
 
 app.get('/Js/home.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript');
-  res.sendFile(__dirname + '/Js/home.js');
-});
+  res.setHeader('Content-Type', 'application/javascript')
+  res.sendFile(__dirname + '/Js/home.js')
+})
 
 /*************************************/
 
@@ -79,14 +79,14 @@ app.get('/publicarReceta', function (req, res) {
 })
 
 app.get('/styles/publicarReceta.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css');
-  res.sendFile(__dirname + '/styles/publicarReceta.css');
-});
+  res.setHeader('Content-Type', 'text/css')
+  res.sendFile(__dirname + '/styles/publicarReceta.css')
+})
 
 app.get('/Js/publicarReceta.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript');
-  res.sendFile(__dirname + '/Js/publicarReceta.js');
-});
+  res.setHeader('Content-Type', 'application/javascript')
+  res.sendFile(__dirname + '/Js/publicarReceta.js')
+})
 
 /*************************************/
 
@@ -95,14 +95,14 @@ app.get('/recetasFavoritas', function (req, res) {
 })
 
 app.get('/styles/recetasFavoritas.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css');
-  res.sendFile(__dirname + '/styles/recetasFavoritas.css');
-});
+  res.setHeader('Content-Type', 'text/css')
+  res.sendFile(__dirname + '/styles/recetasFavoritas.css')
+})
 
 app.get('/Js/recetasFavoritas.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript');
-  res.sendFile(__dirname + '/Js/recetasFavoritas.js');
-});
+  res.setHeader('Content-Type', 'application/javascript')
+  res.sendFile(__dirname + '/Js/recetasFavoritas.js')
+})
 
 /*************************************/
 
@@ -111,14 +111,14 @@ app.get('/recetas', function (req, res) {
 })
 
 app.get('/styles/recetas.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css');
-  res.sendFile(__dirname + '/styles/recetas.css');
-});
+  res.setHeader('Content-Type', 'text/css')
+  res.sendFile(__dirname + '/styles/recetas.css')
+})
 
 app.get('/Js/recetas.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript');
-  res.sendFile(__dirname + '/Js/recetas.js');
-});
+  res.setHeader('Content-Type', 'application/javascript')
+  res.sendFile(__dirname + '/Js/recetas.js')
+})
 
 /*************************************/
 
@@ -127,14 +127,14 @@ app.get('/usuarios', function (req, res) {
 })
 
 app.get('/styles/usuarios.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css');
-  res.sendFile(__dirname + '/styles/usuarios.css');
-});
+  res.setHeader('Content-Type', 'text/css')
+  res.sendFile(__dirname + '/styles/usuarios.css')
+})
 
 app.get('/Js/usuarios.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript');
-  res.sendFile(__dirname + '/Js/usuarios.js');
-});
+  res.setHeader('Content-Type', 'application/javascript')
+  res.sendFile(__dirname + '/Js/usuarios.js')
+})
 
 /*************************************/
 
@@ -143,31 +143,30 @@ app.get('/register', function (req, res) {
 })
 
 app.get('/styles/register.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css');
-  res.sendFile(__dirname + '/styles/register.css');
-});
+  res.setHeader('Content-Type', 'text/css')
+  res.sendFile(__dirname + '/styles/register.css')
+})
 
 app.get('/Js/register.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript');
-  res.sendFile(__dirname + '/Js/register.js');
-});
+  res.setHeader('Content-Type', 'application/javascript')
+  res.sendFile(__dirname + '/Js/register.js')
+})
 
 /*************************************/
 
 app.get('/home', function (req, res) {
-  res.sendFile(__dirname + '/views/home.html');
-});
+  res.sendFile(__dirname + '/views/home.html')
+})
 
 app.get('/styles/home.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css');
-  res.sendFile(__dirname + '/styles/home.css');
-});
+  res.setHeader('Content-Type', 'text/css')
+  res.sendFile(__dirname + '/styles/home.css')
+})
 
 app.get('/Js/home.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript');
-  res.sendFile(__dirname + '/Js/home.js');
-});
-
+  res.setHeader('Content-Type', 'application/javascript')
+  res.sendFile(__dirname + '/Js/home.js')
+})
 
 /*************************************/
 
@@ -176,14 +175,14 @@ app.get('/recetaSola', function (req, res) {
 })
 
 app.get('/styles/recetaSola.css', function (req, res) {
-  res.setHeader('Content-Type', 'text/css');
-  res.sendFile(__dirname + '/styles/recetaSola.css');
-});
+  res.setHeader('Content-Type', 'text/css')
+  res.sendFile(__dirname + '/styles/recetaSola.css')
+})
 
 app.get('/Js/recetaSola.js', function (req, res) {
-  res.setHeader('Content-Type', 'application/javascript');
-  res.sendFile(__dirname + '/Js/recetaSola.js');
-});
+  res.setHeader('Content-Type', 'application/javascript')
+  res.sendFile(__dirname + '/Js/recetaSola.js')
+})
 
 /*************************************/
 
@@ -215,7 +214,7 @@ app.post('/api/login', (req, res) => {
         expiresIn: '5h',
       })
       response.token = token
-      res.status(201).json(response)
+      res.json(data)
     } else {
       res.status(400).json(data)
     }
@@ -459,9 +458,9 @@ app.post('/addComment', (req, res) => {
 app.post('/addStars', (req, res) => {
   try {
     addPopularidadReceta(req.body.idRecipe, req.body.score)
-    res.status(200).json({ message: 'Receta puntuada correctamente' });
+    res.status(200).json({ message: 'Receta puntuada correctamente' })
   } catch (error) {
-    res.status(500).json({ error: 'Error al guardar el puntaje de estrellas' });
+    res.status(500).json({ error: 'Error al guardar el puntaje de estrellas' })
   }
 })
 
@@ -561,6 +560,56 @@ app.get('/listRecipeBooks/:username', (req, res) => {
 //traer todas las recetas de un book
 app.get('/recipebook', (req, res) => {
   soapConfig.getRecipeBook(req.body.idRecipeBook, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+//DENUNCIAS
+//Agregar denuncias
+app.post('/add/denunciation', (req, res) => {
+  let args = {
+    idRecipe: req.body.idRecipe,
+    username: req.body.username,
+    motive: req.body.motive,
+  }
+  soapConfig.addDenunciation(args, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+//eliminar denuncias
+app.post('/delete/denunciation', (req, res) => {
+  soapConfig.deleteDenunciation(req.body.idRecipe, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+//ignorar denuncias
+app.post('/ignore/denunciation', (req, res) => {
+  soapConfig.ignoreDenunciation(req.body.idDenunciation, (err, result) => {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(result)
+    }
+  })
+})
+
+//Listar denuncias
+app.get('/denunciations', (req, res) => {
+  soapConfig.denunciations({}, (err, result) => {
     if (err) {
       res.json(err)
     } else {

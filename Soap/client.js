@@ -1,5 +1,6 @@
 const soap = require('soap')
 const url = 'http://127.0.0.1:8087/?WSDL'
+const urlDenunciation = 'http://127.0.0.1:8088/?WSDL'
 
 class SoapConfiguration {
   constructor() {}
@@ -9,7 +10,6 @@ class SoapConfiguration {
       if (err) {
         callback(err, null)
       } else {
-        console.log('client:', client)
         client.createRecipeBook({ request: args }, function (err, result) {
           callback(null, result)
         })
@@ -22,7 +22,6 @@ class SoapConfiguration {
       if (err) {
         callback(err, null)
       } else {
-        console.log('client:', client)
         client.deleteRecipeBook({ idRecipeBook: args }, function (err, result) {
           callback(null, result)
         })
@@ -35,7 +34,6 @@ class SoapConfiguration {
       if (err) {
         callback(err, null)
       } else {
-        console.log('client:', client)
         client.addRecipe(
           { idRecipeBook: args.idRecipeBook, idRecipe: args.idRecipe },
           function (err, result) {
@@ -51,7 +49,6 @@ class SoapConfiguration {
       if (err) {
         callback(err, null)
       } else {
-        console.log('client:', client)
         client.deleteRecipe(
           { idRecipeBook: args.idRecipeBook, idRecipe: args.idRecipe },
           function (err, result) {
@@ -67,7 +64,6 @@ class SoapConfiguration {
       if (err) {
         callback(err, null)
       } else {
-        console.log('client:', client)
         client.listRecipeBooks({ username: args }, function (err, result) {
           callback(null, result)
         })
@@ -80,8 +76,57 @@ class SoapConfiguration {
       if (err) {
         callback(err, null)
       } else {
-        console.log('client:', client)
         client.getRecipeBook({ idRecipeBook: args }, function (err, result) {
+          callback(null, result)
+        })
+      }
+    })
+  }
+
+  addDenunciation(args, callback) {
+    soap.createClient(urlDenunciation, (err, client) => {
+      if (err) {
+        callback(err, null)
+      } else {
+        client.createDenunciation(
+          { username: args.username, motive: args.motive, idRecipe: args.idRecipe },
+          function (err, result) {
+            callback(null, result)
+          }
+        )
+      }
+    })
+  }
+
+  deleteDenunciation(args, callback) {
+    soap.createClient(urlDenunciation, (err, client) => {
+      if (err) {
+        callback(err, null)
+      } else {
+        client.deleteDenunciation({ idDenunciation: args }, function (err, result) {
+          callback(null, result)
+        })
+      }
+    })
+  }
+
+  ignoreDenunciation(args, callback) {
+    soap.createClient(urlDenunciation, (err, client) => {
+      if (err) {
+        callback(err, null)
+      } else {
+        client.ignoreDenunciation({ idDenunciation: args }, function (err, result) {
+          callback(null, result)
+        })
+      }
+    })
+  }
+  denunciations(args, callback) {
+    soap.createClient(urlDenunciation, (err, client) => {
+      if (err) {
+        callback(err, null)
+      } else {
+        client.denunciationList({}, function (err, result) {
           callback(null, result)
         })
       }

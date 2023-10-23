@@ -110,9 +110,11 @@ public class RecipeMapper {
         return response;
     }
 
-    private int scoreRecipeById(int id) throws Exception {
+    private Integer scoreRecipeById(int id) throws Exception {
         PopularRecipe popularRecipe =  popularRecipeRepository.findByIdRecipe(id);
-        if(popularRecipe == null) throw new Exception("La receta aun no tiene popularidad");
+        if(popularRecipe == null) {
+            return 0;
+        }
         //saca prmedio entre el score y la cantidad de peticiones
         int score = popularRecipe.getScore() / popularRecipe.getAmount();
         return  score;
