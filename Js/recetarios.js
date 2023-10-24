@@ -8,7 +8,7 @@
     const usernamePlaceholder = document.getElementById("usernamePlaceholder");
     usernamePlaceholder.textContent = usernameActive;
 
-    fetch("/listRecipeBooks/" + usernameActive, {
+    fetch("/api/recipebook/listRecipeBooks/" + usernameActive, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
 
@@ -22,7 +22,7 @@
         obj.recipeBookList.forEach((element) => {
             html += "<ul>"
             html += "<ol><strong>" + i + " - Recetario:  " + "</strong>" + element.nameBook + "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-            html += "<a href='/recetasRecetario' role='button' onclick='guardarIdRecetario(" + element.id + ")'>Ver recetario...</a></ol>"
+            html += "<a href='/recetasRecetario' role='button' onclick='guardarDatos(" + element.id + ")'>Ver recetario...</a></ol>";
             html += "</ul>"
             i++;
         })
@@ -33,7 +33,7 @@
     })
 })();
 
-function guardarIdRecetario(idRecetario) {
+function guardarDatos(idRecetario) {
     window.localStorage.setItem("idRecetario", idRecetario);
 }
 
@@ -72,7 +72,7 @@ function crearRecetario() {
     const nombreRecetario = input.value;
     const usernameActive = window.localStorage.getItem("username");
 
-    fetch("/save/recipebooks", {
+    fetch("/api/recipebook/save/recipebooks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -1,11 +1,14 @@
 (function () {
     const username = window.localStorage.getItem("username");
     const password = window.localStorage.getItem("password");
+    const idRecetario = window.localStorage.getItem("idRecetario");
+    const nameBook = window.localStorage.getItem("nameBook");
     if (!username || !password) {
         window.location.replace("/");
     }
     const usernamePlaceholder = document.getElementById("usernamePlaceholder");
     usernamePlaceholder.textContent = username;
+
 
     fetch("/api/recipe/favouriteRecipe/" + username, {
         headers: { "Content-Type": "application/json" },
@@ -16,15 +19,15 @@
         // Guarda los datos en una variable
         var listaFavoritos = data;
 
-        fetch("/api/recipe/recipes", {
+        fetch("/api/recipebook/" + idRecetario, {
             headers: { "Content-Type": "application/json" },
-
         }).then(function (res) {
             return res.json();
         }).then(function (obj) {
             const content = document.querySelector('#content-receta');
             let html = "<div class='col-md-12 row'>";
-            obj.recipe.forEach((element) => {
+
+            obj.recipeBook.recipeList.forEach((element) => { // Corrección aquí
 
                 var claseEstrella = "far fa-star"; // far fa-star -> desactivada
 
@@ -38,28 +41,27 @@
 
                 html += "<div class='col-md-3 element'><div class='card card-body position-relative'>";
                 html += "<div class='content-container'>";
-                html += "<h4 class='text-center'>" + element.title + "</h4>";
+                html += "<h4 class='text-center'>" + element.title + "</h4>"; // Corrección aquí
                 html += "<button id='btn-fav-" + element.id + "' class='btn btn-link favorite-btn " + claseEstrella + "' onclick='toggleFavoritosEnServidor(\"" + username + "\"," + element.id + ")' data-idrecipe='${element.id}'></button>";
                 html += "</div>";
-                var truncatedDescription = element.description.substring(0, 100);
-                html += "<p>" + truncatedDescription + "... " + "<a href='/recetaSola' role='button' onclick='guardarIdReceta(" + element.id + ")'>Ver más</a></p>";
-                html += "<img src='" + element.pictures[0].url + "' alt='img-i' class='text-center imagen-receta' style='vertical-align: middle;' onerror=\"this.src='https://www.udacity.com/blog/wp-content/uploads/2021/02/img8.png'\" />";
-                html += "<p><strong>Usuario: </strong>" + element.username + "</p>"
+                html += "<p><a href='/recetaSola' role='button' onclick='guardarIdReceta(" + element.id + ")'>...Ver más</a></p>"; // Corrección aquí
+                html += "<img src='" + element.pictures + "' alt='img-i' class='text-center imagen-receta' style='vertical-align: middle;' onerror=\"this.src='https://www.udacity.com/blog/wp-content/uploads/2021/02/img8.png'\" />";
                 html += "</div></div>";
             })
             html += '</div>'
             content.innerHTML = html;
         }).catch(function (e) {
             console.error(e);
-        })
+        });
+
 
     }).catch(function (e) {
         console.error(e);
     })
 })();
 
-function guardarIdReceta(id) {
-    window.localStorage.setItem("idReceta", id);
+function guardarIdReceta(idReceta) {
+    window.localStorage.setItem("idReceta", idReceta);
 }
 
 function toggleFavoritosEnServidor(username, idRecipe) {

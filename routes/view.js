@@ -62,7 +62,37 @@ viewRouter.get('/styles/recetasFavoritas.css', function (req, res) {
 
 viewRouter.get('/Js/recetasFavoritas.js', function (req, res) {
     res.setHeader('Content-Type', 'application/javascript');
-    res.sendFile(path.join(__dirname, '..', '/Js/publicarReceta.js'));
+    res.sendFile(path.join(__dirname, '..', '/Js/recetasFavoritas.js'));
+});
+
+/***************RECETARIOS**********************/
+viewRouter.get('/recetasRecetario', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/views/recetasRecetario.html'));
+});
+
+viewRouter.get('/styles/recetasRecetario.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/styles/recetasRecetario.css'));
+});
+
+viewRouter.get('/Js/recetasRecetario.js', function (req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, '..', '/Js/recetasRecetario.js'));
+});
+
+/***************RECETAS-RECETARIOS**********************/
+viewRouter.get('/recetarios', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/views/recetarios.html'));
+});
+
+viewRouter.get('/styles/recetarios.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/styles/recetarios.css'));
+});
+
+viewRouter.get('/Js/recetarios.js', function (req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, '..', '/Js/recetarios.js'));
 });
 
 /***************RECETAS**********************/
@@ -127,6 +157,38 @@ viewRouter.get('/styles/recetaSola.css', function (req, res) {
 viewRouter.get('/Js/recetaSola.js', function (req, res) {
     res.setHeader('Content-Type', 'application/javascript');
     res.sendFile(path.join(__dirname, '..', '/Js/recetaSola.js'));
+});
+
+/***************HOME-MOD**********************/
+
+viewRouter.get('/homemod', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/viewsMod/homemod.html'));
+});
+
+viewRouter.get('/stylesMod/homemod.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/stylesMod/homemod.css'));
+});
+
+viewRouter.get('/JsMod/homemod.js', function (req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, '..', '/JsMod/homemod.js'));
+});
+
+/***************DENUNCIAS-MOD**********************/
+
+viewRouter.get('/denuncia', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/viewsMod/denuncia.html'));
+});
+
+viewRouter.get('/stylesMod/denuncia.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/stylesMod/denuncia.css'));
+});
+
+viewRouter.get('/JsMod/denuncia.js', function (req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, '..', '/JsMod/denuncia.js'));
 });
 
 /***************FILTRO-RECETAS**********************/

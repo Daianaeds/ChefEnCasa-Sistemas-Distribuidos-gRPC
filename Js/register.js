@@ -1,5 +1,5 @@
 function registrarse(ev, from) {
-    fetch("/api/save-user", {
+    fetch("/api/user/save-user", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

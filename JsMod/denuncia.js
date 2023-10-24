@@ -38,11 +38,11 @@
         html += "<p class = 'card-text'><strong>" + "Ingredientes: " + "</strong></p>"
         html += "<ul>";
         obj.ingredients.forEach((ingredient) => {
-            html += "<li>" + "● " + ingredient.nombre + " " + ingredient.cantidad + "</li>";
+            html += "<li>" + ingredient.nombre + " " + ingredient.cantidad + "</li>";
         });
         html += "</ul>";
 
-        html += "</div>";
+        html += "</div></div>";
         html += "<h5>Comentarios de los usuarios sobre la receta:</h5>"
         html += "<div class= 'card-body' >"
         obj.comments.forEach((comment) => {
@@ -50,11 +50,11 @@
         })
         html += "<div class='col-md-12'>"
         html += "<h5>Detalles de la denuncia:</h5>"
-        html += "<p><strong>Usuario denunciante: </strong>\""+ complainingUser +"\"</p>"
-        html += "<p><strong>Motivo de la denuncia: </strong>\""+ complainingMotive +"\"</p>"
-        html += "<div><button type='button' class='btn btn-success' onclick='ignorarDenuncia("+ obj.idDenuncia +")'> Ignorar denuncia</button>"
-        html += "<button type='button' class='btn btn-danger' onclick='eliminarReceta("+ obj.idRecipe +")'> Eliminar receta</button></div></div>"  
-        html += "</div></div>"
+        html += "<p><strong>Usuario denunciante: </strong>\"" + complainingUser + "\"</p>"
+        html += "<p><strong>Motivo de la denuncia: </strong>\"" + complainingMotive + "\"</p>"
+        html += "<div><button type='button' class='btn btn-success' onclick='ignorarDenuncia(" + obj.idDenuncia + ")'> Ignorar denuncia</button>"
+        html += "<button type='button' class='btn btn-danger' onclick='eliminarReceta(" + obj.idRecipe + ")'> Eliminar receta</button></div></div>"
+        html += "</div>"
 
         content.innerHTML = html;
     }).catch(function (e) {
@@ -65,20 +65,16 @@
 
 
 function ignorarDenuncia(idDenuncia) {
-    const select = document.querySelector('#puntaje');
-    const score = select.value;
 
-    fetch("/IgnoreComplaint", {
+    fetch("/api/denuncias/ignore/denunciation/" + idDenuncia, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ // Reemplaza con el nombre de usuario real
-            idDenuncia: idDenuncia,
-        }),
 
     }).then((response) => response.json()
     ).then(function (obj) {
-        // Maneja la respuesta del servidor si es necesario
+        window.alert("Receta ignorada!");
         console.log(obj);
+        window.location.replace("/homemod");
     }).catch(function (e) {
         console.error('Error al ignorar denuncia: ', e);
     })

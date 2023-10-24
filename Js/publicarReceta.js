@@ -1,10 +1,12 @@
 var listadoIngredientes = [];
 var auth = {};
-var username = window.localStorage.getItem("username");
-var password = window.localStorage.getItem("password");
+const username = window.localStorage.getItem("username");
+const password = window.localStorage.getItem("password");
 
-console.log("Username from localStorage:", username);
-console.log("Password from localStorage:", password);
+const usernamePlaceholder = document.getElementById("usernamePlaceholder");
+usernamePlaceholder.textContent = username;
+
+
 function createArrayToPicture(array) {
   const newArray = array.map((item) => {
     return { url: item };
@@ -44,7 +46,7 @@ function postRecipe(ev, from) {
     }
   }
 
-  fetch("/api/save-recipe", {
+  fetch("/api/recipe/save-recipe", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
