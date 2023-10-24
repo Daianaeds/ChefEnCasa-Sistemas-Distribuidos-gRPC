@@ -10,23 +10,26 @@ function validation(ev, from) {
         password: ev.form.password.value,
       }),
     })
-      .then(function (e) {
-        if (e.ok) {
-          window.localStorage.setItem("username", ev.form.username.value);
-          window.localStorage.setItem("password", ev.form.password.value);
-          if (e.isMod == true) {
-            window.location.replace("/homemod");
-          }
-          else {
-            window.location.replace("/home");
-          }
+      .then(function (response) {
+        if (response.ok) {
+          // Convierte la respuesta en un objeto JSON
+          return response.json();
         } else {
           document.getElementById("error").innerHTML =
             "El usuario y/o contraseña son incorrectos";
         }
       })
-      .catch(function (e) {
-        console.error(e);
+      .then(function (data) {
+        if (data.isMod) {
+          window.alert(data.isMod);
+          window.location.replace("/homemod");
+        } else {
+          window.alert(data.isMod);
+          window.location.replace("/home");
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
         document.getElementById("error").textContent = "Rompio";
       });
   }

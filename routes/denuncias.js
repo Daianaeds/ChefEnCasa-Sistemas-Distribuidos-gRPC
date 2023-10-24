@@ -32,8 +32,8 @@ denunciasRouter.delete('/delete/denunciation', (req, res) => {
 })
 
 //ignorar denuncias
-denunciasRouter.post('/ignore/denunciation', (req, res) => {
-    soapConfig.ignoreDenunciation(req.body.idDenunciation, (err, result) => {
+denunciasRouter.post('/ignore/denunciation/:idDenunciation', (req, res) => {
+    soapConfig.ignoreDenunciation(req.params.idDenunciation, (err, result) => {
         if (err) {
             res.json(err)
         } else {

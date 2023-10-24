@@ -1,5 +1,4 @@
 (function () {
-    console.log("llegue");
     const username = window.localStorage.getItem("username");
     const password = window.localStorage.getItem("password");
     if (!username || !password) {

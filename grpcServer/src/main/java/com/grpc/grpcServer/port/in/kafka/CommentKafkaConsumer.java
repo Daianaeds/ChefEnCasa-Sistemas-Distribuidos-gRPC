@@ -38,7 +38,7 @@ public class CommentKafkaConsumer {
     @Value("${comment.topic}")
     private String topicComments;
 
-    @Scheduled(cron = "*/15 * * * * *") // Ejecutar cada 20 segundos
+    @Scheduled(cron = "*/5 * * * * *") // Ejecutar cada 20 segundos
     public void consumeAndSaveMessages() {
 
         //Se envia el topico y el deserializador. Falta revisar si viene vacio, para evita null
