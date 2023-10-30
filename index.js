@@ -152,6 +152,78 @@ app.post('/api/saveRecipe', (req, res) => {
     })
 })
 
+//APIS MAILS
+
+//Crear mail
+app.post('/api/InternalMail/create', (req, res) => {
+  let mail = {
+    source: req.body.source,
+    subject: req.body.subject,
+    destination: req.body.destination,
+    subjectReply: req.body.subjectReply,
+  }
+  axios
+    .post(serverRestUrl + '/InternalMail/create', mail)
+    .then((response) => {
+      res.json(response.data)
+    })
+    .catch((error) => {
+      res.status(400).json(error.response.data)
+    })
+})
+
+//trae los mail recibidos
+app.get('/api/inbox/:destination', (req, res) => {
+  axios
+    .get(serverRestUrl + '/InternalMail/inbox/' + req.params.destination)
+    .then((response) => {
+      res.json(response.data)
+    })
+    .catch((error) => {
+      res.status(400).json(error.response.data)
+    })
+})
+
+//trae los mail enviados
+app.get('/api/InternalMail/sent/:source', (req, res) => {
+  axios
+    .get(serverRestUrl + '/InternalMail/sent/' + req.params.source)
+    .then((response) => {
+      res.json(response.data)
+    })
+    .catch((error) => {
+      res.status(400).json(error.response.data)
+    })
+})
+
+//trae un mail por el id recibido
+app.get('/api/InternalMail/:mail_id', (req, res) => {
+  axios
+    .get(serverRestUrl + '/InternalMail/' + req.params.mail_id)
+    .then((response) => {
+      res.json(response.data)
+    })
+    .catch((error) => {
+      res.status(400).json(error.response.data)
+    })
+})
+
+//Responder
+app.post('/api/InternalMail/reply', (req, res) => {
+  let response = {
+    id: req.body.id,
+    message: req.body.message,
+  }
+  axios
+    .post(serverRestUrl + '/InternalMail/reply', response)
+    .then((response) => {
+      res.json(response.data)
+    })
+    .catch((error) => {
+      res.status(400).json(error.response.data)
+    })
+})
+
 app.listen(5555, () => {
   console.log('Client running at port %d', 5555)
 })
