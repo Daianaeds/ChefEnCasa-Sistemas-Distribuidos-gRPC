@@ -3,7 +3,6 @@ package com.grpc.grpcServer.service;
 import com.grpc.grpcServer.IsMod;
 import com.grpc.grpcServer.ResponseUsernameAndEmailList;
 import com.grpc.grpcServer.UserAuth;
-import com.grpc.grpcServer.UserBasic;
 import com.grpc.grpcServer.UserRequest;
 import com.grpc.grpcServer.entities.Recipe;
 import com.grpc.grpcServer.entities.User;
