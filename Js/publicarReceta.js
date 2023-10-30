@@ -4,7 +4,6 @@ const username = window.localStorage.getItem("username");
 const password = window.localStorage.getItem("password");
 
 const usernamePlaceholder = document.getElementById("usernamePlaceholder");
-usernamePlaceholder.textContent = username;
 
 
 function createArrayToPicture(array) {

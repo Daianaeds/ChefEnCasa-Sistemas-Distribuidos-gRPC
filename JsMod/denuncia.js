@@ -11,6 +11,7 @@
     const recetaID = window.localStorage.getItem("idReceta");
     const complainingUser = window.localStorage.getItem("complainingUser");
     const complainingMotive = window.localStorage.getItem("complainingMotive");
+    const complainingID = window.localStorage.getItem("complainingID");
 
     fetch("/api/recipe/" + recetaID, {
         method: "GET",
@@ -52,7 +53,7 @@
         html += "<h5>Detalles de la denuncia:</h5>"
         html += "<p><strong>Usuario denunciante: </strong>\"" + complainingUser + "\"</p>"
         html += "<p><strong>Motivo de la denuncia: </strong>\"" + complainingMotive + "\"</p>"
-        html += "<div><button type='button' class='btn btn-success' onclick='ignorarDenuncia(" + obj.idDenuncia + ")'> Ignorar denuncia</button>"
+        html += "<div><button type='button' class='btn btn-success' onclick='ignorarDenuncia(" + complainingID + ")'> Ignorar denuncia</button>"
         html += "<button type='button' class='btn btn-danger' onclick='eliminarReceta(" + obj.idRecipe + ")'> Eliminar receta</button></div></div>"
         html += "</div>"
 

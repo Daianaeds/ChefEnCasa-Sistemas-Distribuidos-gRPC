@@ -47,11 +47,12 @@
         });
         html += "</ul>";
 
+        html += "<label><strong>Agregar a recetario: </strong></label>"
+        html += "<select id='recetario' name='recetario'></select>"; // Dejamos el select vacío para llenarlo dinámicamente
+        html += "<button class='btn btn-success btn-sm' type='submit' onclick='cargarRecetario(" + obj.id + ")'>Agregar</button>"
+        html += "</div>"
+
         if (username !== obj.username) {
-            html += "<label><strong>Agregar a recetario: </strong></label>"
-            html += "<select id='recetario' name='recetario'></select>"; // Dejamos el select vacío para llenarlo dinámicamente
-            html += "<button class='btn btn-success btn-sm' type='submit' onclick='cargarRecetario(" + obj.id + ")'>Agregar</button>"
-            html += "</div>"
 
             html += "<label><strong>Denunciar receta por: </strong></label>"
             html += "<select id='denuncia' name='denuncia'>"
@@ -68,6 +69,7 @@
             html += "</div id='comentarios'>";
 
         }
+
 
         html += "</div>";
         html += "<h5>Comentarios de los usuarios sobre la receta:</h5>"
