@@ -1,25 +1,21 @@
 package com.grpc.grpcServer.mapper;
 
-import com.grpc.grpcServer.*;
 import com.grpc.grpcServer.RecipeRequest;
 import com.grpc.grpcServer.RecipeResponse;
 import com.grpc.grpcServer.RecipeResponseBasic;
 import com.grpc.grpcServer.RecipeResponseBasicList;
+import com.grpc.grpcServer.dto.CompleteRecipeDTO;
+import com.grpc.grpcServer.dto.PictureDTO;
 import com.grpc.grpcServer.entities.*;
-import com.grpc.grpcServer.entities.Ingredient;
-import com.grpc.grpcServer.entities.Picture;
 import com.grpc.grpcServer.repositories.PopularRecipeRepository;
-import com.grpc.grpcServer.service.CategoryService;
-import com.grpc.grpcServer.service.CommentService;
-import com.grpc.grpcServer.service.IngredientService;
-import com.grpc.grpcServer.service.PictureService;
-import com.grpc.grpcServer.service.UserService;
+import com.grpc.grpcServer.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -111,13 +107,13 @@ public class RecipeMapper {
     }
 
     private Integer scoreRecipeById(int id) throws Exception {
-        PopularRecipe popularRecipe =  popularRecipeRepository.findByIdRecipe(id);
-        if(popularRecipe == null) {
+        PopularRecipe popularRecipe = popularRecipeRepository.findByIdRecipe(id);
+        if (popularRecipe == null) {
             return 0;
         }
         //saca prmedio entre el score y la cantidad de peticiones
         int score = popularRecipe.getScore() / popularRecipe.getAmount();
-        return  score;
+        return score;
     }
 
     @Transactional
@@ -126,10 +122,10 @@ public class RecipeMapper {
         int score = 0;
         for (Recipe userRecipe : recipes) {
 
-            try{
+            try {
                 score = scoreRecipeById(userRecipe.getId());
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 log.error("Error en obtener la receta en RecipeMapper : ", e.getMessage());
             }
             List<com.grpc.grpcServer.entities.Comment> comments = commentService.findByIdRecipe(userRecipe.getId());
@@ -150,12 +146,12 @@ public class RecipeMapper {
                     .build();
 
             responseBuilder.addRecipe(response);
-            score =0;
+            score = 0;
         }
         return OrderByScore(responseBuilder);
     }
 
-    private RecipeResponseBasicList OrderByScore(RecipeResponseBasicList.Builder responseBuilder){
+    private RecipeResponseBasicList OrderByScore(RecipeResponseBasicList.Builder responseBuilder) {
         // Ordenar la lista de RecipeResponseBasic de mayor a menor score
         List<RecipeResponseBasic> sortedList = responseBuilder.getRecipeList()
                 .stream()
@@ -189,5 +185,35 @@ public class RecipeMapper {
                 .build();
 
         return response;
+    }
+
+    public Recipe mapToRecipe(CompleteRecipeDTO completeRecipe) throws Exception {
+        List<Ingredient> ingredientList = ingredientService.findListIngredient(completeRecipe);
+        Category category = categoryService.find(completeRecipe.getCategory());
+        User user = userService.findByUsername(completeRecipe.getAuth().getUsername());
+        List<Picture> pictures = mapToPictures(completeRecipe.getPictures());
+
+        Recipe recipe = Recipe.builder()
+                .ingredients(ingredientList)
+                .category(category)
+                .author(user)
+                .description(completeRecipe.getDescription())
+                .title(completeRecipe.getTitle())
+                .steps(completeRecipe.getSteps())
+                .timeMinutes(completeRecipe.getTimeMinutes())
+                .pictures(pictures)
+                .build();
+
+        return recipe;
+    }
+
+    private List<Picture> mapToPictures(List<PictureDTO> picturesDTO) {
+        List<Picture> pictures = new ArrayList<>();
+        for (PictureDTO p : picturesDTO) {
+            Picture picture = Picture.builder()
+                    .urlPicture(p.getUrl()).build();
+            pictures.add(picture);
+        }
+        return pictures;
     }
 }

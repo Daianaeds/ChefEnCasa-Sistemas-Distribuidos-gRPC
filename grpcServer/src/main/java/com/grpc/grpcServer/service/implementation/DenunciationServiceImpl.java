@@ -1,8 +1,8 @@
 package com.grpc.grpcServer.service.implementation;
 
 import com.grpc.grpcServer.entities.Denunciation;
-import com.grpc.grpcServer.entities.User;
 import com.grpc.grpcServer.entities.Recipe;
+import com.grpc.grpcServer.entities.User;
 import com.grpc.grpcServer.port.in.soap.dtos.DenunciationDto;
 import com.grpc.grpcServer.port.in.soap.mapper.DenunciationMapper;
 import com.grpc.grpcServer.repositories.DenunciationRepository;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+
 @Slf4j
 @Service
 public class DenunciationServiceImpl implements DenunciationService {
@@ -36,7 +37,8 @@ public class DenunciationServiceImpl implements DenunciationService {
         Recipe recipe = recipesService.findById(idRecipe);
         User user = userService.findByUsername(username);
 
-        if(recipe == null || user == null)  throw new Exception("Los datos ingresados no son correctos. Intente nuevamente");
+        if (recipe == null || user == null)
+            throw new Exception("Los datos ingresados no son correctos. Intente nuevamente");
 
         denunciationRepository.save(Denunciation.builder()
                 .motive(motive)
@@ -52,7 +54,7 @@ public class DenunciationServiceImpl implements DenunciationService {
         log.error(denunciationList.toString());
         log.info(String.valueOf(denunciationList.get(0).getUser()));
 
-        List<DenunciationDto> denunciationDtoList =  denunciationMapper.denunciationListToDto( denunciationList );
+        List<DenunciationDto> denunciationDtoList = denunciationMapper.denunciationListToDto(denunciationList);
 
         return denunciationDtoList;
     }
@@ -61,14 +63,19 @@ public class DenunciationServiceImpl implements DenunciationService {
     public void ignore(int idDenunciation) throws Exception {
         Denunciation denunciation = denunciationRepository.getReferenceById(idDenunciation);
 
-        if(denunciation == null)throw new Exception("Denuncia no encontrada ");
+        if (denunciation == null) throw new Exception("Denuncia no encontrada ");
 
         denunciationRepository.delete(denunciation);
 
     }
 
+    @Transactional
     @Override
-    public void delete(int idDenunciation) throws Exception {
-
+    public void delete(int idRecipe) throws Exception {
+        Recipe recipe = recipesService.findById(idRecipe);
+        recipe.setDelete(true);
+        recipesService.saveRecipe(recipe);
+        List<Denunciation> denunciationList = denunciationRepository.findAllByRecipe_id(idRecipe);
+        denunciationRepository.deleteAll(denunciationList);
     }
 }
