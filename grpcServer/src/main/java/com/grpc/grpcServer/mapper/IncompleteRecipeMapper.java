@@ -13,7 +13,7 @@ import java.util.List;
 public class IncompleteRecipeMapper {
 
     @Transactional
-    public List<IncompleteRecipe> mapToIncompleteRecipeDTO(List<IncompleteRecipeDTO> recipes, User user) {
+    public List<IncompleteRecipe> mapToIncompleteRecipes(List<IncompleteRecipeDTO> recipes, User user) {
         List<IncompleteRecipe> listIncompleteRecipe = new ArrayList<>();
         for (IncompleteRecipeDTO incompleteRecipeDTO : recipes) {
             IncompleteRecipe incompleteRecipe = IncompleteRecipe.builder()
@@ -30,10 +30,11 @@ public class IncompleteRecipeMapper {
     }
 
     @Transactional
-    public List<IncompleteRecipeDTO> mapToIncompleteRecipe(List<IncompleteRecipe> recipes) {
+    public List<IncompleteRecipeDTO> mapToIncompleteRecipesDTO(List<IncompleteRecipe> recipes) {
         List<IncompleteRecipeDTO> listIncompleteRecipe = new ArrayList<>();
         for (IncompleteRecipe incompleteRecipe : recipes) {
             IncompleteRecipeDTO incompleteRecipeDTO = IncompleteRecipeDTO.builder()
+                    .id(incompleteRecipe.getId())
                     .title(incompleteRecipe.getTitle())
                     .description(incompleteRecipe.getDescription())
                     .category(incompleteRecipe.getCategory())
@@ -46,4 +47,14 @@ public class IncompleteRecipeMapper {
         return listIncompleteRecipe;
     }
 
+    public IncompleteRecipeDTO mapToIncompleteRecipes(IncompleteRecipe incompleteRecipe) {
+        IncompleteRecipeDTO recipe = IncompleteRecipeDTO.builder()
+                .id(incompleteRecipe.getId())
+                .title(incompleteRecipe.getTitle())
+                .username(incompleteRecipe.getUser().getUsername())
+                .category(incompleteRecipe.getCategory())
+                .description(incompleteRecipe.getDescription())
+                .time(incompleteRecipe.getTime()).build();
+        return recipe;
+    }
 }

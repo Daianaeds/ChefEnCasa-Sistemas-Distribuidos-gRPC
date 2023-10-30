@@ -26,6 +26,8 @@ public interface UserService {
 
     void addRecipe(Recipe recipe, UserAuth auth);
 
+    void addRecipe(Recipe recipe);
+
     String followUser(String favouriteUser, String username);
 
     String unfollowUser(String favouriteUser, String username);

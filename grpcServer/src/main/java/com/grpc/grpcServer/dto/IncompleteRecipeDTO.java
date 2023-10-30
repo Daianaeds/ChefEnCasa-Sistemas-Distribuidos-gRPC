@@ -11,6 +11,7 @@ import lombok.*;
 @Setter
 public class IncompleteRecipeDTO {
 
+    private int id;
     private String title;
     private String description;
     private String category;

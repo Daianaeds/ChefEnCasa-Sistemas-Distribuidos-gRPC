@@ -1,11 +1,6 @@
 package com.grpc.grpcServer.service.implementation;
 
 import com.grpc.grpcServer.*;
-import com.grpc.grpcServer.FindRecipeRequest;
-import com.grpc.grpcServer.RecipeRequest;
-import com.grpc.grpcServer.RecipeResponse;
-import com.grpc.grpcServer.RecipeResponseBasic;
-import com.grpc.grpcServer.RecipeResponseBasicList;
 import com.grpc.grpcServer.entities.Picture;
 import com.grpc.grpcServer.entities.Recipe;
 import com.grpc.grpcServer.entities.User;
@@ -17,8 +12,8 @@ import com.grpc.grpcServer.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import javax.transaction.Transactional;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -94,13 +89,13 @@ public class RecipeServiceImpl implements RecipesService {
     @Transactional
     @Override
     public RecipeResponseBasicList findRecipeByFilter(FindRecipeRequest findRecipeRequest) {
-          List<Recipe> recipes = recipesRepository.findByFilter(
-                    findRecipeRequest.getTitle(),
-                    findRecipeRequest.getNameCategory(),
-                    findRecipeRequest.getNameIngredient(),
-                    findRecipeRequest.getTimeMinutes());
+        List<Recipe> recipes = recipesRepository.findByFilter(
+                findRecipeRequest.getTitle(),
+                findRecipeRequest.getNameCategory(),
+                findRecipeRequest.getNameIngredient(),
+                findRecipeRequest.getTimeMinutes());
 
-           return recipeMapper.convertRecipetoRecipeResponseBasicList(recipes);
+        return recipeMapper.convertRecipetoRecipeResponseBasicList(recipes);
 
     }
 
@@ -113,6 +108,14 @@ public class RecipeServiceImpl implements RecipesService {
     @Override
     public RecipeResponseBasic findRecipeById(int recipeId) throws Exception {
         Recipe recipe = findById(recipeId);
-       return recipeMapper.convertRecipeToRecipeResponseBasic(recipe);
+        return recipeMapper.convertRecipeToRecipeResponseBasic(recipe);
+    }
+
+    @Transactional
+    @Override
+    public Recipe saveRecipe(Recipe recipe) {
+        recipe.getAuthor().getRecipes().add(recipe);
+        recipe.getPictures().stream().map(picture -> pictureService.save(picture.getUrlPicture(), recipe)).collect(Collectors.toList());
+        return recipesRepository.save(recipe);
     }
 }

@@ -25,7 +25,7 @@ public class IncompleteRecipe {
     @Column(name = "time")
     private int time;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", table = "incompleteRecipes")
     private User user;
 
