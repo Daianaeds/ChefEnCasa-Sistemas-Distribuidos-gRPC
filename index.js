@@ -14,10 +14,13 @@ const SoapConfiguration = require('./Soap/client.js')
 const kafkaConfig = new kafkaConfiguration()
 const app = express()
 const axios = require('axios')
+
+//Libererias para el manejo archivo csv
 const multer = require('multer')
 const FormData = require('form-data')
 const fs = require('fs')
-const serverUrl = 'http://localhost:8080/api/'
+
+const serverRestUrl = 'http://127.0.0.1:8080'
 
 //Se instancia Soap.
 const swaggerUi = require('swagger-ui-express')
@@ -58,42 +61,94 @@ app.get('/lastFiveMessageNovedades', (req, res) => {
   res.json(messages)
 })
 
-app.get('/get-data', (req, res) => {
-  axios
-    .get('http://127.0.0.1:8080/api/prueba')
-    .then((response) => {
-      console.log('Datos recibidos:', response.data)
-    })
-    .catch((error) => {
-      console.error('Error al realizar la solicitud GET:', error)
-    })
-})
-
+// Crea una instancia de Middleware Multer para manejar la carga de archivos en una solicitud HTTP.
 const upload = multer()
 
-app.post('/uploadFile/:username', upload.single('borrador'), (req, res) => {
+//Se guarda el contenido del borrador
+app.post('/api/uploadFile/:username', upload.single('borrador'), (req, res) => {
   const borrador = req.file
   let username = req.params.username
 
+  //Pregunta si esta vacio.
   if (!borrador) {
     return res.status(400).json({ error: 'No se proporcionó un archivo CSV válido' })
   }
+  // Crea un objeto FormData para enviar el archivo CSV en el header
   const formData = new FormData()
   formData.append('borrador', borrador.buffer, { filename: 'borrador.csv' })
   axios
-    .post('http://127.0.0.1:8080/api/uploadFile/' + username, formData, {
+    .post(serverRestUrl + '/api/uploadFile/' + username, formData, {
       headers: {
         ...formData.getHeaders(),
       },
     })
     .then((response) => {
-      console.log('Archivo CSV enviado al servidor')
-      console.log('Respuesta del servidor Java:', response.data)
       res.json(response.data)
     })
     .catch((error) => {
-      console.error('Error al enviar el archivo CSV al servidor Java:', error)
-      res.status(500).json({ error: 'Error al enviar el archivo CSV al servidor Java' })
+      res.status(400).json(error.response.data)
+    })
+})
+
+//Obtener el lista de recetas incompletas por usuario
+app.get('/api/incompleteRecipes/:username', (req, res) => {
+  if (req.params.username == null) {
+    res.json('Ingrese el usuario')
+  }
+  axios
+    .get(serverRestUrl + '/api/incompleteRecipes/' + req.params.username)
+    .then((response) => {
+      res.json(response.data)
+    })
+    .catch((error) => {
+      res.status(400).json(error.response.data)
+    })
+})
+
+//traer una sola receta incompleta
+app.get('/api/incompleteRecipe/:idIncompleteRecipe', (req, res) => {
+  axios
+    .get(serverRestUrl + '/api/incompleteRecipe/' + req.params.idIncompleteRecipe)
+    .then((response) => {
+      res.json(response.data)
+    })
+    .catch((error) => {
+      res.status(400).json(error.response.data)
+    })
+})
+
+//Eliminar una receta incompleta
+app.delete('/api/delete/incompleteRecipe/:idIncompleteRecipe', (req, res) => {
+  axios
+    .delete(serverRestUrl + '/api/delete/incompleteRecipe/' + req.params.idIncompleteRecipe)
+    .then((response) => {
+      res.json(response.data)
+    })
+    .catch((error) => {
+      res.status(400).json(error.response.data)
+    })
+})
+
+//Guadar receta -> Lo mismo que guardar pero se suma el id de la receta incompleta
+app.post('/api/saveRecipe', (req, res) => {
+  let recipe = {
+    auth: req.body.auth,
+    title: req.body.title,
+    description: req.body.description,
+    steps: req.body.steps,
+    time_minutes: req.body.time_minutes,
+    name_category: req.body.name_category,
+    ingredients: req.body.ingredients,
+    pictures: req.body.pictures,
+    idIncompleteRecipe: req.body.idIncompleteRecipe,
+  }
+  axios
+    .post(serverRestUrl + '/api/saveRecipe', recipe)
+    .then((response) => {
+      res.json(response.data)
+    })
+    .catch((error) => {
+      res.status(400).json(error.response.data)
     })
 })
 
