@@ -64,8 +64,9 @@ public class DraftFileService {
     }
 
     @Transactional
-    public IncompleteRecipeDTO getIncompleteRecipe(int id) {
-        IncompleteRecipe incompleteRecipe = incompleteRecipeRepository.getReferenceById(id);
+    public IncompleteRecipeDTO getIncompleteRecipe(int id) throws IncompleteRecipeNotFoundException {
+        IncompleteRecipe incompleteRecipe = incompleteRecipeRepository.findById(id)
+                .orElseThrow(() -> new IncompleteRecipeNotFoundException(String.format("No se encontro el id %d de borrador", id)));
         return incompleteRecipeMapper.mapToIncompleteRecipes(incompleteRecipe);
     }
 

@@ -81,7 +81,7 @@ public class RecipeServiceImpl implements RecipesService {
     @Transactional
     @Override
     public RecipeResponseBasicList getAllRecipes() {
-        List<Recipe> recipes = recipesRepository.findAll();
+        List<Recipe> recipes = recipesRepository.findByIsDeleteFalse();
 
         return recipeMapper.convertRecipetoRecipeResponseBasicList(recipes);
     }

@@ -65,4 +65,18 @@ public class DenunciationControllerSoap {
         return messageDto;
     }
 
+    @WebMethod(operationName = "deleteDenunciation")
+    @WebResult(name = "MessageDto")
+    public MessageDto deleteDenunciation(@WebParam(name = "idRecipe") int idRecipe) {
+        MessageDto messageDto = new MessageDto();
+        try {
+            denunciationService.delete(idRecipe);
+            messageDto.setMessage("Denuncia eliminada");
+        }catch (Exception e){
+            messageDto.setMessage("Error al eliminar la denuncia   " + e.getMessage());
+        }
+
+        return messageDto;
+    }
+
 }
