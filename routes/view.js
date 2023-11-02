@@ -159,6 +159,17 @@ viewRouter.get('/Js/recetaSola.js', function (req, res) {
     res.sendFile(path.join(__dirname, '..', '/Js/recetaSola.js'));
 });
 
+/***************METODO-CARGA**********************/
+
+viewRouter.get('/publicarReceta/metodo_carga', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/views/metodo_carga.html'));
+});
+
+viewRouter.get('/styles/metodo_carga.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/styles/metodo_carga.css'));
+});
+
 /***************HOME-MOD**********************/
 
 viewRouter.get('/homemod', function (req, res) {
