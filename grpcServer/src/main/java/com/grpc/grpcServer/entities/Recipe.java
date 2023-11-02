@@ -1,10 +1,6 @@
 package com.grpc.grpcServer.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -31,7 +27,7 @@ public class Recipe {
     @Lob
     private String steps;
 
-    @Column(name="time_minutes")
+    @Column(name = "time_minutes")
     private int timeMinutes;
 
     @ManyToOne
@@ -55,6 +51,7 @@ public class Recipe {
     @OneToMany(mappedBy = "id")
     private List<Comment> comments = new ArrayList<>();
 
+    private boolean isDelete = false;
 
     @Override
     public boolean equals(Object o) {

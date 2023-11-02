@@ -75,6 +75,14 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Transactional
+    @Override
+    public void addRecipe(Recipe recipe) {
+        recipe.getAuthor().getRecipes().add(recipe);
+       // userRepository.save(recipe.getAuthor());
+    }
+
+
     private boolean authentication(String username, String password) throws Exception {
         User user = userRepository.findByUsername(username);
         if (user == null) throw new Exception("Los datos ingresados no son correctos. Intente nuevamente");

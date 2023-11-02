@@ -16,5 +16,5 @@ public interface DenunciationService {
 
     void ignore(int idDenunciation) throws Exception;
 
-    void delete(int idDenunciation) throws Exception;
+    void delete(int idRecipe) throws Exception;
 }

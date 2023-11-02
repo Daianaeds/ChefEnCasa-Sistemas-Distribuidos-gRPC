@@ -25,6 +25,8 @@ public interface RecipeRepository extends JpaRepository<Recipe, Serializable> {
             @Param("nameIngredient") String nameIngredient,
             @Param("timeMinutes") int timeMinutes
     );
+
+     List<Recipe> findByIsDeleteFalse();
 }
 
 

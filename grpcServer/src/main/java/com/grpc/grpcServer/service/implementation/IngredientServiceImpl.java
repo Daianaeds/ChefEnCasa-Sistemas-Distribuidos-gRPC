@@ -1,6 +1,7 @@
 package com.grpc.grpcServer.service.implementation;
 
 import com.grpc.grpcServer.RecipeRequest;
+import com.grpc.grpcServer.dto.CompleteRecipeDTO;
 import com.grpc.grpcServer.entities.Ingredient;
 import com.grpc.grpcServer.repositories.IngredientRepository;
 import com.grpc.grpcServer.service.IngredientService;
@@ -36,5 +37,13 @@ public class IngredientServiceImpl implements IngredientService {
                 .build();
 
         return ingredientRepository.save(ingredient);
+    }
+
+    @Override
+    public List<Ingredient> findListIngredient(CompleteRecipeDTO completeRecipe) throws Exception {
+        //si no envia ingredientes levanta excepcion
+        if (completeRecipe.getIngredients().isEmpty()) throw new Exception("Debe ingresar al menos un ingrediente.");
+        List<Ingredient> ingredientList = completeRecipe.getIngredients().stream().map(Ingredient -> find(Ingredient.getNombre(),Ingredient.getCantidad())).collect(Collectors.toList());
+        return ingredientList;
     }
 }
