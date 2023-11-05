@@ -68,14 +68,11 @@ function toggleFavoritosEnServidor(username, idRecipe) {
 
     if (elemento.classList.contains("far")) {
         elemento.classList.remove("far");
-        elemento.classList.add("fas");
-        elemento.classList.add("fa-star");
+        elemento.classList.add("fas", "fa-star");
         endpoint = "/api/recipe/follow-recipe";
     } else {
-        elemento.classList.remove("fas");
-        elemento.classList.remove("fa-star");
-        elemento.classList.add("far");
-        elemento.classList.add("fa-star");
+        elemento.classList.remove("fas", "fa-star");
+        elemento.classList.add("far", "fa-star");
         endpoint = "/api/recipe/unfollow-recipe";
     }
 

@@ -170,6 +170,22 @@ viewRouter.get('/styles/metodo_carga.css', function (req, res) {
     res.sendFile(path.join(__dirname, '..', '/styles/metodo_carga.css'));
 });
 
+/***************CARGA-MASIVA**********************/
+
+viewRouter.get('/carga_masiva', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/views/carga_masiva.html'));
+});
+
+viewRouter.get('/styles/carga_masiva.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/styles/carga_masiva.css'));
+});
+
+viewRouter.get('/Js/carga_masiva.js', function (req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, '..', '/Js/carga_masiva.js'));
+});
+
 /***************HOME-MOD**********************/
 
 viewRouter.get('/homemod', function (req, res) {
