@@ -170,6 +170,38 @@ viewRouter.get('/styles/metodo_carga.css', function (req, res) {
     res.sendFile(path.join(__dirname, '..', '/styles/metodo_carga.css'));
 });
 
+/***************CARGA-MASIVA**********************/
+
+viewRouter.get('/carga_masiva', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/views/carga_masiva.html'));
+});
+
+viewRouter.get('/styles/carga_masiva.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/styles/carga_masiva.css'));
+});
+
+viewRouter.get('/Js/carga_masiva.js', function (req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, '..', '/Js/carga_masiva.js'));
+});
+
+/***************RESUMEN-RECETAS**********************/
+
+viewRouter.get('/resumen_recetas', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/views/resumen_recetas.html'));
+});
+
+viewRouter.get('/styles/resumen_recetas.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/styles/resumen_recetas.css'));
+});
+
+viewRouter.get('/Js/resumen_recetas.js', function (req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, '..', '/Js/resumen_recetas.js'));
+});
+
 /***************HOME-MOD**********************/
 
 viewRouter.get('/homemod', function (req, res) {

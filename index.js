@@ -57,7 +57,7 @@ app.use('/', viewRouter)
 
 //Consumir los ultimos 5 mensajes de novedades
 app.get('/lastFiveMessageNovedades', (req, res) => {
-  const messages = kafkaConfig.lastMessageNovedades()
+  const messages = kafkaConfig.lastMessageNovedades()                 
   res.json(messages)
 })
 

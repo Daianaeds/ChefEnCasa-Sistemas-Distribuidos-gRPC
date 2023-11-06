@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-    <title>Página de inicio</title>
+    <title>Publicar Receta</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -28,8 +28,9 @@
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+
+        </script>
 </head>
 
 <body>
@@ -56,7 +57,7 @@
                 <a class="nav-link" href="/recetasFavoritas">Recetas favoritas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/publicarReceta">Publicar</a>
+                <a class="nav-link" href="/publicarReceta/metodo_carga">Publicar</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/recetarios">Recetarios</a>
@@ -66,17 +67,24 @@
         <div class="container-fluid mt-lg-4">
             <div class="row">
                 <div class="col-md-12 text-center box-titulo" id="todos_usuarios">
-                    <h2>Elija método de carga</h2>
+                    <h2>Método de carga</h2>
                 </div>
             </div>
         </div>
         <div class="container" style="width: 1000px;">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
+            <div class="card" style="min-height: 300px;">
+
+                <div class="card-body" style=" display: flex; flex-direction: column;justify-content: center;">
+                    <div>
+                        <h4 style="display: flex;justify-content: center;">¿Cómo vas a realizar la carga de tus recetas?
+                        </h4>
+                    </div>
+
+                    <div class="row justify-content-center" style="align-self: center;">
+
                         <div class="col-md-4">
                             <div class="card">
-                                <a href="#" class="btn btn-outline-success">
+                                <a href="/publicarReceta" class="btn btn-outline-success">
                                     <h5 class="card-title">Carga manual</h5>
                                     <p class="card-text">Vas a poder cargar tu receta de a una a la vez</p>
                                 </a>
@@ -84,7 +92,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="card">
-                                <a href="#" class="btn btn-outline-success">
+                                <a href="/carga_masiva" class="btn btn-outline-success">
                                     <h5 class="card-title">Importar archivo</h5>
                                     <p class="card-text">Cargarás varias recetas con un archivo csv</p>
                                 </a>
@@ -94,21 +102,23 @@
                 </div>
             </div>
         </div>
-
-
-
         <!-- Modal -->
         <div id="modal"></div>
 
     </section>
-
-
 
     <footer>
 
         <p>ChefEnCasaⓇ - Todos los derechos reservados ~ 2023 Distribuidos ~</p>
 
     </footer>
+
+    <script>
+
+        var username = localStorage.getItem('username');
+        var usernamePlaceholder = document.getElementById('usernamePlaceholder');
+        usernamePlaceholder.textContent = username;
+    </script>
 
 </body>
 
