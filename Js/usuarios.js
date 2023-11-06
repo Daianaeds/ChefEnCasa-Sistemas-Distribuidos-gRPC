@@ -85,4 +85,24 @@ function toggleFavoritosEnServidor(usernameActive, username) {
         .catch((error) => {
             console.error('Error al guardar los favoritos:', error);
         });
+
+        // chat.js
+
+        
+document.addEventListener("DOMContentLoaded", function () {
+    const chatMessages = document.getElementById("chat-messages");
+    const messageInput = document.getElementById("message-input");
+    const sendButton = document.getElementById("send-button");
+
+    sendButton.addEventListener("click", function () {
+        const messageText = messageInput.value;
+        if (messageText.trim() !== "") {
+            // Envía el mensaje al servidor o realiza la lógica necesaria para manejar el chat.
+            // Luego, agrega el mensaje al elemento chatMessages.
+            chatMessages.innerHTML += `<p>${messageText}</p>`;
+            messageInput.value = "";
+        }
+    });
+});
+
 }
