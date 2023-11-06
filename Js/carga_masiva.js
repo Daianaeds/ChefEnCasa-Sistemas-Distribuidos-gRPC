@@ -1,10 +1,13 @@
 const input = document.querySelector("input");
 document.addEventListener("change", adjuntarCSV);
 const submitButton = document.querySelector(".btn-success");
+const username = window.localStorage.getItem("username");
+const usernamePlaceholder = document.getElementById("usernamePlaceholder");
+usernamePlaceholder.textContent = username;
 
 function adjuntarCSV(e) {
     const file = e?.target.files[0];
-    const message = document.querySelector("h6");
+    //const message = document.querySelector("h6");
     const span = document.querySelector("#boton-eliminar");
     const accept_types = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel", "text/csv"];
     console.log(file);
@@ -36,23 +39,28 @@ function eliminarArchivo() {
 }
 
 function cargarCSV() {
-    const file = input.file[0];
+    const file = input.files[0]; // Corrige el acceso a los archivos seleccionados
 
-    fetch("/api/recipebook/add-recipe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ // Reemplaza con el nombre de usuario real
-            idRecipeBook: idRecipeBook,
-            idRecipe: idRecipe,
-        }),
-    }).then((response) => response.json()
-    ).then(function (obj) {
-        window.alert("Receta agregada al recetario seleccionado!");
-        console.log(obj);
-    }).catch(function (e) {
-        console.error('Error al cargar la receta al recetario: ', e);
-    });
+    if (!file) {
+        window.alert('Por favor, seleccione un archivo CSV válido.');
+        return;
+    }
 
+    const formData = new FormData();
+    formData.append('borrador', file);
 
+    const username = window.localStorage.getItem('username');
+    fetch("/api/uploadFile/" + username, {
+        method: 'POST',
+        body: formData,
+    })
+        .then((response) => response.json())
+        .then(function (data) {
+            window.location.replace("/resumen_recetas");
+        })
+        .catch(function (error) {
+            console.error('Error al cargar la receta al recetario:', error);
+        });
 }
+
 

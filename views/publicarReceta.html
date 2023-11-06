@@ -105,8 +105,8 @@
                 Repostería <br />
                 <input type="radio" name="name_category" value="bebidas" class="form-check-input" />
                 Bebidas<br />
-                <input type="radio" name="name_category" value="regionales" class="form-check-input" />
-                Regionales<br />
+                <input type="radio" name="name_category" value="regional" class="form-check-input" />
+                Regional<br />
                 <input type="radio" name="name_category" value="veganas" class="form-check-input" />
                 Veganas<br /><br />
               </div>
@@ -118,10 +118,9 @@
               </div>
 
               <div class="form-group">
-                <label for="tiempo">Tiempo:</label>
+                <label for="tiempo">Tiempo(min):</label>
                 <input id="tiempo" type="text" name="time_minutes" placeholder="Solo números (minutos)"
                   class="form-control form-control-sm" />
-                minutos
               </div>
 
               <div id="error" style="color: red;"></div>
@@ -129,6 +128,7 @@
               <!-- <input type="submit" value="Publicar" /> -->
               <input class="btn btn-primary btn-registrar" type="button" name="botones" value="PublicarReceta"
                 onclick="postRecipe(this, 'postRecipe'); return false;" />
+
             </form>
           </article>
         </section>
