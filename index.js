@@ -172,7 +172,7 @@ app.post('/api/InternalMail/create', (req, res) => {
     })
 })
 
-//trae los mail recibidos ARCHIVO MENSAJES RECIBIDOS. NO FUNCIONA
+//trae los mail recibidos 
 app.get('/api/inbox/:destination', (req, res) => {
   axios
     .get(serverRestUrl + '/InternalMail/inbox/' + req.params.destination)
@@ -184,7 +184,7 @@ app.get('/api/inbox/:destination', (req, res) => {
     })
 })
 
-//trae los mail enviados ARCHIVO MENSAJES ENVIADOS. FUNCIONA OK DESDE FRONT, NO TOCAR
+//trae los mail enviados 
 app.get('/api/InternalMail/sent/:source', (req, res) => {
   axios
     .get(serverRestUrl + '/InternalMail/sent/' + req.params.source)

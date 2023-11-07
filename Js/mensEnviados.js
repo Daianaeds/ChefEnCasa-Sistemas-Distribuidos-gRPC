@@ -1,6 +1,11 @@
 (function () {
+
+    const username = window.localStorage.getItem("username");
+    const usernamePlaceholder = document.getElementById("usernamePlaceholder");
+    usernamePlaceholder.textContent = username;
+
     const usernameActive = window.localStorage.getItem("usermail");
-    fetch("/api/InternalMail/sent/"+ usernameActive, {
+    fetch("/api/InternalMail/sent/"+ username, {
         headers: { "Content-Type": "application/json" },
 
     }).then(function (res) {

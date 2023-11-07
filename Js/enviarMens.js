@@ -37,6 +37,7 @@ document.getElementById("mensajeForm").addEventListener("submit", function (even
 
             // Puedes hacer algo aquí, como mostrar un mensaje de confirmación
             alert("Mensaje enviado correctamente.");
+            window.location.replace("/recibidos");
         })
         .catch((error) => {
             console.error('Error al enviar el mensaje:', error);
