@@ -54,7 +54,7 @@
         html += "<p><strong>Usuario denunciante: </strong>\"" + complainingUser + "\"</p>"
         html += "<p><strong>Motivo de la denuncia: </strong>\"" + complainingMotive + "\"</p>"
         html += "<div><button type='button' class='btn btn-success' onclick='ignorarDenuncia(" + complainingID + ")'> Ignorar denuncia</button>"
-        html += "<button type='button' class='btn btn-danger' onclick='eliminarReceta(" + obj.idRecipe + ")'> Eliminar receta</button></div></div>"
+        html += "<button type='button' class='btn btn-danger' onclick='eliminarReceta()'> Eliminar receta</button></div></div>"
         html += "</div>"
 
         content.innerHTML = html;
@@ -83,21 +83,21 @@ function ignorarDenuncia(idDenuncia) {
 
 }
 
-function eliminarReceta(idRecipe) {
-    const textarea = document.querySelector('#box-comentarios');
-    const comentario = textarea.value;
+function eliminarReceta() {
+    const idReceta = window.localStorage.getItem("idReceta");
+    console.log("receta: " + idReceta)
+    /*const textarea = document.querySelector('#box-comentarios');
+    const comentario = textarea.value;*/
 
-    fetch("/deleteRecipe", {
+    fetch("/api/denuncias/delete/denunciation/" + idReceta, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            idRecipe: idRecipe,
-        }),
 
     }).then((response) => response.json()
     ).then(function (obj) {
         // Maneja la respuesta del servidor si es necesario
         console.log(obj);
+        window.location.replace("/homemod");
     }).catch(function (e) {
         console.error('Error al eliminar receta: ', e);
     })

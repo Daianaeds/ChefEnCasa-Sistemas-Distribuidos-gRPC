@@ -21,8 +21,8 @@ denunciasRouter.post('/add/denunciation', (req, res) => {
 })
 
 //eliminar denuncias
-denunciasRouter.delete('/delete/denunciation', (req, res) => {
-    soapConfig.deleteDenunciation(req.body.idRecipe, (err, result) => {
+denunciasRouter.delete('/delete/denunciation/:idRecipe', (req, res) => {
+    soapConfig.deleteDenunciation(req.params.idRecipe, (err, result) => {
         if (err) {
             res.json(err)
         } else {
