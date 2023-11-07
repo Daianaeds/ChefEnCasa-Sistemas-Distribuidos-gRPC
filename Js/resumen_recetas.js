@@ -51,8 +51,15 @@ var listadoIngredientes = [];
     function mostrarPaginaSiguiente() {
         if (paginaActual < Math.floor(listaBorradores.length / recetasPorPagina)) {
             paginaActual++;
+            limpiarCampos();
             mostrarRecetasDePagina();
         }
+    }
+
+    function limpiarCampos() {
+        document.querySelector('textarea[name="steps"]').value = "";
+        document.querySelector('input[name="pictures"]').value = "";
+        //listadoIngredientes.length = 0;
     }
 
     fetch("/api/incompleteRecipes/" + username, {
@@ -164,7 +171,6 @@ function agregarIngrediente() {
     var cantidad = document.getElementById("cantidad").value;
 
     listadoIngredientes.push({ nombre: ingrediente, cantidad: cantidad });
-
     // Limpiar el contenido actual de "listadoIngredientes".
     const content = document.getElementById("listadoIngredientes");
     content.innerHTML = "";
