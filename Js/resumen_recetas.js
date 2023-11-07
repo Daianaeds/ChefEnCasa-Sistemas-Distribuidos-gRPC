@@ -59,7 +59,10 @@ var listadoIngredientes = [];
     function limpiarCampos() {
         document.querySelector('textarea[name="steps"]').value = "";
         document.querySelector('input[name="pictures"]').value = "";
-        //listadoIngredientes.length = 0;
+        //document.querySelector('div[id="listadoIngredientes"]').value = "";
+        const listadoIngredientesDiv = document.querySelector('div[id="listadoIngredientes"]');
+        listadoIngredientesDiv.innerHTML = "";
+
     }
 
     fetch("/api/incompleteRecipes/" + username, {
