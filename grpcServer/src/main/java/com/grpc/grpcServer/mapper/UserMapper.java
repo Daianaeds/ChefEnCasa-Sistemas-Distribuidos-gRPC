@@ -51,8 +51,11 @@ public class UserMapper {
 
     private int scoreUserById(int id) throws Exception {
         PopularUser popularUser =  popularUserRepository.findByIdUser(id);
-        if(popularUser == null) throw new Exception("El usuario aun no tiene popularidad");
-        int score = popularUser.getScore();
+        int score = 1;
+        if(popularUser == null) {
+            return score;
+        }
+        score = popularUser.getScore();
         return  score;
     }
 
