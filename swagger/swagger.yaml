@@ -8,6 +8,8 @@ tags:
     description: Operaciones relacionadas con recetas y recetarios
   - name: Denuncias
     description: Operaciones relacionadas con denuncias
+
+    
 paths:
   /save/recipebooks:
     post:
