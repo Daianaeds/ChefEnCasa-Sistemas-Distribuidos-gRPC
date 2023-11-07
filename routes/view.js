@@ -240,5 +240,55 @@ viewRouter.get('/filterRecipe', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '/views/filterRecipe.html'));
 });
 
+/***************MENSAJERIA - Enviar mensaje**********************/
+
+viewRouter.get('/enviarMens', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/views/enviarMens.html'));
+});
+
+viewRouter.get('/styles/enviarMens.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/styles/enviarMens.css'));
+});
+
+viewRouter.get('/Js/enviarMens.js', function (req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, '..', '/Js/enviarMens.js'));
+});
+
+/***************MENSAJERIA - Enviados**********************/
+
+viewRouter.get('/enviados', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/views/mensEnviados.html'));
+});
+
+viewRouter.get('/styles/mensEnviados.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/styles/mensEnviados.css'));
+});
+
+viewRouter.get('/Js/mensEnviados.js', function (req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, '..', '/Js/mensEnviados.js'));
+});
+
+
+/***************MENSAJERIA - Recibidos**********************/
+
+viewRouter.get('/recibidos', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/views/mensRecibidos.html'));
+});
+
+viewRouter.get('/styles/mensRecibidos.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/styles/mensRecibidos.css'));
+});
+
+viewRouter.get('/Js/mensRecibidos.js', function (req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, '..', '/Js/mensRecibidos.js'));
+});
+
 module.exports = viewRouter;
+
 
