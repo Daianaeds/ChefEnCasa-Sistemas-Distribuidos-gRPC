@@ -3,7 +3,7 @@ const url = 'http://127.0.0.1:8087/?WSDL'
 const urlDenunciation = 'http://127.0.0.1:8088/?WSDL'
 
 class SoapConfiguration {
-  constructor() {}
+  constructor() { }
 
   createRecipeBook(args, callback) {
     soap.createClient(url, (err, client) => {
@@ -103,7 +103,7 @@ class SoapConfiguration {
       if (err) {
         callback(err, null)
       } else {
-        client.deleteDenunciation({ idDenunciation: args }, function (err, result) {
+        client.deleteDenunciation({ idRecipe: args }, function (err, result) {
           callback(null, result)
         })
       }
