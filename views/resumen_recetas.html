@@ -154,11 +154,9 @@
                                 <div id="error" style="color: red;"></div>
 
                                 <!-- <input type="submit" value="Publicar" /> -->
-                                <input class="btn btn-primary btn-registrar" type="button" name="botones"
-                                    value="PublicarReceta" onclick="postRecipe(this, 'postRecipe'); return false;" />
-                                <!-- Agrega estos botones a tu formulario -->
-
-
+                                <button id="btnPaginaSiguiente" class="btn btn-primary btn-registrar" type="button"
+                                    name="botones" onclick="postRecipe(this, 'postRecipe'); return false;">Publicar y
+                                    Siguiente -></button>
                             </form>
 
                         </article>
@@ -166,14 +164,7 @@
                     </section>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <div class="d-flex justify-content-between"> <!-- Utiliza flexbox para controlar la alineación -->
-                        <button id="btnPaginaAnterior" class="btn btn-primary">Atrás</button>
-                        <button id="btnPaginaSiguiente" class="btn btn-primary">Siguiente</button>
-                    </div>
-                </td>
-            </tr>
+
         </table>
         <script src="/Js/resumen_recetas.js"></script>
 </body>

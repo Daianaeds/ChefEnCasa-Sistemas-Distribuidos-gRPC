@@ -1,3 +1,4 @@
+var listadoIngredientes = [];
 (function () {
     const username = window.localStorage.getItem("username");
     const password = window.localStorage.getItem("password");
@@ -17,6 +18,8 @@
         const descripcionTextarea = document.querySelector('textarea[name="description"]');
         const categoriaRadios = document.querySelectorAll('input[name="name_category"]');
         const tiempoInput = document.querySelector('input[name="time_minutes"]');
+        const idIncompleteRecipe = receta.id;
+        window.localStorage.setItem("idIncompleteRecipe", idIncompleteRecipe);
 
         // Actualiza los campos con los datos de la receta
         tituloInput.value = receta.title;
@@ -40,20 +43,14 @@
         if (recetasPagina.length > 0) {
             mostrarReceta(recetasPagina[0]); // Mostrar la primera receta de la página
         } else {
-            // Limpiar la interfaz si no hay recetas en la página
+            window.alert("No hay más recetas para publicar");
+            window.location.replace("/recetas");
         }
     }
 
     function mostrarPaginaSiguiente() {
         if (paginaActual < Math.floor(listaBorradores.length / recetasPorPagina)) {
             paginaActual++;
-            mostrarRecetasDePagina();
-        }
-    }
-
-    function mostrarPaginaAnterior() {
-        if (paginaActual > 0) {
-            paginaActual--;
             mostrarRecetasDePagina();
         }
     }
@@ -72,10 +69,7 @@
     })
 
     // Agregar eventos a los botones de navegación
-    const btnPaginaAnterior = document.getElementById("btnPaginaAnterior");
     const btnPaginaSiguiente = document.getElementById("btnPaginaSiguiente");
-
-    btnPaginaAnterior.addEventListener("click", mostrarPaginaAnterior);
     btnPaginaSiguiente.addEventListener("click", mostrarPaginaSiguiente);
 })();
 
@@ -88,6 +82,10 @@ function createArrayToPicture(array) {
     return newArray;
 }
 function postRecipe(ev, from) {
+    const username = window.localStorage.getItem("username");
+    const password = window.localStorage.getItem("password");
+    const idIncompleteRecipe = window.localStorage.getItem("idIncompleteRecipe");
+
     var picturesInput = document.querySelector(
         'input[name="pictures"]'
     ).value;
@@ -120,7 +118,7 @@ function postRecipe(ev, from) {
         }
     }
 
-    fetch("/api/recipe/save-recipe", {
+    fetch("/api/saveRecipe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -135,6 +133,7 @@ function postRecipe(ev, from) {
             name_category: name_category,
             ingredients: ingredients,
             pictures: newPictureArray,
+            idIncompleteRecipe: idIncompleteRecipe,
         }),
     })
         .then(function (e) {
@@ -145,8 +144,9 @@ function postRecipe(ev, from) {
                 };
                 var authJSON = JSON.stringify(auth);
 
-                window.alert("Receta publicada");
-                window.location.replace("/recetas");
+                //window.alert("Receta publicada");
+                //mostrarPaginaSiguiente();
+                //window.location.replace("/recetas");
             } else {
                 console.log(e);
                 window.alert("No completaste todos los datos");
