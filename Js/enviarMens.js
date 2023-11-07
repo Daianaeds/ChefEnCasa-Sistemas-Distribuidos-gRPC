@@ -2,8 +2,8 @@ const usernameActive = window.localStorage.getItem("username");
 const usernamePlaceholder = document.getElementById("usernamePlaceholder");
 usernamePlaceholder.textContent = usernameActive;
 
-/*obtiene el nombre del usuario destinatario*/ 
-const usermailActive = window.localStorage.getItem("usermail"); 
+/*obtiene el nombre del usuario destinatario*/
+const usermailActive = window.localStorage.getItem("usermail");
 const usermailPlaceholder = document.getElementById("usermailPlaceholder");
 usermailPlaceholder.textContent = usermailActive;
 
@@ -24,10 +24,10 @@ document.getElementById("mensajeForm").addEventListener("submit", function (even
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            source: usernameActive, 
-            subject: asunto, 
+            source: usernameActive,
+            subject: asunto,
             destination: destinatarioUsername,
-            subjectReply: "", 
+            subjectReply: "",
         }),
     })
         .then((response) => response.json())
@@ -37,7 +37,7 @@ document.getElementById("mensajeForm").addEventListener("submit", function (even
 
             // Puedes hacer algo aquí, como mostrar un mensaje de confirmación
             alert("Mensaje enviado correctamente.");
-            window.location.replace("/recibidos");
+            window.location.replace("/enviados");
         })
         .catch((error) => {
             console.error('Error al enviar el mensaje:', error);
