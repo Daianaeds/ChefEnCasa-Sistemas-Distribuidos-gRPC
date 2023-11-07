@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-    <title>Página de inicio</title>
+    <title>Recetarios</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -52,10 +52,19 @@
                 <a class="nav-link" href="/recetasFavoritas">Recetas favoritas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/publicarReceta">Publicar</a>
+                <a class="nav-link" href="/publicarReceta/metodo_carga">Publicar</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/recetarios">Recetarios</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="mensajesDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Mensajes
+                </a>               
+                <div class="dropdown-menu" aria-labelledby="mensajesDropdown">
+                    <a class="dropdown-item" href="/enviados">Enviados</a>
+                    <a class="dropdown-item" href="/recibidos">Recibidos</a>
+                </div>
             </li>
         </ul>
 

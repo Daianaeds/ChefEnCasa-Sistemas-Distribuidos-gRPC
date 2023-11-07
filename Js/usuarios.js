@@ -1,3 +1,12 @@
+/*funcion para redireccion del boton enviar mensaje*/ 
+function redirectToEnviarMens(username) { 
+    console.log('Redirigiendo a la vista "enviarMens"');
+    window.localStorage.setItem("usermail", username);
+    const route = document.getElementById('btn-enviar-mensaje-' + username).getAttribute('data-route');
+    window.location.href = route;
+}
+
+
 (function () {
     const usernameActive = window.localStorage.getItem("username");
     const password = window.localStorage.getItem("password");
@@ -40,8 +49,10 @@
 
                     html += "<div class='col-mc-1'><div class='card card-body position-relative' style='width: 18rem;' style= 'display:block'>"
                     html += "<p>" + element.username + "</p>"
-                    html += "<button id='btn-fav-" + element.username + "' class='btn btn-primary ml-auto' onclick='toggleFavoritosEnServidor(\"" + usernameActive + "\",\"" + element.username + "\")' data-username='${element.username}' >" + claseBoton + "</button>"
-                    html += "</div>"
+                    html += "<div><button id='btn-fav-" + element.username + "' class='btn btn-primary ml-auto' onclick='toggleFavoritosEnServidor(\"" + usernameActive + "\",\"" + element.username + "\")' data-username='${element.username}' >" + claseBoton + "</button>"
+                    html += "<button id='btn-enviar-mensaje-" + element.username + "' class='btn btn-primary ml-auto' onclick='redirectToEnviarMens(\"" + element.username + "\")' data-route='/enviarMens'>Enviar mensaje</button>"
+ 
+                    html += "</div></div>"
                 }
             })
             html += '</div>'
@@ -85,4 +96,5 @@ function toggleFavoritosEnServidor(usernameActive, username) {
         .catch((error) => {
             console.error('Error al guardar los favoritos:', error);
         });
+
 }

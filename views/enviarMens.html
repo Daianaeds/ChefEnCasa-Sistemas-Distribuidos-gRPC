@@ -1,27 +1,26 @@
 <!DOCTYPE html>
 
 <head>
-    <title>Recetas favoritas</title>
+    <title>Enviar mensaje</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/styles/recetasFavoritas.css">
+    <link rel="stylesheet" href="../styles/enviarMens.css">
 
     <style>
-        #content {
-            flex-grow: 1;
-            /* Permite que el contenido crezca para ocupar el espacio disponible */
-        }
-
         #bienvenida {
             text-align: left;
             color: white;
             height: 40px;
         }
 
-        #all_favs {
+        #todos_usuarios {
             margin-bottom: 30px;
-            /* Agrega espacio entre el contenedor y las cards */
+        }
+
+        #content {
+            flex-grow: 1;
+            /* Permite que el contenido crezca para ocupar el espacio disponible */
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -58,10 +57,12 @@
             <li class="nav-item">
                 <a class="nav-link" href="/recetarios">Recetarios</a>
             </li>
+
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="mensajesDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="mensajesDropdown" role="button"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Mensajes
-                </a>               
+                </a>
                 <div class="dropdown-menu" aria-labelledby="mensajesDropdown">
                     <a class="dropdown-item" href="/enviados">Enviados</a>
                     <a class="dropdown-item" href="/recibidos">Recibidos</a>
@@ -70,16 +71,26 @@
         </ul>
 
 
-        <div class="container-fluid mt-lg-4">
-            <div class="row">
-                <div class="col-md-12 text-center box-titulo" id="all_favs">
-                    <h2>Recetas favoritas</h2>
+        <!--contenido de mensajes-->
+        <!-- contenido de mensajes -->
+        <section id="content">
+            <!-- Contenido de tus mensajes aquí... -->
+
+            <h2 id="bienvenida">Para: <span id="usermailPlaceholder"></span></h2>
+            <!-- Agregar un formulario para escribir y enviar mensajes -->
+            <!-- Agregar un formulario para escribir y enviar mensajes -->
+            <form id="mensajeForm">
+                <div class="form-group">
+                    <label for="asunto" style="color: white;">Mensaje:</label>
+                    <textarea class="form-control" id="asunto" rows="4"
+                        placeholder="Escribe tu mensaje aquí"></textarea>
                 </div>
-                <div class="col-md-12 row">
-                    <div id="content-receta"></div>
-                </div>
-            </div>
-        </div>
+
+                <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+            </form>
+
+        </section>
+
 
     </section>
 
@@ -89,7 +100,8 @@
 
     </footer>
 
-    <script src="/Js/recetasFavoritas.js"></script>
+    <script src="/Js/enviarMens.js"></script>
+
 </body>
 
 </html>

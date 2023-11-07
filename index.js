@@ -57,7 +57,7 @@ app.use('/', viewRouter)
 
 //Consumir los ultimos 5 mensajes de novedades
 app.get('/lastFiveMessageNovedades', (req, res) => {
-  const messages = kafkaConfig.lastMessageNovedades()
+  const messages = kafkaConfig.lastMessageNovedades()                 
   res.json(messages)
 })
 
@@ -154,7 +154,7 @@ app.post('/api/saveRecipe', (req, res) => {
 
 //APIS MAILS
 
-//Crear mail
+//Crear mail OK DESDE FRONT
 app.post('/api/InternalMail/create', (req, res) => {
   let mail = {
     source: req.body.source,
@@ -172,7 +172,7 @@ app.post('/api/InternalMail/create', (req, res) => {
     })
 })
 
-//trae los mail recibidos
+//trae los mail recibidos 
 app.get('/api/inbox/:destination', (req, res) => {
   axios
     .get(serverRestUrl + '/InternalMail/inbox/' + req.params.destination)
@@ -184,7 +184,7 @@ app.get('/api/inbox/:destination', (req, res) => {
     })
 })
 
-//trae los mail enviados
+//trae los mail enviados 
 app.get('/api/InternalMail/sent/:source', (req, res) => {
   axios
     .get(serverRestUrl + '/InternalMail/sent/' + req.params.source)
@@ -196,7 +196,7 @@ app.get('/api/InternalMail/sent/:source', (req, res) => {
     })
 })
 
-//trae un mail por el id recibido
+//trae un mail por el id recibido 
 app.get('/api/InternalMail/:mail_id', (req, res) => {
   axios
     .get(serverRestUrl + '/InternalMail/' + req.params.mail_id)

@@ -31,7 +31,7 @@
                 html += "<li>" + "● " + denuncia.username + " " + "\"" + denunciaMotive + "\"";
                 html += "<a href = '/denuncia' role='button' onclick='guardarIdReceta(" + denuncia.idRecipe + ")'>Ver Detalles..</a>";
                 html += "</li>";
-                guardarDatosDenuncia(denuncia.username, denunciaMotive);
+                guardarDatosDenuncia(denuncia.id, denuncia.username, denunciaMotive);
                 html += "</ul>";
                 html += "</div></div>";
             });
@@ -43,7 +43,8 @@
         });
 })();
 
-function guardarDatosDenuncia(usuario, denunciaMotive) {
+function guardarDatosDenuncia(idDenuncia, usuario, denunciaMotive) {
+    window.localStorage.setItem("complainingID", idDenuncia);
     window.localStorage.setItem("complainingUser", usuario);
     window.localStorage.setItem("complainingMotive", denunciaMotive);
 }

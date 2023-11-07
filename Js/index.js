@@ -1,4 +1,7 @@
 function validation(ev, from) {
+  const username = window.localStorage.setItem("username", ev.form.username.value);
+  const password = window.localStorage.setItem("password", ev.form.password.value);
+
   if (from == "register") {
     window.location.replace("/register");
   } else {
@@ -22,6 +25,7 @@ function validation(ev, from) {
       .then(function (data) {
         if (data.isMod) {
           window.alert(data.isMod);
+
           window.location.replace("/homemod");
         } else {
           window.alert(data.isMod);

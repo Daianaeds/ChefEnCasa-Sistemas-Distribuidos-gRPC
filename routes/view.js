@@ -159,6 +159,49 @@ viewRouter.get('/Js/recetaSola.js', function (req, res) {
     res.sendFile(path.join(__dirname, '..', '/Js/recetaSola.js'));
 });
 
+/***************METODO-CARGA**********************/
+
+viewRouter.get('/publicarReceta/metodo_carga', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/views/metodo_carga.html'));
+});
+
+viewRouter.get('/styles/metodo_carga.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/styles/metodo_carga.css'));
+});
+
+/***************CARGA-MASIVA**********************/
+
+viewRouter.get('/carga_masiva', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/views/carga_masiva.html'));
+});
+
+viewRouter.get('/styles/carga_masiva.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/styles/carga_masiva.css'));
+});
+
+viewRouter.get('/Js/carga_masiva.js', function (req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, '..', '/Js/carga_masiva.js'));
+});
+
+/***************RESUMEN-RECETAS**********************/
+
+viewRouter.get('/resumen_recetas', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/views/resumen_recetas.html'));
+});
+
+viewRouter.get('/styles/resumen_recetas.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/styles/resumen_recetas.css'));
+});
+
+viewRouter.get('/Js/resumen_recetas.js', function (req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, '..', '/Js/resumen_recetas.js'));
+});
+
 /***************HOME-MOD**********************/
 
 viewRouter.get('/homemod', function (req, res) {
@@ -197,5 +240,55 @@ viewRouter.get('/filterRecipe', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '/views/filterRecipe.html'));
 });
 
+/***************MENSAJERIA - Enviar mensaje**********************/
+
+viewRouter.get('/enviarMens', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/views/enviarMens.html'));
+});
+
+viewRouter.get('/styles/enviarMens.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/styles/enviarMens.css'));
+});
+
+viewRouter.get('/Js/enviarMens.js', function (req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, '..', '/Js/enviarMens.js'));
+});
+
+/***************MENSAJERIA - Enviados**********************/
+
+viewRouter.get('/enviados', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/views/mensEnviados.html'));
+});
+
+viewRouter.get('/styles/mensEnviados.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/styles/mensEnviados.css'));
+});
+
+viewRouter.get('/Js/mensEnviados.js', function (req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, '..', '/Js/mensEnviados.js'));
+});
+
+
+/***************MENSAJERIA - Recibidos**********************/
+
+viewRouter.get('/recibidos', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', '/views/mensRecibidos.html'));
+});
+
+viewRouter.get('/styles/mensRecibidos.css', function (req, res) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '..', '/styles/mensRecibidos.css'));
+});
+
+viewRouter.get('/Js/mensRecibidos.js', function (req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(path.join(__dirname, '..', '/Js/mensRecibidos.js'));
+});
+
 module.exports = viewRouter;
+
 

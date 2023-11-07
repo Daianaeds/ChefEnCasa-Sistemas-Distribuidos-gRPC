@@ -70,7 +70,7 @@ function postRecipe(ev, from) {
           password: password,
         };
         var authJSON = JSON.stringify(auth);
-
+        console.log(e);
         window.alert("Receta publicada");
         window.location.replace("/recetas");
       } else {
