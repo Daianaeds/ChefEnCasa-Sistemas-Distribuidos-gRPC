@@ -2,23 +2,19 @@ const usernameActive = window.localStorage.getItem("username");
 const usernamePlaceholder = document.getElementById("usernamePlaceholder");
 usernamePlaceholder.textContent = usernameActive;
 
-/*obtiene el nombre del usuario destinatario*/
+//obtenemos el nombre del destinatario
 const usermailActive = window.localStorage.getItem("usermail");
 const usermailPlaceholder = document.getElementById("usermailPlaceholder");
 usermailPlaceholder.textContent = usermailActive;
 
-// Escucha el evento "submit" del formulario de mensajes
+//escucha de boton
 document.getElementById("mensajeForm").addEventListener("submit", function (event) {
-    event.preventDefault(); // Previene el envío del formulario por defecto
+    event.preventDefault(); 
 
-    // Obtiene el contenido del asunto y mensaje
-    const asunto = document.getElementById("asunto").value;
-
-    // Obtén el nombre de usuario del destinatario desde el elemento "usermailPlaceholder"
+    const asunto = document.getElementById("asunto").value;//asunto del mensaje
     const destinatarioUsername = usermailActive;
 
-    // Realiza una solicitud POST para enviar el mensaje
-    fetch("/api/InternalMail/create", {
+    fetch("/api/InternalMail/create", {//solicitud post
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -32,10 +28,7 @@ document.getElementById("mensajeForm").addEventListener("submit", function (even
     })
         .then((response) => response.json())
         .then((data) => {
-            // Maneja la respuesta del servidor si es necesario
             console.log("Mensaje enviado:", data);
-
-            // Puedes hacer algo aquí, como mostrar un mensaje de confirmación
             alert("Mensaje enviado correctamente.");
             window.location.replace("/enviados");
         })
