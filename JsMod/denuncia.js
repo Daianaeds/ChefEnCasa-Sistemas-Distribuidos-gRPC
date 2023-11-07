@@ -90,7 +90,7 @@ function eliminarReceta() {
     const comentario = textarea.value;*/
 
     fetch("/api/denuncias/delete/denunciation/" + idReceta, {
-        method: "POST",
+        method: "DELETE",
         headers: { "Content-Type": "application/json" },
 
     }).then((response) => response.json()

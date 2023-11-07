@@ -16,8 +16,7 @@
         return res.json();
     }).then(function (obj) {
         const content = document.querySelector('#content-recetarios');
-        let html = "<button class='btn btn-secondary' onclick='abrirModal()'>Crear recetario</button>"
-        html += "<div class='col-md-12'><div class='card card-body position-relative'>"
+        let html = "<div class='col-md-12'><div class='card card-body position-relative'>"
         var i = 1;
         obj.recipeBookList.forEach((element) => {
             html += "<ul>"

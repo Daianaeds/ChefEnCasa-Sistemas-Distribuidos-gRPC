@@ -169,6 +169,7 @@ public class RecipeMapper {
     public RecipeResponseBasic convertRecipeToRecipeResponseBasic(Recipe request) throws Exception {
         List<com.grpc.grpcServer.entities.Comment> comments = commentService.findByIdRecipe(request.getId());
         int score = scoreRecipeById(request.getId());
+        List<Picture> pictures = pictureService.findByIdRecipe(request.getId());
 
         RecipeResponseBasic response = RecipeResponseBasic.newBuilder()
                 .setId(request.getId())
@@ -178,7 +179,7 @@ public class RecipeMapper {
                 .setTimeMinutes(request.getTimeMinutes())
                 .setNameCategory(request.getCategory().getNameCategory())
                 .addAllIngredients(request.getIngredients().stream().map(ingredientE -> ingredientMapper.convertIngredientToIngredientG(ingredientE)).collect(Collectors.toList()))
-                .addAllPictures(request.getPictures().stream().map(pictureE -> pictureMapper.convertPictureToPictureG(pictureE)).collect(Collectors.toList()))
+                .addAllPictures(pictures.stream().map(pictureE -> pictureMapper.convertPictureToPictureG(pictureE)).collect(Collectors.toList()))
                 .addAllComments(comments.stream().map(commentE -> commentMapper.convertCommentToCommentG(commentE)).collect(Collectors.toList()))
                 .setUsername(request.getAuthor().getUsername())
                 .setScore(score)
